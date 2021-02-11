@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/css/base.css">
+    <title>SSP</title>
+    <link rel="icon" href="../images/Dr_Ball_Logo.png" type="image/gif" sizes="16x16">
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav id="mySidenav" class="sidenav">
+
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Home</a>
+        <a href="#">Learning</a>
+        <a href="#">Registration & Sign In</a>
+        <a href="#">Contact</a>
+        <a href="#">Admin Login</a>
+        <a href="#">Contact</a>
+
+    </nav>
+
+    <div class="grid-container">
+
+        <header class="item1">
+            <span style="font-size:40px;cursor:pointer; margin: 40px; float: inline-start;" onclick="openNav()">
+				&#9776;</span>
+
+            <h2>STREET SOCCER!</h2>
+            <p>Lorem ipsum dolor</p>
+
+        </header>
+
+        <section class="item2">
+            <h1>Main Section</h1>
+        </section>
+
+        <footer class="item5">
+
+            <!--    All these icons are under following licence agreement: https://iconmonstr.com/license/  -->
+
+            <img src="../images/iconmonstr-facebook-4.svg">
+            <img src="../images/iconmonstr-twitter-4.svg">
+            <img src="../images/iconmonstr-instagram-14.svg">
+
+        </footer>
+
+    </div>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+
+
+</body>
+
+</html>
