@@ -7,19 +7,17 @@ body {
 
 body::after {
     content: " ";
-    background-image: url("../../images/BG_temp.png");
+    background-image: linear-gradient(#3F598C, #66C4D9);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-    opacity: 0.7;
+    opacity: 1;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     position: absolute;
     z-index: -1;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 25px;
 }
 
 
@@ -27,14 +25,22 @@ body::after {
 
 .item1 {
     grid-area: header;
+    background-color: #578BF2;
+    color: #F2E205;
 }
 
 .item2 {
     grid-area: main;
+    background-image: url("../../images/DrBall.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.05;
 }
 
 .item5 {
     grid-area: footer;
+    background-color: #52D9A7;
 }
 
 .item6 {
@@ -45,18 +51,18 @@ body::after {
     box-sizing: border-box;
     display: grid;
     grid-template-areas: 
-	'header header header header header header header header header header header' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'main main main main main main main main main main main' 
-	'footer footer footer footer footer footer footer footer footer footer footer';
+	'header header header header header header' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'main main main main main main' 
+	'footer footer footer footer footer footer';
     grid-gap: 10px;
     padding: 10px;
     height: 100vh;
@@ -68,9 +74,13 @@ div,
 header,
 section {
     box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.75);
-    text-align: center;
     padding: 20px 0 0 0;
+}
+
+.grid-container header img {
+    height: 4em;
+    float: left;
+    padding: 0 20px 0 20px;
 }
 
 
@@ -88,10 +98,10 @@ section {
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
-    background-color: #111;
+    right: 0;
+    background-color: #3F598C;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: 0.3s;
     padding-top: 60px;
 }
 
@@ -99,9 +109,9 @@ section {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #F2E205;
     display: block;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .sidenav a:hover {
@@ -133,7 +143,7 @@ section {
 
 @media screen and (max-width: 800px) {
     .grid-container {
-       grid-template-areas: 
+        grid-template-areas: 
 	'header' 
 	'main' 
 	'main' 
