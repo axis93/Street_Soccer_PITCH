@@ -27,6 +27,8 @@ body::after {
     grid-area: header;
     background-color: #578BF2;
     color: #F2E205;
+    min-height: 100px; 
+    max-height: 10vh;
 }
 
 .item2 {
@@ -74,7 +76,7 @@ div,
 header,
 section {
     box-sizing: border-box;
-    padding: 20px 0 0 0;
+    padding: 10px 0 0 0;
 }
 
 .grid-container header img {
