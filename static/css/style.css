@@ -148,16 +148,20 @@ section {
         top: 8em;
     }
 
+    #landing-flex * {
+        padding: 0 3vw;
+    }
+
     #landing-flex #logo {
         height: 8em;
     }
 
     #landing-flex h1 {
-        font-size: 3em;
+        font-size: 2.6em;
     }
 
     #landing-flex h2 {
-        font-size: 1.7em;
+        font-size: 1.6em;
     }
 }
 
@@ -267,7 +271,7 @@ section {
 
 /*-----------------------------------------------grid-Container--------------------------------------------------*/
 
-@media screen and (max-width: 800px) {
+/*@media screen and (max-width: 800px) {
     .grid-container {
         grid-template-areas: 
 	'header' 
@@ -282,7 +286,7 @@ section {
 	'main' 
 	'footer'
     }
-}
+}*/
 
 
 /*------------------------------------------END-grid-Container--------------------------------------------------*
