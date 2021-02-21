@@ -4,13 +4,15 @@ window.onload = () => {
     stateChecker.shouldHideHeader();
 }
 
-window.onscroll = () => {
-    stateChecker.shouldHideHeader();
+if (mainImages) { //if there is a dominant image in the page add the 'window.onscroll()' event listener
+    window.onscroll = () => {
+        stateChecker.shouldHideHeader();
+    }
 }
 
 stateChecker = {
     shouldHideHeader: () => {
-        if(mainImages) { //if there is a dominant image in the page
+        if(mainImages) { //we need to check this here also as 'window.onload()' will run this method separately
             for (let i = 0; i < mainImages.length; i++) {
                 if (scrollEvents.isOnScreen(mainImages[i])) { //hide the dominant navbar elements if there is a main background image visible
                     $('#logo').css({
