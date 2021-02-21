@@ -105,7 +105,7 @@ section {
 
 #page-header #mobile-nav {
     float: right;
-    opacity: 0;
+    height: 0; /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
 }
 
 @media only screen and (max-width: 768px) {
@@ -115,7 +115,7 @@ section {
     }
 
     #page-header #mobile-nav {
-        opacity: 1;
+        height: 2.4rem;
     }
 }
 
