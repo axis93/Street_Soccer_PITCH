@@ -12,6 +12,11 @@
     --body-text-colour: var(--light);
 }
 
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 body {
     font-family: 'M PLUS Rounded 1c', sans-serif;
     margin: 0;
@@ -29,6 +34,7 @@ body {
     position: fixed;
 }
 
+<<<<<<< HEAD
 .header-svg {
     height: 3rem;
     padding: 10px;
@@ -150,6 +156,13 @@ body {
         box-shadow: -1vw 0 10vw #0000005F;
     }
 }
+=======
+.contents {
+    word-wrap: break-word;
+}
+
+/*-----------------------------------------------grid-Container--------------------------------------------------*/
+>>>>>>> 79c8233... Added topics with level buttons
 
 @keyframes close-mobile-nav {
     from {
@@ -217,10 +230,30 @@ body {
     font-size: 4vw;
 }
 
+<<<<<<< HEAD
 @media only screen and (max-width: 768px) {
     #landing-flex {
         top: 7vw;
     }
+=======
+@media screen and (max-width: 800px) {
+    .grid-container {
+        grid-template-areas: 
+	'header' 
+	'main' 
+	'main' 
+	'main' 
+	'main' 
+	'main' 
+	'main' 
+	'main' 
+	'main' 
+	'main' 
+	'footer'
+    }
+}
+
+>>>>>>> 79c8233... Added topics with level buttons
 
     #landing-flex * {
         padding: 0 3vw;
@@ -270,6 +303,7 @@ body {
     height: 6em;
 }
 
+<<<<<<< HEAD
 @media only screen and (max-width: 768px) {
     .svg-list li {
         padding: 3vw;
@@ -338,5 +372,137 @@ body {
 
     .grid-body-item hr {
         margin: 1.5em 40vw;
+=======
+/*-----------------------------------------------mobile-devices--------------------------------------------------*/
+
+@media screen and (max-width: 450px) {
+    .contents {
+        margin:auto;
     }
+    .tests-bar {
+        width: min-content;
+        flex-flow: column wrap;
+        margin: auto;
+        margin-bottom: 5vh;
+    }
+    .title {
+        margin-bottom: 1vh;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .tests-bar {
+        margin: auto;
+        flex-direction: column;
+    }
+    .test-stats {
+        margin: auto;
+    }
+}
+
+/*-----------------------------------------------bigger-devices--------------------------------------------------*/
+
+
+@media screen and (min-width: 550px) {
+    .contents {
+        padding-left: 15vw;
+        padding-right: 15vw;
+    }
+    .topics-menu {
+        margin-left: 10vw;
+    }
+    .level-button {
+        width: 30px;
+    }
+    
+}
+
+@media screen and (min-width: 700px) {
+    .tests-bar {
+        flex-direction: row;
+        width: 70vw;
+    }
+    .title {
+        margin-left: 5vw;
+>>>>>>> 79c8233... Added topics with level buttons
+    }
+}
+/*-----------------------------------------------tests-menu--------------------------------------------------*/
+
+.all-levels{
+    width: 45vw;
+    height: inherit;
+    margin: auto;
+}
+
+.level-button {
+    margin-right: 1vw;
+    border-radius: 25px;
+    background-color: var(--background);
+    color: var(--text);
+    font-weight: bolder;
+}
+
+.stats-box {
+    border-radius: 25px;
+    background-color: var(--darker);
+    padding: 0.5rem;
+}
+
+.stat-item {
+    display: flex;
+    margin: auto;
+    align-items: center;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    float: left;
+}
+
+.tests-bar {
+    height: fit-content;
+    display: flex;
+    margin-bottom: 5vh;
+}
+
+.test-stats {
+    right: 10vw;
+    float: right;
+    font-size: 16px;
+    font-weight: bold;
+    height: 30px;
+    display: flex;
+    margin-left: auto;
+}
+
+.topic-item {
+    margin-bottom: 1rem;
+}
+
+.topic-levels {
+    width: max-content;
+    flex-flow: row;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.topics-line {
+    border-right: 4px solid var(--light);
+    height: inherit;
+    left: 50%;
+    margin-left: 6vw;
+    margin-right: 6vw;
+}
+
+.topics-menu {
+    font-weight: bold;
+    margin-right: auto;
+    flex-flow: row;
+    display: flex;
+    max-width: 90%;
 }
