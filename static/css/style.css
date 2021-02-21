@@ -198,6 +198,12 @@ section {
     }
 }
 
+@media screen and (min-width: 987px) {
+    #navigation {
+        animation: none !important; /* disables style effects set by the move in animation */
+    }
+}
+
 @keyframes open-mobile-nav {
     from {
         left: 100%;
