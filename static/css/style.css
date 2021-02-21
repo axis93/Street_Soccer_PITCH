@@ -147,9 +147,8 @@ section {
 }
 
 #close-btn {
-    position: absolute;
     float: right;
-    right: 0;
+    transform: translate(42vw, 0);
     height: 0; /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
 }
 
@@ -193,8 +192,8 @@ section {
     }
 
     #close-btn {
-        width: 6vw;
-        height: 6vw;
+        width: 5vw;
+        height: 5vw;
     }
 }
 
