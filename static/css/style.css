@@ -159,7 +159,7 @@ section {
     }
 }
 
-@media screen and (max-width: 986px) {
+@media screen and (max-width: 1080px) {
     #navigation {
         top: 0;
         left: 100%;
@@ -197,7 +197,7 @@ section {
     }
 }
 
-@media screen and (min-width: 987px) {
+@media screen and (min-width: 1081px) {
     #navigation {
         animation: none !important; /* disables style effects set by the move in animation */
     }
