@@ -103,7 +103,7 @@ section {
 .bg-img {
     position: relative;
     display: block;
-    min-width: 100%;
+    width: 100%;
     height: auto;
     /* opacity: 40%; */
 
@@ -176,20 +176,61 @@ section {
 /*-----------------------------------------------END landing header----------------------------------------------*/
 
 
+/*-----------------------------------------------contact links list----------------------------------------------*/
+
+.svg-list-container {
+    display: table; /* allows centre-ing of lists to work */
+    margin: 0 auto;
+}
+
+.svg-list {
+    list-style: none;
+    margin: 0 auto;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+
+    display: inline-flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+}
+
+.svg-list li {
+    width: auto;
+    height: auto;
+    padding: 2vw;
+}
+
+.social-svg {
+    width: 6em;
+    height: 6em;
+}
+
+@media only screen and (max-width: 768px) {
+    .svg-list li {
+        padding: 3vw;
+    }
+
+    .social-svg {
+        width: 3.5em;
+        height: 3.5em;
+    }
+}
+
+/*-----------------------------------------------END contact links list----------------------------------------------*/
+
+
 /*-----------------------------------------------page formatting----------------------------------------------*/
 
 .grid-body-item {
     max-width: 100vw;
     overflow: hidden;
-}
-
-.grid-body-item * {
     padding: 0 3vw;
 }
 
 .grid-body-item .body-title {
     text-align: center;
-    font-size: 5em;
+    font-size: 4.5em;
     margin-block-start: 0;
     margin-block-end: 0;
     color: var(--title-text-colour);
@@ -200,14 +241,14 @@ section {
     height: 2px;
     border: 0;
     border-top: 1px solid var(--line-colour);
-    margin: 3em 45vw;
+    margin: 3em 42vw;
     padding: 0;
 }
 
 .grid-body-item .body-text {
     font-size: 1.5em;
     color: var(--body-text-colour);
-    margin: 3em 15em;
+    margin: 3em 15vw;
     line-height: 2em;
 }
 
@@ -221,7 +262,7 @@ section {
     }
 
     .grid-body-item hr {
-        margin: 1.5em 45vw;
+        margin: 1.5em 42vw;
     }
 }
 
