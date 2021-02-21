@@ -88,7 +88,7 @@ section {
 #page-header {
     width: 100%;
     height: auto;
-    background-image: var(--header-gradient);
+    background-image: var(--transparent);
     /* color: #F2E205; */
     /* max-height: 10vh; */
     position: fixed;
@@ -101,6 +101,7 @@ section {
 
 #page-header #logo {
     float: left;
+    opacity: 0;
 }
 
 #nav-bar {
@@ -166,7 +167,7 @@ section {
     display: block;
     width: 100%;
     height: auto;
-    /* opacity: 40%; */
+    opacity: 0.6;
 
     background-position: center;
     background-repeat: no-repeat;
