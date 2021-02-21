@@ -88,7 +88,7 @@ section {
 #page-header {
     width: 100%;
     height: auto;
-    background-image: var(--transparent);
+    background-image: var(--transparent); /* hidden by default; prevents pop-up on page load before being hidden */
     /* color: #F2E205; */
     /* max-height: 10vh; */
     position: fixed;
@@ -101,7 +101,7 @@ section {
 
 #page-header #logo {
     float: left;
-    opacity: 0;
+    opacity: 0; /* hidden by default; prevents pop-up on page load before being hidden */
 }
 
 #nav-bar {
