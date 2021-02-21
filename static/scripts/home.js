@@ -17,7 +17,7 @@ stateChecker = {
                         'opacity': 0
                     });
                     $('#page-header').css({
-                        'background-color': 'var(--transparent)'
+                        'background-image': 'var(--transparent)'
                     });
                 }
                 else {
@@ -25,7 +25,7 @@ stateChecker = {
                         'opacity': 100
                     });
                     $('#page-header').css({
-                        'background-color': 'var(--background-colour)'
+                        'background-image': 'var(--header-gradient)'
                     });
                 }
             }

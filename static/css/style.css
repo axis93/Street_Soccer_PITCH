@@ -2,8 +2,10 @@
     --dark: #3A3A3A;
     --light: #FFF;
     --accent: #527CEA;
+    --accent-dim: #314e97;
     --transparent: #00000000;
 
+    --header-gradient: linear-gradient(to right, var(--accent-dim), var(--accent));
     --background-colour: var(--dark);
     --title-text-colour: var(--accent);
     --line-colour: var(--accent);
@@ -86,7 +88,7 @@ section {
 #page-header {
     width: 100%;
     height: auto;
-    background-color: var(--background-colour);
+    background-image: var(--header-gradient);
     /* color: #F2E205; */
     /* max-height: 10vh; */
     position: fixed;
@@ -205,6 +207,8 @@ section {
 .grid-body-item .body-text {
     font-size: 1.5em;
     color: var(--body-text-colour);
+    margin: 3em 15em;
+    line-height: 2em;
 }
 
 @media only screen and (max-width: 768px) {
