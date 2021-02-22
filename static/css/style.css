@@ -104,8 +104,16 @@ body {
 #page-header {
     width: 100%;
     height: auto;
-    background-image: var(--header-gradient); /* var(--transparent); hidden by default; prevents pop-up on page load before being hidden */
-    position: fixed;
+    background-image: var(--header-gradient); /* var(--transparent); * hidden by default; prevents pop-up on page load before being hidden
+                                                                     * --transparent was only used on the home page so that the loading of the page was cleaner; it would pop-up before being
+                                                                     * hidden as JavaScript takes about a third of a second to load before it could hide it (it isn't essential.)
+                                                                     */
+
+    position: fixed; /* This forces the header to stay at the top of the page, regardless of how far we've scrolled; once it becomes fixed,
+                      * it is no longer apart of the order of all HTML elements and is now in it's own "box". Thus, it will have no effect
+                      * on the positioning of any other element on the page (it will not shift elements down to make room for itself.)
+                      */
+    
     z-index: 99; /* this is used to force the header on top of everything else, making it persistent on the page */
 }
 
@@ -116,7 +124,10 @@ body {
 
 #page-header #logo {
     float: left;
-    /*opacity: 0; / hidden by default; prevents pop-up on page load before being hidden */
+    /*opacity: 0; * hidden by default; prevents pop-up on page load before being hidden
+                  * This was only used on the home page so that the loading of the page was cleaner; it would pop-up before being
+                  * hidden as JavaScript takes about a third of a second to load before it could hide it (it isn't essential.)
+                  */
 }
 
 #navigation {
