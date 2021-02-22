@@ -106,7 +106,7 @@ body {
     height: auto;
     background-image: var(--header-gradient); /* var(--transparent); hidden by default; prevents pop-up on page load before being hidden */
     position: fixed;
-    z-index: 99;
+    z-index: 99; /* this is used to force the header on top of everything else, making it persistent on the page */
 }
 
 .header-svg {
@@ -135,6 +135,8 @@ body {
 	display: inline-flex;
 	flex-flow: row wrap;
 	justify-content: flex-start;
+
+    z-index: 100; /* again, this is used to force the menu on top of everything else and also the header */
 }
 
 #navigation a {
