@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!--link the font M PLUS Rounded 1c (Medium and ExtraBold)-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">    
+    
+    <link rel="stylesheet" href="../static/css/style.css">
+    
+    <title>Street Soccer PITCH | Home</title>
+    <link rel="icon" href="../static/images/DrBall.svg" type="image/gif" sizes="16x16">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="../static/scripts/home.js"></script>
+
+    <!-- theoretically, this would apply a drop shadow to an SVG, bust it doesn't work
+    
+    <filter xmlns="http://www.w3.org/2000/svg" id="dropshadow">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3"/> 
+        <feOffset dx="2" dy="2" result="offsetblur"/> 
+        <feMerge> 
+            <feMergeNode/>
+            <feMergeNode in="SourceGraphic"/> 
+        </feMerge>
+    </filter>-->
+
+</head>
+
+<body>
+
+    <div id="page-header">
+        <a href="home.html">
+            <img id="logo" class="header-svg" src="../static/images/DrBall.svg" style="cursor:pointer;">
+        </a>
+
+        <ul id="navigation">
+
+            <!-- close menu button -->
+            <svg id="close-btn" class="header-svg" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer;" onclick="events.navOperationClicked('close')">
+                <path d="M33.4296 4.09965L30.1449 0.814941L17.1225 13.8373L4.10014 0.814941L0.81543 4.09965L13.8378 17.122L0.81543 30.1444L4.10014 33.4291L17.1225 20.4067L30.1449 33.4291L33.4296 30.1444L20.4072 17.122L33.4296 4.09965Z" fill="white"/>
+                <circle cx="2.32376" cy="2.32376" r="2.32376" fill="white"/>
+                <circle cx="2.5679" cy="31.6763" r="2.32376" fill="white"/>
+                <circle cx="31.6763" cy="2.56839" r="2.32376" fill="white"/>
+                <circle cx="31.6763" cy="31.6763" r="2.32376" fill="white"/>
+            </svg>
+            
+            <!-- navigation options -->
+            <li><a href="home.html">Assignments</a></li>
+            <li><a href="home.html">Forum</a></li>
+            <li><a href="home.html">My Account</a></li>
+		</ul>
+
+        <!-- Hamburger button -->
+        <svg id="mobile-nav" class="header-svg" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer;" onclick="events.navOperationClicked('open')">
+            <g clip-path="url(#clip0)">
+                <path d="M8.19238 55.4227H55.8084V47.6152H8.19238V55.4227ZM8.19238 35.9039H55.8084V28.0963H8.19238V35.9039ZM8.19238 8.57739V16.385H55.8084V8.57739H8.19238Z" fill="white"/>
+                <ellipse cx="7.84977" cy="12.4801" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="7.84977" cy="31.9801" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="7.84977" cy="51.5399" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="55.8498" cy="51.5399" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="55.8498" cy="31.9801" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="55.8498" cy="12.4801" rx="3.84" ry="3.9" fill="white"/>
+            </g>
+            <defs>
+                <clipPath id="clip0">
+                <rect width="64" height="64" fill="white"/>
+            </clipPath>
+            </defs>
+        </svg>       
+    </div>
+
+    <div class="grid-container">
+
+        <div id="grid-heading-item"><!-- landing page image and titles -->
+            <img id="intro-img" class="bg-img main-img" src="../static/images/BG_temp.png"/>
+
+            <div id="landing-flex">
+                <img id="logo" src="../static/images/DrBall.svg" filter="url(#dropshadow)">
+                <h1 class="title-text">Street Soccer</h1>
+                <h2 class="title-text">Players in Training, Coaching and Health</h2>
+            </div>
+        </div>
+
+        <div class="grid-body-item">
+            <h1 class="body-title">About Us</h1>
+            <hr/>
+            <p class="body-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique aspernatur exercitationem aliquam ullam saepe doloremque ducimus facilis dolorem omnis, id inventore iure, minima sint quam eligendi.</p>
+            <p class="body-text">Praesentium quaerat ducimus commodi reprehenderit magnam quae obcaecati, laborum porro illo dicta? Laboriosam odit qui ex tempore voluptatem fugit voluptas cupiditate sapiente error omnis.</p>
+            <p class="body-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus dignissimos ex saepe nobis maxime quia rem consectetur culpa facilis, ullam modi laborum iste ratione nostrum tempora quos blanditiis dolore dicta!</p>
+        </div>
+
+        <div class="grid-body-item">
+            <h1 class="body-title">Contact Us</h1>
+            <hr/>
+
+            <div class="svg-list-container">
+                <ul class="svg-list"> <!-- all these icons are under following licence agreement: https://iconmonstr.com/license/ -->
+                    <li><!-- Twitter -->
+                        <svg class="social-svg" width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C5.373 0 0 5.373 0 12C0 18.627 5.373 24 12 24C18.627 24 24 18.627 24 12C24 5.373 18.627 0 12 0ZM18.066 9.645C18.249 13.685 15.236 18.189 9.902 18.189C8.28 18.189 6.771 17.713 5.5 16.898C7.024 17.078 8.545 16.654 9.752 15.709C8.496 15.686 7.435 14.855 7.068 13.714C7.519 13.8 7.963 13.775 8.366 13.665C6.985 13.387 6.031 12.143 6.062 10.812C6.45 11.027 6.892 11.156 7.363 11.171C6.084 10.316 5.722 8.627 6.474 7.336C7.89 9.074 10.007 10.217 12.394 10.337C11.975 8.541 13.338 6.81 15.193 6.81C16.018 6.81 16.765 7.159 17.289 7.717C17.943 7.589 18.559 7.349 19.113 7.02C18.898 7.691 18.443 8.253 17.85 8.609C18.431 8.539 18.985 8.385 19.499 8.156C19.115 8.734 18.629 9.24 18.066 9.645V9.645Z" fill="white"/>
+                        </svg>
+                    </li>
+
+                    <li><!-- Instagram -->
+                        <svg class="social-svg" width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.829 6.302C14.091 6.268 13.869 6.262 12 6.262C10.131 6.262 9.91 6.269 9.172 6.302C7.273 6.389 6.389 7.288 6.302 9.172C6.269 9.91 6.261 10.131 6.261 12C6.261 13.869 6.269 14.09 6.302 14.829C6.389 16.708 7.269 17.612 9.172 17.699C9.909 17.732 10.131 17.74 12 17.74C13.87 17.74 14.091 17.733 14.829 17.699C16.728 17.613 17.611 16.711 17.699 14.829C17.732 14.091 17.739 13.869 17.739 12C17.739 10.131 17.732 9.91 17.699 9.172C17.611 7.289 16.726 6.389 14.829 6.302V6.302ZM12 15.595C10.015 15.595 8.405 13.986 8.405 12C8.405 10.015 10.015 8.406 12 8.406C13.985 8.406 15.595 10.015 15.595 12C15.595 13.985 13.985 15.595 12 15.595ZM15.737 9.104C15.273 9.104 14.897 8.728 14.897 8.264C14.897 7.8 15.273 7.424 15.737 7.424C16.201 7.424 16.577 7.8 16.577 8.264C16.577 8.727 16.201 9.104 15.737 9.104V9.104ZM14.333 12C14.333 13.289 13.288 14.333 12 14.333C10.712 14.333 9.667 13.289 9.667 12C9.667 10.711 10.712 9.667 12 9.667C13.288 9.667 14.333 10.711 14.333 12ZM12 0C5.373 0 0 5.373 0 12C0 18.627 5.373 24 12 24C18.627 24 24 18.627 24 12C24 5.373 18.627 0 12 0ZM18.958 14.886C18.843 17.431 17.426 18.841 14.887 18.958C14.14 18.992 13.901 19 12 19C10.099 19 9.861 18.992 9.114 18.958C6.57 18.841 5.159 17.429 5.042 14.886C5.008 14.14 5 13.901 5 12C5 10.099 5.008 9.861 5.042 9.114C5.159 6.57 6.571 5.159 9.114 5.043C9.861 5.008 10.099 5 12 5C13.901 5 14.14 5.008 14.887 5.043C17.432 5.16 18.844 6.575 18.958 9.114C18.992 9.861 19 10.099 19 12C19 13.901 18.992 14.14 18.958 14.886Z" fill="white"/>
+                        </svg>
+                    </li>
+                    
+
+                    <li><!-- Facebook -->
+                        <svg class="social-svg" width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C5.373 0 0 5.373 0 12C0 18.627 5.373 24 12 24C18.627 24 24 18.627 24 12C24 5.373 18.627 0 12 0ZM15 8H13.65C13.112 8 13 8.221 13 8.778V10H15L14.791 12H13V19H10V12H8V10H10V7.692C10 5.923 10.931 5 13.029 5H15V8Z" fill="white"/>
+                        </svg>
+                    </li>
+                </ul> 
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
