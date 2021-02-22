@@ -104,8 +104,9 @@ body {
 #page-header {
     width: 100%;
     height: auto;
-    background-image: var(--transparent); /* hidden by default; prevents pop-up on page load before being hidden */
+    background-image: var(--header-gradient); /* var(--transparent); hidden by default; prevents pop-up on page load before being hidden */
     position: fixed;
+    z-index: 99;
 }
 
 .header-svg {
@@ -115,7 +116,7 @@ body {
 
 #page-header #logo {
     float: left;
-    opacity: 0; /* hidden by default; prevents pop-up on page load before being hidden */
+    /*opacity: 0; / hidden by default; prevents pop-up on page load before being hidden */
 }
 
 #navigation {

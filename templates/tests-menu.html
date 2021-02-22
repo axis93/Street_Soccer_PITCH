@@ -7,11 +7,54 @@
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">    
 
     <link rel="stylesheet" href="../static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="../static/scripts/home.js"></script>
 
     <link rel="icon" href="../static/images/DrBall.svg" type="image/gif" sizes="16x16">
 </head>
 
 <body>
+    <div id="page-header">
+        <a href="home.html">
+            <img id="logo" class="header-svg" src="../static/images/DrBall.svg" style="cursor:pointer;">
+        </a>
+
+        <ul id="navigation">
+
+            <!-- close menu button -->
+            <svg id="close-btn" class="header-svg" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer;" onclick="events.navOperationClicked('close')">
+                <path d="M33.4296 4.09965L30.1449 0.814941L17.1225 13.8373L4.10014 0.814941L0.81543 4.09965L13.8378 17.122L0.81543 30.1444L4.10014 33.4291L17.1225 20.4067L30.1449 33.4291L33.4296 30.1444L20.4072 17.122L33.4296 4.09965Z" fill="white"/>
+                <circle cx="2.32376" cy="2.32376" r="2.32376" fill="white"/>
+                <circle cx="2.5679" cy="31.6763" r="2.32376" fill="white"/>
+                <circle cx="31.6763" cy="2.56839" r="2.32376" fill="white"/>
+                <circle cx="31.6763" cy="31.6763" r="2.32376" fill="white"/>
+            </svg>
+            
+            <!-- navigation options -->
+            <li><a href="home.html">Assignments</a></li>
+            <li><a href="home.html">Forum</a></li>
+            <li><a href="home.html">My Account</a></li>
+		</ul>
+
+        <!-- Hamburger button -->
+        <svg id="mobile-nav" class="header-svg" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer;" onclick="events.navOperationClicked('open')">
+            <g clip-path="url(#clip0)">
+                <path d="M8.19238 55.4227H55.8084V47.6152H8.19238V55.4227ZM8.19238 35.9039H55.8084V28.0963H8.19238V35.9039ZM8.19238 8.57739V16.385H55.8084V8.57739H8.19238Z" fill="white"/>
+                <ellipse cx="7.84977" cy="12.4801" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="7.84977" cy="31.9801" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="7.84977" cy="51.5399" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="55.8498" cy="51.5399" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="55.8498" cy="31.9801" rx="3.84" ry="3.9" fill="white"/>
+                <ellipse cx="55.8498" cy="12.4801" rx="3.84" ry="3.9" fill="white"/>
+            </g>
+            <defs>
+                <clipPath id="clip0">
+                <rect width="64" height="64" fill="white"/>
+            </clipPath>
+            </defs>
+        </svg>       
+    </div>
+
     <div class="grid-container">
         <div class="grid-body-item contents column">
             <br>
