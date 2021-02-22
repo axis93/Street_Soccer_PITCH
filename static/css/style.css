@@ -16,81 +16,16 @@ body {
     font-family: 'M PLUS Rounded 1c', sans-serif;
     margin: 0;
     padding: 0;
-    /* font-size: 20px; */
-    /* content: " "; */
-    /* background-image: linear-gradient(#3F598C, #66C4D9); */
     background-color: var(--background-colour);
-    /*background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    opacity: 1;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    z-index: -1;*/
 }
 
-/*.grid-container {
-    grid-area: main;
-    background-image: url("../../images/DrBall.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    opacity: 0.05;
-}*/
 
-/*.item5 {
-    grid-area: footer;
-    background-color: #52D9A7;
-}
-
-.item6 {
-    grid-area: menuItems;
-}*/
-
-.grid-container {
-    box-sizing: border-box;
-    display: grid;
-    position: relative;
-    /*grid-template-areas: 
-	'header header header header header header' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'main main main main main main' 
-	'footer footer footer footer footer footer';*/
-    grid-gap: 10vw;
-    /* padding: 10px; */
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-}
-
-/*.grid-container footer,
-div,
-header,
-section {
-    box-sizing: border-box;
-    padding: 10px 0 0 0;
-}*/
-
-
-/*-----------------------------------------------header--------------------------------------------------*/
+/*-----------------------------------------------header and navigation--------------------------------------------------*/
 
 #page-header {
     width: 100%;
     height: auto;
     background-image: var(--transparent); /* hidden by default; prevents pop-up on page load before being hidden */
-    /* color: #F2E205; */
-    /* max-height: 10vh; */
     position: fixed;
 }
 
@@ -160,16 +95,18 @@ section {
 }
 
 @media screen and (max-width: 1080px) {
-    #navigation {
+    #navigation { /* this moves the navigation bar options from the top of the page to the list seen down the right hand side - I made it this way to prevent us from having to implement a separate list of links for mobile devices */
+        height: 100vh;
+        width: 50vw;
+
         top: 0;
         left: 100%;
         transform: translate(0, 0);
-        height: 100vh;
-        width: 50vw;
-        background-image: radial-gradient(circle farthest-side at top right, var(--accent), var(--accent-dim));
 
         display: flex;
         flex-flow: column;
+
+        background-image: radial-gradient(circle farthest-side at top right, var(--accent), var(--accent-dim));
     }
 
     #navigation li:first-child {
@@ -199,7 +136,7 @@ section {
 
 @media screen and (min-width: 1081px) {
     #navigation {
-        animation: none !important; /* disables style effects set by the move in animation */
+        animation: none !important; /* disables style effects set by the move in animation; this must be marked as important in order for it to overwrite the enforcements made by jQuery */
     }
 }
 
@@ -225,17 +162,15 @@ section {
     }
 }
 
-/*-----------------------------------------------END header--------------------------------------------------*/
 
-
-/*-----------------------------------------------landing--------------------------------------------------*/
-
+/*----------------------------------------------- landing page image and titles --------------------------------------------------*/
 
 .bg-img {
     position: relative;
     display: block;
     width: 100%;
     height: auto;
+
     opacity: 0.6;
 
     background-position: center;
@@ -244,25 +179,25 @@ section {
 }
 
 #landing-flex {
-    text-align: center;
     position: absolute;
-
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+
+    justify-content: center;
     align-items: center;
+    text-align: center;
 
     width: 100%;    
     height: auto;
     position: absolute;
     top: 13vw;
     left: 0;
-    justify-content: center;
 }
 
 #landing-flex #logo {
     height: 10vw;
-    /* filter: url(#dropshadow); */
+    /* filter: url(#dropshadow); * this is supposed to utilize the HTML tag (for creating a drop shadow) specified in the 'home.html' head but, as stated there, it doesn't work */
 }
 
 #landing-flex .title-text {
@@ -305,10 +240,7 @@ section {
 }
 
 
-/*-----------------------------------------------END landing----------------------------------------------*/
-
-
-/*-----------------------------------------------contact links list----------------------------------------------*/
+/*-----------------------------------------------'Contact Us' links----------------------------------------------*/
 
 .svg-list-container {
     display: table; /* allows centre-ing of lists to work */
@@ -349,10 +281,20 @@ section {
     }
 }
 
-/*-----------------------------------------------END contact links list----------------------------------------------*/
 
+/*-----------------------------------------------page body formatting----------------------------------------------*/
 
-/*-----------------------------------------------page formatting----------------------------------------------*/
+.grid-container {
+    height: 100%;
+    width: 100%;
+
+    box-sizing: border-box;
+    display: grid;
+    position: relative;
+    grid-gap: 10vw;
+
+    z-index: -1;
+}
 
 .grid-body-item {
     max-width: 100vw;
@@ -398,81 +340,3 @@ section {
         margin: 1.5em 40vw;
     }
 }
-
-
-/*-----------------------------------------------END page formatting----------------------------------------------*/
-
-
-/*-----------------------------------------------Menu sidebar----------------------------------------------------*/
-
-
-/*------The code below is derived from - https://www.w3schools.com/howto/howto_js_sidenav.asp--------------------*/
-
-/*.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    background-color: #3F598C;
-    overflow-x: hidden;
-    transition: 0.3s;
-    padding-top: 60px;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #F2E205;
-    display: block;
-    transition: 0.2s;
-}
-
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
-    .sidenav a {
-        font-size: 18px;
-    }
-}*/
-
-
-/*-------------------------------------------END Menu sidebar----------------------------------------------------*/
-
-
-/*-----------------------------------------------grid-Container--------------------------------------------------*/
-
-/*@media screen and (max-width: 800px) {
-    .grid-container {
-        grid-template-areas: 
-	'header' 
-	'main' 
-	'main' 
-	'main' 
-	'main' 
-	'main' 
-	'main' 
-	'main' 
-	'main' 
-	'main' 
-	'footer'
-    }
-}*/
-
-
-/*------------------------------------------END-grid-Container--------------------------------------------------*

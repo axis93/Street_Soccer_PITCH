@@ -4,7 +4,7 @@ window.onload = () => {
     stateChecker.shouldHideHeader();
 }
 
-if (mainImages) { //if there is a dominant image in the page add the 'window.onscroll()' event listener
+if (mainImages) { //if there is a dominant image in the page, add the 'window.onscroll()' event listener
     window.onscroll = () => {
         stateChecker.shouldHideHeader();
     }
@@ -42,7 +42,7 @@ events = {
 		return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
 	},
 
-    navOperationClicked: (operation) => {
+    navOperationClicked: (operation) => { //'operation' determines whether we are opening or closing the navigation menu
         $('#navigation').css({
             'animation': `${operation}-mobile-nav 0.5s ease forwards`
         });
