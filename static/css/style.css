@@ -317,10 +317,10 @@ body {
 }
 
 /* This animation no longer works since the separation of the nav menu from the nav bar; the menu used to slide
- * in from outside the div but because it is now on the body of the page, if we were to use this animation, it
- * would still be on the page before it runs and all it would take for the user to see it, without pressing the
- * button, is to swipe to the right. I cannot put it in a div and do the same thing again as the div would
- * overlap the navigation menu open button and therefore making it not clickable.
+ * in from outside the header div but because it is now on the body of the page, if we were to use this animation,
+ * it would still be on the page before it runs and all it would take for the user to see it, without pressing the
+ * button, is to swipe to the right. I cannot put it in a div and do the same thing again as the div would overlap
+ * the page header (including the navigation menu open button) and therefore making it not clickable.
 
 /@keyframes show-mobile-nav { 
     from {
