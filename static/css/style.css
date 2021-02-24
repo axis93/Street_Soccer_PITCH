@@ -279,7 +279,7 @@ body {
     }*/
 }
 
-@media screen and (max-width: 745px) {
+@media screen and (max-width: 745px) { /* this and the following 'max-width' queries widen the navigation menu based on the device, as smaller screens were squashing the font */
     #nav-menu {
         width: 33%;
     }
