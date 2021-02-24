@@ -269,6 +269,16 @@ body {
     }
 }
 
+@media screen and (max-width: 370px) {
+    #nav-menu {
+        width: 65%;
+    }
+
+    #nav-menu-options {
+        max-width: 65vw;
+    }
+}
+
 @media screen and (min-width: 1081px) {
     #nav-menu {
         display: none !important;
