@@ -172,11 +172,11 @@ body {
 
 #nav-menu {
     position: fixed;
-    height: 100vh;
-    width: 50vw;
+    height: 100%;
+    width: 25%;
 
     top: 0;
-    left: 50%;
+    right: 0;
     transform: translate(0, 0);
 
     background-image: radial-gradient(circle farthest-side at top right, var(--accent), var(--accent-dim));
@@ -187,9 +187,10 @@ body {
 }
 
 #nav-menu-options {
-    font-size: 6.5vw;
-    max-width: 44vw;
-    padding: 10vw 3vw;
+    position: absolute;
+    font-size: 1.5rem;
+    max-width: 25vw;
+    padding-top: 6vw;
 
     display: flex;
     flex-flow: column;
@@ -212,10 +213,10 @@ body {
 #close-btn {
     position: absolute;
     float: right;
-    right: 1vw;
+    right: 0.6vw;
 
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 1.5rem;
+    height: 1.5rem;
     
     /*display: none; / instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
     cursor: pointer;
@@ -246,6 +247,26 @@ body {
     /*#close-btn {
         display: block;
     }*/
+}
+
+@media screen and (max-width: 745px) {
+    #nav-menu {
+        width: 33%;
+    }
+
+    #nav-menu-options {
+        max-width: 33vw;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    #nav-menu {
+        width: 50%;
+    }
+
+    #nav-menu-options {
+        max-width: 50vw;
+    }
 }
 
 @media screen and (min-width: 1081px) {
