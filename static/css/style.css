@@ -236,16 +236,46 @@ body {
         display: none;
     }
 
-    /*#nav-menu {
-        display: block;
-    }*/
-
     #mobile-nav-btn {
         display: block;
     }
 
-    /*#close-btn {
-        display: block;
+    /*#navigation { /* this moves the navigation bar options from the top of the page to the list seen down the right hand side - I made it this way to prevent us from having to implement a separate list of links for mobile devices /
+        height: 100vh;
+        width: 50vw;
+
+        top: 0;
+        left: 100%;
+        transform: translate(0, 0);
+
+        display: flex;
+        flex-flow: column;
+
+        background-image: radial-gradient(circle farthest-side at top right, var(--accent), var(--accent-dim));
+    }
+
+    #navigation li:first-child {
+        padding-top: 10vw;
+    }
+
+    #navigation li {
+        height: 6vw;
+        padding: 3vw;
+    }
+
+    #navigation a {
+        font-size: 6.5vw;
+        text-shadow: none;
+        padding: 0;
+    }
+
+    #mobile-nav {
+        height: 75%;
+    }
+
+    #close-btn {
+        width: 5vw;
+        height: 5vw;
     }*/
 }
 
