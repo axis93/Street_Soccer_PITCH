@@ -1,37 +1,37 @@
 const mainImages = document.getElementsByClassName('main-img');
 
 window.onload = () => {
-    stateChecker.shouldHideHeader();
+    stateHandler.shouldHideHeader();
 }
 
 if (mainImages) { //if there is a dominant image in the page, add the 'window.onscroll()' event listener
     window.onscroll = () => {
-        stateChecker.shouldHideHeader();
+        stateHandler.shouldHideHeader();
     }
 }
 
-stateChecker = {
+stateHandler = {
     shouldHideHeader: () => {
-        if(mainImages) { //we need to check this here also as 'window.onload()' will run this method separately
+        if(mainImages != null && mainImages.length > 0) { //we need to check this here also as 'window.onload()' will run this method separately
             for (let i = 0; i < mainImages.length; i++) {
-                if (events.isOnScreen(mainImages[i])) { //hide the dominant navbar elements if there is a main background image visible
-                    $('#logo').css({
-                        'opacity': 0
-                    });
-                    $('#page-header').css({
-                        'background-image': 'var(--transparent)'
-                    });
-                }
-                else {
-                    $('#logo').css({
-                        'opacity': 100
-                    });
-                    $('#page-header').css({
-                        'background-image': 'var(--header-gradient)'
-                    });
-                }
+                if (events.isOnScreen(mainImages[i])) //hide the dominant navbar elements if there is a main background image visible
+                    stateHandler.modifyHeader(0, 'var(--transparent)');
+                else
+                    stateHandler.modifyHeader(100, 'var(--header-gradient)');
             }
+            console.log('here');
         }
+        else
+            stateHandler.modifyHeader(100, 'var(--header-gradient)');
+    },
+
+    modifyHeader: (opacity, background) => {
+        $('#logo').css({
+            'opacity': opacity
+        });
+        $('#page-header').css({
+            'background-image': `${background}`
+        });
     }
 }
 
