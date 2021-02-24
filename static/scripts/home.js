@@ -42,9 +42,10 @@ events = {
 		return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
 	},
 
-    navOperationClicked: (operation) => { //'operation' determines whether we are opening or closing the navigation menu
-        $('#navigation').css({
-            'animation': `${operation}-mobile-nav 0.5s ease forwards`
+    navOperationClicked: (display) => { //this parameter used to be 'operation', which determined whether we are opening or closing the navigation menu via animation
+        $('#nav-menu').css({
+            'display': display
+            //'animation': `${operation}-mobile-nav 0.5s ease forwards`
         });
     }
 }
