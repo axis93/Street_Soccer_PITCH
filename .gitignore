@@ -1,0 +1,3 @@
+# Ignore the environment setup
+env
+__pycache__
