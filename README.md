@@ -1,24 +1,24 @@
 # Street Soccer Pitch
+## Run the app for the first time 
+***(Windows, with virtual env, run locally, in development mode)***
 
-## The application is built using Python Flask 
+- `py -m venv env` *get virtual env*
+- `.\env\Scripts\activate` *activate virtual env*
+- `pip install -r requirements.txt` *install all required packages (flask etc.)*
+- `set FLASK_APP=Street_Soccer_PITCH.py` *activate .py file to be the application*
+- `set FLASK_ENV=development` *activate development mode*
+- `python -m flask run --host=0.0.0.0` *run the application*
+- visit "http://localhost:5000/" *to see the application*
+- `deactivate` *close the virtual environment after you close the app*
 
-### In order to use run this application on your local machine you will need to install the following packages from comand line
+## Run the app with all environment setup
 
-### pip install -r requirements.txt
+- `.\env\Scripts\activate` *activate virtual env*
+- `set FLASK_APP=Street_Soccer_PITCH.py` *activate .py file to be the application*
+- `set FLASK_ENV=development` *activate development mode*
+- `python -m flask run --host=0.0.0.0` *run the application*
+- visit "http://localhost:5000/" *to see the application*
+- `deactivate` *close the virtual environment after you close the app*
 
-
-### To run the application do the following:
-
-# This is what has worked for me at the moment
-## open comand line and type
-## python Street_Soccer_PITCH.py
-
-## Go on a web browser and type "http://localhost:5000/"
-## Go on a web browser and type http://5000 add a '/' and the name on the route to visit a page
-
-# The following is not needed - left for future references 
-
-### export FLASK_APP=Street_Soccer_PITCH.py
-### export FLASK_ENV=development
-### python3 -m flask run --host=0.0.0.0
+/* (*All the commands (`command`) above are for an execution in a command prompt)*
 
