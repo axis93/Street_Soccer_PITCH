@@ -10,12 +10,12 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         
         <!-- local imports -->
-        <link rel="stylesheet" href="../static/css/style.css">
-        <script src="../static/scripts/main.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+        <script src="{{ url_for('static',filename='scripts/main.js') }}"></script>
         
         <!-- browser tab properties -->
         <title>Street Soccer PITCH | {% block title %}{% endblock %}</title>
-        <link rel="icon" href="../static/images/DrBall.svg" type="image/gif" sizes="16x16">
+        <link rel="icon" href="{{ url_for('static',filename='images/DrBall.svg') }}" type="image/gif" sizes="16x16">
 
         <!-- theoretically, this would apply a drop shadow to an SVG, but it doesn't work --
         <filter xmlns="http://www.w3.org/2000/svg" id="dropshadow">
@@ -31,7 +31,7 @@
     <body>
         <div id="page-header">
             <a href="{{ request.url_root }}">
-                <img id="logo" class="header-svg" src="../static/images/DrBall.svg">
+                <img id="logo" class="header-svg" src="{{ url_for('static',filename='/images/DrBall.svg') }}">
             </a>
 
             <ul id="nav-bar" class="navigation">
