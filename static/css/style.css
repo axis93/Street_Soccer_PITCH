@@ -104,8 +104,17 @@ body {
 #page-header {
     width: 100%;
     height: auto;
-    background-image: var(--transparent); /* hidden by default; prevents pop-up on page load before being hidden */
-    position: fixed;
+    background-image: var(--transparent); /* hidden by default; prevents pop-up on page load before being hidden
+                                           * --transparent is used on the home page so that the loading of the page is cleaner; the header pop-ups before being
+                                           * hidden as JavaScript takes about a third of a second to load before it is able to hide it
+                                           */
+
+    position: fixed; /* This forces the header to stay at the top of the page, regardless of how far we've scrolled; once it becomes fixed,
+                      * it is no longer apart of the order of all HTML elements and is now in it's own "box". Thus, it will have no effect
+                      * on the positioning of any other element on the page (it will not shift elements down to make room for itself.)
+                      */
+    
+    z-index: 99; /* this is used to force the header on top of everything else, making it persistent on the page */
 }
 
 .header-svg {
@@ -115,53 +124,104 @@ body {
 
 #page-header #logo {
     float: left;
-    opacity: 0; /* hidden by default; prevents pop-up on page load before being hidden */
+    cursor: pointer;
+    opacity: 0; /* hidden by default; prevents pop-up on page load before being hidden
+                 * This is used on the home page so that the loading of the page is cleaner; the header pop-ups before being
+                 * hidden as JavaScript takes about a third of a second to load before it's able to hide it
+                 */
 }
 
-#navigation {
+.navigation {
+    position: absolute;
 	list-style: none;
     margin-block-start: 0;
     margin-block-end: 0;
     padding-inline-start: 0;
 	margin: 0;
-    position: absolute;
 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    box-shadow: 0 0 0 #00000000;
 	display: inline-flex;
-	flex-flow: row wrap;
-	justify-content: flex-start;
 }
 
-#navigation a {
-	text-decoration: none;
+.navigation a {
+    text-decoration: none;
 	display: block;
 	padding: 20px;
     
 	color: #FFF;
+    font-weight: bold;
+}
+
+.navigation a:hover {
+	color: #AFC6FF;
+    cursor: pointer;
+}
+
+#nav-bar {
+    flex-flow: row wrap;
+	justify-content: flex-start;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#nav-bar a {
     text-shadow: 0 0 3px #000000;
     font-size: 1.5em;
-	font-weight: bold;
 }
 
-#navigation a:hover {
-	color: #AFC6FF;
+#nav-menu {
+    position: fixed;
+    height: 100%;
+    width: 25%;
+
+    top: 0;
+    right: 0;
+    transform: translate(0, 0);
+
+    background-image: radial-gradient(circle farthest-side at top right, var(--accent), var(--accent-dim));
+    box-shadow: -1vw 0 10vw #0000005F;
+
+    display: none;
+    z-index: 100;
 }
 
-#mobile-nav {
+#nav-menu-options {
+    position: absolute;
+    font-size: 1.5rem;
+    max-width: 25vw;
+    padding-top: 6vw;
+
+    display: flex;
+    flex-flow: column;
+}
+
+#mobile-nav-btn {
     position: absolute;
     float: right;
     right: 0;
-    height: 0; /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 2.4rem;
+    height: 2.4rem;
+
+    display: none; /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
+    cursor: pointer;
 }
 
 #close-btn {
+    position: absolute;
     float: right;
-    transform: translate(42vw, 0);
-    height: 0; /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
+    right: 0.6vw;
+
+    width: 1.5rem;
+    height: 1.5rem;
+    
+    /*display: none; / instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
+    cursor: pointer;
+
+    z-index: 100;
 }
 
 @media screen and (max-width: 768px) {
@@ -172,7 +232,15 @@ body {
 }
 
 @media screen and (max-width: 1080px) {
-    #navigation { /* this moves the navigation bar options from the top of the page to the list seen down the right hand side - I made it this way to prevent us from having to implement a separate list of links for mobile devices */
+    #nav-bar {
+        display: none;
+    }
+
+    #mobile-nav-btn {
+        display: block;
+    }
+
+    /*#navigation { /* this moves the navigation bar options from the top of the page to the list seen down the right hand side - I made it this way to prevent us from having to implement a separate list of links for mobile devices /
         height: 100vh;
         width: 50vw;
 
@@ -208,36 +276,73 @@ body {
     #close-btn {
         width: 5vw;
         height: 5vw;
+    }*/
+}
+
+@media screen and (max-width: 745px) { /* this and the following 'max-width' queries widen the navigation menu based on the device, as smaller screens were squashing the font */
+    #nav-menu {
+        width: 33%;
+    }
+
+    #nav-menu-options {
+        max-width: 33vw;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    #nav-menu {
+        width: 50%;
+    }
+
+    #nav-menu-options {
+        max-width: 50vw;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    #nav-menu {
+        width: 65%;
+    }
+
+    #nav-menu-options {
+        max-width: 65vw;
     }
 }
 
 @media screen and (min-width: 1081px) {
-    #navigation {
-        animation: none !important; /* disables style effects set by the move in animation; this must be marked as important in order for it to overwrite the enforcements made by jQuery */
+    #nav-menu {
+        display: none !important;
+        /*animation: none !important; / disables style effects set by the move in animation; this must be marked as important in order for it to overwrite the enforcements made by jQuery */
     }
 }
 
-@keyframes open-mobile-nav {
+/* This animation no longer works since the separation of the nav menu from the nav bar; the menu used to slide
+ * in from outside the header div but because it is now on the body of the page, if we were to use this animation,
+ * it would still be on the page before it runs and all it would take for the user to see it, without pressing the
+ * button, is to swipe to the right. I cannot put it in a div and do the same thing again as the div would overlap
+ * the page header (including the navigation menu open button) and therefore making it not clickable.
+
+/@keyframes show-mobile-nav { 
     from {
-        left: 100%;
+        width: 0vw;
         box-shadow: 0 0 0 #00000000;
     }
     to {
-        left: 50%;
+        width: 50vw;
         box-shadow: -1vw 0 10vw #0000005F;
     }
 }
 
-@keyframes close-mobile-nav {
+@keyframes hide-mobile-nav {
     from {
-        left: 50%;
+        width: 50vw;
         box-shadow: -1vw 0 10vw #0000005F;
     }
     to {
-        left: 100%;
+        width: 0vw;
         box-shadow: 0 0 0 #00000000;
     }
-}
+}*/
 
 
 /*----------------------------------------------- landing page image and titles --------------------------------------------------*/
