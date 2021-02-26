@@ -4,7 +4,7 @@
     <div class="grid-container">
 
         <div id="grid-heading-item"><!-- landing page image and titles -->
-            <img id="intro-img" class="bg-img main-img" src="../static/images/BG_temp.png"/>
+            <img id="intro-img" class="bg-img main-img" src="{{ url_for('static',filename='images/BG_temp.png') }}"/>
 
             <div id="landing-flex">
                 <img id="logo" src="{{ url_for('static',filename='images/DrBall.svg') }}" filter="url(#dropshadow)">
