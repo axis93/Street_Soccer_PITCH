@@ -203,9 +203,6 @@ body {
     top: 50%;
     transform: translateY(-50%);
 
-    width: 2.4rem;
-    height: 2.4rem;
-
     display: none; /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
     cursor: pointer;
 }
@@ -222,13 +219,6 @@ body {
     cursor: pointer;
 
     z-index: 100;
-}
-
-@media screen and (max-width: 768px) {
-    .header-svg {
-        height: 2.4rem;
-        padding: 7px;
-    }
 }
 
 @media screen and (max-width: 1080px) {
@@ -279,13 +269,19 @@ body {
     }*/
 }
 
-@media screen and (max-width: 745px) { /* this and the following 'max-width' queries widen the navigation menu based on the device, as smaller screens were squashing the font */
+@media screen and (max-width: 768px) { /* this and the following 'max-width' queries widen the navigation menu based on the device, as smaller screens were squashing the font */
     #nav-menu {
         width: 33%;
     }
 
     #nav-menu-options {
         max-width: 33vw;
+    }
+
+    .header-svg {
+        height: 2.4rem;
+        width: 2.4rem;
+        padding: 7px;
     }
 }
 
@@ -296,6 +292,12 @@ body {
 
     #nav-menu-options {
         max-width: 50vw;
+    }
+
+    .header-svg {
+        width: 2em;
+        height: 2em;
+        padding: 5px;
     }
 }
 
