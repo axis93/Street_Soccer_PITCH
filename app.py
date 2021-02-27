@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file
 import sqlite3
+import os
 
 app = Flask(__name__)
 
@@ -34,6 +35,29 @@ def testresult():
 @app.route('/test-menu')
 def testmenu():
 	return render_template('tests-menu.html')
+
+"""
+use Ctrl+F5 to clear the cache and refresh
+
+caching stops the static files from being refreshed when the page
+is refreshed
+
+this was an attempt to clear the browser cache for this page
+automatically so we don't have to do it manually everytime we test
+changes on a page
+
+@app.context_processor
+def override_url_for():
+    return dict(url_for=dated_url_for)
+
+def dated_url_for(endpoint, **values):
+    if endpoint == 'static':
+        filename = values.get('filename', None)
+        if filename:
+            file_path = os.path.join(app.root_path, endpoint, filename)
+            values['q'] = int(os.stat(file_path).st_mtime)
+    return url_for(endpoint, **values)
+"""
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', debug=True)

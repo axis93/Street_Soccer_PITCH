@@ -25,3 +25,6 @@
 - `deactivate` *close the virtual environment after you close the app*
 
 /* *(All the commands (`command`) above are executed via the command line)* */
+
+## During design and development of web pages
+Flask automatically caches your static files the first time they're loaded via Flask and because of this, you may have noticed that any changes your making aren't being applied when you refresh the page. For the changes to me made, you need to clear the cache and refresh the page, which you can do by pressing `ctrl+F5`.
