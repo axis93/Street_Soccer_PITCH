@@ -2,11 +2,11 @@ const mainImages = document.getElementsByClassName('main-img');
 
 window.onload = () => {
     stateHandler.shouldHideHeader();
-}
-
-if (mainImages) { //if there is a dominant image in the page, add the 'window.onscroll()' event listener
-    window.onscroll = () => {
-        stateHandler.shouldHideHeader();
+    
+    if (mainImages != null && mainImages.length > 0) { //if there is a dominant image in the page, add the 'window.onscroll()' event listener
+        window.onscroll = () => {
+            stateHandler.shouldHideHeader();
+        }
     }
 }
 
@@ -19,7 +19,6 @@ stateHandler = {
                 else
                     stateHandler.modifyHeader(100, 'var(--header-gradient)');
             }
-            console.log('here');
         }
         else
             stateHandler.modifyHeader(100, 'var(--header-gradient)');

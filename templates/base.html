@@ -2,28 +2,30 @@
 
 <html>
     <head>
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        
         <!-- import the font M PLUS Rounded 1c (Medium and ExtraBold) -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
-        
+
         <!-- import jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        
+
         <!-- local imports -->
-        <link rel="stylesheet" href="../static/css/style.css">
-        <script src="../static/scripts/main.js"></script>
-        
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+        <script src="{{ url_for('static',filename='scripts/main.js') }}"></script>
+
         <!-- browser tab properties -->
         <title>Street Soccer PITCH | {% block title %}{% endblock %}</title>
-        <link rel="icon" href="../static/images/DrBall.svg" type="image/gif" sizes="16x16">
+        <link rel="icon" href="{{ url_for('static',filename='images/DrBall.svg') }}" type="image/gif" sizes="16x16">
 
         <!-- theoretically, this would apply a drop shadow to an SVG, but it doesn't work --
         <filter xmlns="http://www.w3.org/2000/svg" id="dropshadow">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="3"/> 
-            <feOffset dx="2" dy="2" result="offsetblur"/> 
-            <feMerge> 
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+            <feOffset dx="2" dy="2" result="offsetblur"/>
+            <feMerge>
                 <feMergeNode/>
-                <feMergeNode in="SourceGraphic"/> 
+                <feMergeNode in="SourceGraphic"/>
             </feMerge>
         </filter>-->
     </head>
@@ -31,11 +33,11 @@
     <body>
         <div id="page-header">
             <a href="{{ request.url_root }}">
-                <img id="logo" class="header-svg" src="../static/images/DrBall.svg">
+                <img id="logo" class="header-svg" src="{{ url_for('static',filename='/images/DrBall.svg') }}">
             </a>
 
             <ul id="nav-bar" class="navigation">
-                <li><a href="{{ url_for('testtmenu') }}">Assignments</a></li>
+                <li><a href="{{ url_for('testmenu') }}">Assignments</a></li>
                 <li><a href="null.html">Forum</a></li>
                 <li><a href="null.html">My Account</a></li>
             </ul>
@@ -56,7 +58,7 @@
                     <rect width="64" height="64" fill="white"/>
                 </clipPath>
                 </defs>
-            </svg>       
+            </svg>
         </div>
 
         <div id="nav-menu">
@@ -68,9 +70,9 @@
                 <circle cx="31.6763" cy="2.56839" r="2.32376" fill="white"/>
                 <circle cx="31.6763" cy="31.6763" r="2.32376" fill="white"/>
             </svg>
-            
+
             <ul id="nav-menu-options" class="navigation">
-                <li><a href="{{ url_for('testtmenu') }}">Assignments</a></li>
+                <li><a href="{{ url_for('testmenu') }}">Assignments</a></li>
                 <li><a href="null.html">Forum</a></li>
                 <li><a href="null.html">My Account</a></li>
             </ul>

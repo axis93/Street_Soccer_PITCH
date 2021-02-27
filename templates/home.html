@@ -4,10 +4,10 @@
     <div class="grid-container">
 
         <div id="grid-heading-item"><!-- landing page image and titles -->
-            <img id="intro-img" class="bg-img main-img" src="../static/images/BG_temp.png"/>
+            <img id="intro-img" class="bg-img main-img" src="{{ url_for('static',filename='images/BG_temp.png') }}"/>
 
             <div id="landing-flex">
-                <img id="logo" src="../static/images/DrBall.svg" filter="url(#dropshadow)">
+                <img id="logo" src="{{ url_for('static',filename='images/DrBall.svg') }}" filter="url(#dropshadow)">
                 <h1 class="title-text">Street Soccer</h1>
                 <h2 class="title-text">Players in Training, Coaching and Health</h2>
             </div>

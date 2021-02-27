@@ -109,12 +109,9 @@ body {
                                            * hidden as JavaScript takes about a third of a second to load before it is able to hide it
                                            */
 
-    position: fixed; /* This forces the header to stay at the top of the page, regardless of how far we've scrolled; once it becomes fixed,
-                      * it is no longer apart of the order of all HTML elements and is now in it's own "box". Thus, it will have no effect
-                      * on the positioning of any other element on the page (it will not shift elements down to make room for itself.)
-                      */
-    
-    z-index: 99; /* this is used to force the header on top of everything else, making it persistent on the page */
+    position: fixed;
+
+    z-index: 99;
 }
 
 .header-svg {
@@ -126,7 +123,7 @@ body {
     float: left;
     cursor: pointer;
     opacity: 0; /* hidden by default; prevents pop-up on page load before being hidden
-                 * This is used on the home page so that the loading of the page is cleaner; the header pop-ups before being
+                 * this is used on the home page so that the loading of the page is cleaner; the header pop-ups before being
                  * hidden as JavaScript takes about a third of a second to load before it's able to hide it
                  */
 }
@@ -175,9 +172,9 @@ body {
     height: 100%;
     width: 25%;
 
-    top: 0;
+    /* top: 0; */
     right: 0;
-    transform: translate(0, 0);
+    /* transform: translate(0, 0); */
 
     background-image: radial-gradient(circle farthest-side at top right, var(--accent), var(--accent-dim));
     box-shadow: -1vw 0 10vw #0000005F;
@@ -203,9 +200,6 @@ body {
     top: 50%;
     transform: translateY(-50%);
 
-    width: 2.4rem;
-    height: 2.4rem;
-
     display: none; /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
     cursor: pointer;
 }
@@ -218,17 +212,9 @@ body {
     width: 1.5rem;
     height: 1.5rem;
     
-    /*display: none; / instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
     cursor: pointer;
 
     z-index: 100;
-}
-
-@media screen and (max-width: 768px) {
-    .header-svg {
-        height: 2.4rem;
-        padding: 7px;
-    }
 }
 
 @media screen and (max-width: 1080px) {
@@ -239,53 +225,21 @@ body {
     #mobile-nav-btn {
         display: block;
     }
-
-    /*#navigation { /* this moves the navigation bar options from the top of the page to the list seen down the right hand side - I made it this way to prevent us from having to implement a separate list of links for mobile devices /
-        height: 100vh;
-        width: 50vw;
-
-        top: 0;
-        left: 100%;
-        transform: translate(0, 0);
-
-        display: flex;
-        flex-flow: column;
-
-        background-image: radial-gradient(circle farthest-side at top right, var(--accent), var(--accent-dim));
-    }
-
-    #navigation li:first-child {
-        padding-top: 10vw;
-    }
-
-    #navigation li {
-        height: 6vw;
-        padding: 3vw;
-    }
-
-    #navigation a {
-        font-size: 6.5vw;
-        text-shadow: none;
-        padding: 0;
-    }
-
-    #mobile-nav {
-        height: 75%;
-    }
-
-    #close-btn {
-        width: 5vw;
-        height: 5vw;
-    }*/
 }
 
-@media screen and (max-width: 745px) { /* this and the following 'max-width' queries widen the navigation menu based on the device, as smaller screens were squashing the font */
+@media screen and (max-width: 768px) { /* this and the following 'max-width' queries widen the navigation menu based on the device, as smaller screens were squashing the font */
     #nav-menu {
         width: 33%;
     }
 
     #nav-menu-options {
         max-width: 33vw;
+    }
+
+    .header-svg {
+        height: 2.4rem;
+        width: 2.4rem;
+        padding: 7px;
     }
 }
 
@@ -296,6 +250,12 @@ body {
 
     #nav-menu-options {
         max-width: 50vw;
+    }
+
+    .header-svg {
+        width: 2em;
+        height: 2em;
+        padding: 5px;
     }
 }
 
@@ -320,7 +280,8 @@ body {
  * in from outside the header div but because it is now on the body of the page, if we were to use this animation,
  * it would still be on the page before it runs and all it would take for the user to see it, without pressing the
  * button, is to swipe to the right. I cannot put it in a div and do the same thing again as the div would overlap
- * the page header (including the navigation menu open button) and therefore making it not clickable.
+ * the page (including the navigation menu open button) and therefore making everything not clickable on the area
+ * which the nav menu appears.
 
 /@keyframes show-mobile-nav { 
     from {
@@ -467,7 +428,7 @@ body {
 /*-----------------------------------------------page body formatting----------------------------------------------*/
 
 .grid-container {
-    height: 100%;
+    height: fit-content;
     width: 100%;
 
     box-sizing: border-box;
