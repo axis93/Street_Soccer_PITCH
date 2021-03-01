@@ -1,6 +1,7 @@
 :root {
     --dark: #3A3A3A;
     --darker: #242424;
+    --darkest: #1a1919;
     --light: #FFF;
     --accent: #527CEA;
     --accent-dim: #314E97;
@@ -561,4 +562,20 @@ body {
     width: 90vw;
     flex-direction: column;
     text-align: left;
+}
+
+/*-----------------------------------------------quiz--------------------------------------------------*/
+.quiz-body {
+    padding: 0 8vw
+}
+
+.quiz-instructions {
+    color: var(--darkest);
+    font-style: italic;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.quiz-text {
+
 }
