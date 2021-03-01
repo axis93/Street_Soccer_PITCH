@@ -53,7 +53,7 @@ CREATE TABLE quizzes(
 	order_num INTEGER NOT NULL,
 	credit_value INTEGER NOT NULL,
 	gained_credit INTEGER,
-	type TEXT CHECK(type in ('info', 'multiple_choice', 'short_answer'), # this causes the issue, check properly how to solve this
+	type TEXT CHECK(type in ('info', 'multiple_choice', 'short_answer')), 
 	some_text TEXT,
 	title VARCHAR(100),
 	answer_id INTEGER,
@@ -63,7 +63,13 @@ CREATE TABLE quizzes(
 );
 
 
-
+CREATE TABLE answers(
+	answer_id INTEGER NOT NULL PRIMARY KEY,
+	body TEXT,
+	is_correct BOOLEAN,
+	path_to_attachment TEXT,
+	is_selected BOOLEAN
+);
 CREATE TABLE users(
 user_iD integer NOT NULL PRIMARY KEY,
 	username VARCHAR(50) NOT NULL,
@@ -71,3 +77,7 @@ user_iD integer NOT NULL PRIMARY KEY,
 	email VARCHAR(50) NOT NULL
 
 );
+INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (1, 1, 'Child Protection Act', 60);
+INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakable) VALUES (1, 1, 1, 80, 5, 0, 60, 'For this test you will need to complete two quizzes, please pres the button to carry on', 1);
+INSERT INTO quizzes (quiz_id, test_id, order_num, credit_value, gained_credit, type, some_text, title, answer_id, instructions) VALUES (1, 1, 5, 0, 0, 'multiple_choice', 'Here there is some text', 'What should be avoided except in emergencies?', 1, 'To complete this quiz please select an answer and then click next');
+INSERT INTO answers (answer_id, body, is_correct, is_selected) VALUES (1, 'Spending time alone with children away from others', 1, 0);
