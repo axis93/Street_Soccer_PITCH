@@ -81,6 +81,10 @@ def testmenu():
 		topics.append(topic)
 	return render_template('tests-menu.html',topics=topics)
 
+@app.route('/foo-bar')
+def feandbetest():
+	return render_template('fe-and-be-test.html')
+
 api.add_resource(Topic, '/topics/<string:topic_id>')
 
 """

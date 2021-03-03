@@ -46,5 +46,18 @@ events = {
             'display': display
             //'animation': `${operation}-mobile-nav 0.5s ease forwards`
         });
+    },
+}
+
+request = {
+    get: (endpoint, extension, handler) => {
+        $.get(`/${endpoint}/${extension}`, (data) => {
+            handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
+        });
+    },
+
+    testhandler: (data) => {
+        console.log(data);
+        document.getElementById('meee').innerHTML = `{topic_id: ${data.topic_id}, is_unlocked: ${data.is_unlocked}, name: ${data.name}, needed_credit: ${data.needed_credit}}`;
     }
 }
