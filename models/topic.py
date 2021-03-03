@@ -7,22 +7,27 @@ class TopicModel:
         self.name = name
         self.needed_credit = needed_credit
     
-    @classmethod
-    def find_by_id(cls, topic_id):
+    def json(self):
+        return {'topic_id': self.topic_id, 'is_unlocked': self.is_unlocked, 'name': self.name, 'needed_credit': self.needed_credit}
+
+    def query_db(query, args):
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        query = "SELECT * FROM topics WHERE topic_id=?"
-
-        result = cursor.execute(query, (topic_id,))
+        result = cursor.execute(query, args)
         row = result.fetchone()
+
+        connection.close()
+
+        return row
+
+    @classmethod
+    def find_by_id(cls, topic_id):
+        result = TopicModel.query_db("SELECT * FROM topics WHERE topic_id=?", (topic_id,))
+
         if result:
-            topic = cls(*row)
+            topic = cls(*result)
         else:
             topic = None
         
-        connection.close()
         return topic
-    
-    def json(self):
-        return {'topic_id': self.topic_id, 'is_unlocked': self.is_unlocked, 'name': self.name, 'needed_credit': self.needed_credit}
