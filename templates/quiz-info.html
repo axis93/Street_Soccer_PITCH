@@ -31,7 +31,14 @@
 				<!-- Condition if this is a multiple_choice quiz-->
 				{% if true==true %}
 					<div id="quiz-radio-section" class="column quiz-radio-section">
-						popopopop fwes
+						<!-- Generate possible answers for multiple choice quiz-->
+						{% for answer in range(1,5) %}
+							<div class="row quiz-radio-row">
+								<input type="radio" id="{{answer}}" name="multiple_choice" value="{{answer}}" class="quiz-radio-btn">
+								<label for="{{answer}}"> Answer Option {{answer}} Answer Option {{answer}}</label>
+							</div>
+							<br>
+						{% endfor %}
 					</div>
 				{% endif %}
 			</div>
