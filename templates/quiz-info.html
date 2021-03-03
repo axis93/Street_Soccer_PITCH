@@ -10,7 +10,7 @@
 				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
 				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
 			</p>
-			<p id="quiz-text" class="quiz-text">
+			<p id="quiz-text">
 				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
 				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
 				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
@@ -20,6 +20,37 @@
 				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
 				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
 			</p>
+			<br>
+			<div class="row">
+				<!-- Condition if we have an image-->
+				{% if true==true %}
+					<div id="quiz-attachment" class="column quiz-attachment">
+						<img style="width: 100%;" src="{{ url_for('static', filename='images/BG_temp.png') }}">
+					</div>
+				{% endif %}
+				<!-- Condition if this is a multiple_choice quiz-->
+				{% if true==true %}
+					<div id="quiz-radio-section" class="column quiz-radio-section">
+						popopopop fwes
+					</div>
+				{% endif %}
+			</div>
+			<div class="row quiz-buttons">
+				<div class="column quiz-back-space">
+					<!-- Condition if this is the first page-->
+					{% if true==true %}
+					<button class="quiz-btn">Back</button>
+					{% endif %}
+				</div>
+				<div class="column quiz-continue-space">
+					<!-- Condition if this is the last page-->
+					{% if true==true %}
+					<button class="quiz-btn">Continue</button>
+					{% else %}
+					<button class="quiz-finish-btn">FINISH</button>
+					{% endif %}
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}

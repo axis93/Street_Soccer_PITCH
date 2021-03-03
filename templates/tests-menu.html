@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Assignments{% endblock %}
 {% block content %}
-   <script type="text/javascript">
+    <script type="text/javascript">
         function testClick(number) {
             window.location.href="{{ url_for('quizinfo') }}"
         }
     </script>
     <div class="grid-container" style="padding-top: 10vh;"> <!-- padding moves all the elements down by 10% and therefore out from under the page header (10vh looks a little big on mobile but pretty good on desktop) -->
-        <div class="grid-body-item contents column quiz-body">
+        <div class="grid-body-item contents column">
             <br>
             <div>
                 <div class="tests-bar">
@@ -32,7 +32,7 @@
                         <div class="topics-line"></div>
                         <div class="topic-levels">
                             {% for test in topic[1] %}
-                            <button class="level-button" onclick="testClick(1);">{{test}}</button>
+                            <button class="level-button" onclick="testClick({{test}});">{{test}}</button>
                             {% endfor %}
                         </div>
                     </div>

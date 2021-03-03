@@ -24,17 +24,16 @@ body {
 }
 
 .column {
-    margin: auto;
     flex-flow: column wrap;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
     height: fit-content;
     display: flex;
     flex: 1;
 }
 
 .row {
-    margin: auto;
+    width: 100%;
     flex-flow: row wrap;
     align-items: flex-start;
     justify-content: center;
@@ -43,6 +42,7 @@ body {
 }
 
 .contents {
+    margin: auto;
     word-wrap: break-word;
     color: var(--body-text-colour);
     text-align: center;
@@ -58,6 +58,14 @@ body {
     .level-button {
         width: 25px;
         height: 25px;
+    }
+    .quiz-attachment {
+        flex: initial;
+        padding-bottom: 5vh;
+    }
+    .quiz-radio-section {
+        flex: initial;
+        padding-bottom: 5vh;
     }
     .tests-bar {
         width: min-content;
@@ -565,8 +573,40 @@ body {
 }
 
 /*-----------------------------------------------quiz--------------------------------------------------*/
+.quiz-back-space {
+    align-content: flex-start;
+}
+
 .quiz-body {
     padding: 0 8vw
+}
+
+.quiz-btn {
+    border-radius: 25px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: large;
+    font-weight: bold;
+    background-color: var(--accent-dim);
+    color: var(--light);
+    height: 40px;
+}
+
+.quiz-buttons {
+    margin: 5vh 0;
+}
+
+.quiz-continue-space {
+    align-content: flex-end;
+}
+
+.quiz-finish-btn {
+    border-radius: 25px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: large;
+    font-weight: bolder;
+    background-color: var(--light);
+    color: var(--accent-dim);
+    height: 40px;
 }
 
 .quiz-instructions {
@@ -576,6 +616,6 @@ body {
     font-size: 16px;
 }
 
-.quiz-text {
+.quiz-radio-section {
 
 }
