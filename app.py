@@ -60,8 +60,19 @@ def testresult():
 
 @app.route('/test-menu')
 def testmenu():
-	return render_template('tests-menu.html')
-
+	topics=[]
+	topic1 = ['Children Protection Programme',[1,2,3,4,5]]
+	topics.append(topic1)
+	for x in range(1,11):
+		topic=[]
+		topicName='Topic'+ str(x)
+		topic.append(topicName)
+		tests=[]
+		for y in range(1,5):
+			tests.append(y)
+		topic.append(tests)
+		topics.append(topic)
+	return render_template('tests-menu.html',topics=topics)
 """
 use Ctrl+F5 to clear the cache and refresh
 
@@ -74,16 +85,16 @@ changes on a page
 
 @app.context_processor
 def override_url_for():
-    return dict(url_for=dated_url_for)
+	return dict(url_for=dated_url_for)
 
 def dated_url_for(endpoint, **values):
-    if endpoint == 'static':
-        filename = values.get('filename', None)
-        if filename:
-            file_path = os.path.join(app.root_path, endpoint, filename)
-            values['q'] = int(os.stat(file_path).st_mtime)
-    return url_for(endpoint, **values)
+	if endpoint == 'static':
+		filename = values.get('filename', None)
+		if filename:
+			file_path = os.path.join(app.root_path, endpoint, filename)
+			values['q'] = int(os.stat(file_path).st_mtime)
+	return url_for(endpoint, **values)
 """
 
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', debug=True)
+	app.run(host='127.0.0.1', debug=True)
