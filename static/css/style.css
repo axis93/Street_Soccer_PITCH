@@ -1,6 +1,7 @@
 :root {
     --dark: #3A3A3A;
     --darker: #242424;
+    --darkest: #1a1919;
     --light: #FFF;
     --accent: #527CEA;
     --accent-dim: #314E97;
@@ -23,17 +24,16 @@ body {
 }
 
 .column {
-    margin: auto;
     flex-flow: column wrap;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
     height: fit-content;
     display: flex;
     flex: 1;
 }
 
 .row {
-    margin: auto;
+    width: 100%;
     flex-flow: row wrap;
     align-items: flex-start;
     justify-content: center;
@@ -42,6 +42,7 @@ body {
 }
 
 .contents {
+    margin: auto;
     word-wrap: break-word;
     color: var(--body-text-colour);
     text-align: center;
@@ -57,6 +58,13 @@ body {
     .level-button {
         width: 25px;
         height: 25px;
+    }
+    .quiz-attachment {
+        flex: initial;
+        padding-bottom: 5vh;
+    }
+    .quiz-radio-section {
+        flex: initial;
     }
     .tests-bar {
         width: min-content;
@@ -561,4 +569,66 @@ body {
     width: 90vw;
     flex-direction: column;
     text-align: left;
+}
+
+/*-----------------------------------------------quiz--------------------------------------------------*/
+.quiz-back-space {
+    align-content: flex-start;
+}
+
+.quiz-body {
+    padding: 0 8vw
+}
+
+.quiz-btn {
+    border-radius: 25px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: large;
+    font-weight: bold;
+    background-color: var(--accent-dim);
+    color: var(--light);
+    height: 40px;
+}
+
+.quiz-buttons {
+    margin: 5vh 0;
+}
+
+.quiz-continue-space {
+    align-content: flex-end;
+}
+
+.quiz-finish-btn {
+    border-radius: 25px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: large;
+    font-weight: bolder;
+    background-color: var(--light);
+    color: var(--accent-dim);
+    height: 40px;
+}
+
+.quiz-instructions {
+    color: var(--darkest);
+    font-style: italic;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.quiz-radio-btn {
+    vertical-align: text-top;
+    height: 1.5em; 
+    width: 1.5em;
+}
+
+.quiz-radio-row {
+    display: inline;
+    width: fit-content;
+    align-self: flex-start;
+    padding-left: 2vw;
+}
+
+.quiz-radio-section {
+    margin: auto;
+    width: 100%;
 }
