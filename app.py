@@ -1,8 +1,34 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file
+from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file, g
 import sqlite3
 import os
+import json
 
 app = Flask(__name__)
+db_location = 'var/mydatabase.db'
+
+def get_db():
+	db = getattr(g, 'db', None)
+	if db is None:
+		db = sqlite3.connect(db_location)
+		g.db = db
+	return db
+
+
+@app.teardown_appcontext
+def close_db_connection(exception):
+	db = getattr(g, 'db', None)
+	if db is not None:
+		db.close()
+
+
+def init_db():
+	with app.app_context():
+		db = get_db()
+		with app.open_resource('schema.sql', mode='r') as f:
+			db.cursor().executescript(f.read())
+		db.commit()
+
+
 
 @app.route('/')
 def index():
