@@ -1,10 +1,14 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file, g
+from flask_restful import Api
+from resources.topic import Topic
 import sqlite3
 import os
 import json
 
 app = Flask(__name__)
-db_location = 'var/mydatabase.db'
+api = Api(app)
+
+db_location = 'database.db'
 
 def get_db():
 	db = getattr(g, 'db', None)
@@ -20,14 +24,17 @@ def close_db_connection(exception):
 	if db is not None:
 		db.close()
 
-
-def init_db():
+def init_db(queries):
 	with app.app_context():
 		db = get_db()
 		with app.open_resource('schema.sql', mode='r') as f:
 			db.cursor().executescript(f.read())
-		db.commit()
 
+		if db and queries:
+			for query in queries:
+				db.cursor().execute(query)
+
+		db.commit()
 
 
 @app.route('/')
@@ -73,6 +80,9 @@ def testmenu():
 		topic.append(tests)
 		topics.append(topic)
 	return render_template('tests-menu.html',topics=topics)
+
+api.add_resource(Topic, '/topics/<string:topic_id>')
+
 """
 use Ctrl+F5 to clear the cache and refresh
 
