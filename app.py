@@ -2,6 +2,7 @@ from flask import Flask, render_template, flash, redirect, url_for, request, sen
 from flask_restful import Api
 from resources.topic import Topic
 from resources.formativeAssessment import FormativeAssessment
+from resources.test import Test
 import sqlite3
 import os
 import json
@@ -88,6 +89,7 @@ def feandbetest():
 
 api.add_resource(Topic, '/topics/<string:topic_id>')
 api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
+api.add_resource(Test, '/tests/<string:test_id>')
 
 """
 use Ctrl+F5 to clear the cache and refresh
