@@ -3,10 +3,10 @@ from models.topic import TopicModel
 
 class Topic(Resource):
     def get(self, topic_id):
-        #try:
-        topic = TopicModel.find_by_id(topic_id)
-        #except:
-        #    return {'message': 'An error occurred while reading the topic ID from the database'}, 500
+        try:
+            topic = TopicModel.find_by_id(topic_id)
+        except:
+            return {'message': 'An error occurred while reading the topic ID from the database'}, 500
         
         if topic:
             return topic.json()
