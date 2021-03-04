@@ -86,6 +86,7 @@ def feandbetest():
 	return render_template('fe-and-be-test.html')
 
 api.add_resource(Topic, '/topics/<string:topic_id>')
+api.add_resource(Topic, '/formative-assessments/<string:fa_id>')
 
 """
 use Ctrl+F5 to clear the cache and refresh
