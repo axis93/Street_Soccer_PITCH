@@ -8,11 +8,11 @@ class TopicModel:
         self.name = name
         self.needed_credit = needed_credit
     
-    def json(self, withTests=False, withQuizzes=False, withAnswers=False):
+    def json(self, withTests=False, withQuizzes=False, withAnswers=False, withFormativeAssessments=False):
         tests = []
         if withTests:
             for test in TestModel.query_db(TestModel, "SELECT * FROM tests WHERE topic_id=?", (self.topic_id,)):
-                tests.append(TestModel(*test).json(withQuizzes=withQuizzes, withAnswers=withAnswers))
+                tests.append(TestModel(*test).json(withQuizzes=withQuizzes, withAnswers=withAnswers, withFormativeAssessments=withFormativeAssessments))
 
         return {
             'topic_id': self.topic_id,

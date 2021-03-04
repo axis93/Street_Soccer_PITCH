@@ -37,19 +37,18 @@ class FormativeAssessmentModel:
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        result = cursor.execute(query, args)
-        row = result.fetchone()
+        result = cursor.execute(query, args).fetchall()
 
         connection.close()
 
-        return row
+        return result
 
     @classmethod
     def find_by_id(cls, fa_id):
         result = cls.query_db(cls, "SELECT * FROM formativeAssessments WHERE fa_id=?", (fa_id,))
 
         if result:
-            assessment = cls(*result)
+            assessment = cls(*result[0])
         else:
             assessment = None
         
