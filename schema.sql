@@ -5,8 +5,6 @@ DROP TABLE IF EXISTS tests;
 DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS answers;
 
-
-
 CREATE TABLE topics(
 	topic_id INTEGER(10) PRIMARY KEY,
 	is_unlocked BOOLEAN NOT NULL,
@@ -46,8 +44,6 @@ CREATE TABLE tests(
 	FOREIGN KEY (topic_id) REFERENCES topics(topic_id)
 );
 
-
-
 CREATE TABLE quizzes(
 	quiz_id INTEGER NOT NULL PRIMARY KEY,
 	test_id INTEGER NOT NULL,
@@ -63,7 +59,6 @@ CREATE TABLE quizzes(
 	
 );
 
-
 CREATE TABLE answers(
 	answer_id INTEGER NOT NULL PRIMARY KEY,
 	quiz_id INTEGER NOT NULL,
@@ -73,10 +68,10 @@ CREATE TABLE answers(
 	is_selected BOOLEAN,
 	FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id)
 );
+
 CREATE TABLE users(
-user_iD integer NOT NULL PRIMARY KEY,
+	user_id INTEGER NOT NULL PRIMARY KEY,
 	username VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
 	email VARCHAR(50) NOT NULL
-
 );
