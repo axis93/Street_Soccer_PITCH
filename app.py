@@ -5,6 +5,7 @@ from resources.formativeAssessment import FormativeAssessment
 from resources.test import Test
 from resources.quiz import Quiz
 from resources.answer import Answer
+from resources.user import User
 import sqlite3
 import os
 import json
@@ -94,6 +95,7 @@ api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
 api.add_resource(Test, '/tests/<string:test_id>')
 api.add_resource(Quiz, '/quizzes/<string:quiz_id>')
 api.add_resource(Answer, '/answers/<string:answer_id>')
+api.add_resource(User, '/users/<string:user_id>')
 
 """
 use Ctrl+F5 to clear the cache and refresh
