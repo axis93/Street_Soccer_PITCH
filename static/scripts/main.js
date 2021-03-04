@@ -55,9 +55,4 @@ request = {
             handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
         });
     },
-
-    testhandler: (data) => {
-        console.log(data);
-        document.getElementById('meee').innerHTML = `{topic_id: ${data.topic_id}, is_unlocked: ${data.is_unlocked}, name: ${data.name}, needed_credit: ${data.needed_credit}}`;
-    }
 }
