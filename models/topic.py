@@ -1,4 +1,5 @@
 import sqlite3
+from models.test import TestModel
 
 class TopicModel:
     def __init__(self, topic_id, is_unlocked, name, needed_credit):
@@ -7,12 +8,18 @@ class TopicModel:
         self.name = name
         self.needed_credit = needed_credit
     
-    def json(self):
+    def json(self, withTests=False, withQuizzes=False, withAnswers=False):
+        tests = []
+        if withTests:
+            for test in TestModel.query_db(TestModel, "SELECT * FROM tests WHERE topic_id=?", (self.topic_id,)):
+                tests.append(TestModel(*test).json(withQuizzes=withQuizzes, withAnswers=withAnswers))
+
         return {
             'topic_id': self.topic_id,
             'is_unlocked': self.is_unlocked,
             'name': self.name,
-            'needed_credit': self.needed_credit
+            'needed_credit': self.needed_credit,
+            'tests': tests
         }
 
     def query_db(self, query, args):

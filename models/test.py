@@ -40,19 +40,18 @@ class TestModel:
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        result = cursor.execute(query, args)
-        row = result.fetchone()
+        result = cursor.execute(query, args).fetchall()
 
         connection.close()
 
-        return row
+        return result
 
     @classmethod
     def find_by_id(cls, test_id):
         result = cls.query_db(cls, "SELECT * FROM tests WHERE test_id=?", (test_id,))
 
         if result:
-            test = cls(*result)
+            test = cls(*result[0])
         else:
             test = None
         
