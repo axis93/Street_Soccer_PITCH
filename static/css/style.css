@@ -55,10 +55,6 @@ body {
     .contents {
         margin:auto;
     }
-    .level-button {
-        width: 25px;
-        height: 25px;
-    }
     .quiz-attachment {
         flex: initial;
         padding-bottom: 5vh;
@@ -66,7 +62,7 @@ body {
     .quiz-radio-section {
         flex: initial;
     }
-    .tests-bar {
+    .title-bar {
         width: min-content;
         flex-flow: column wrap;
         margin: auto;
@@ -78,28 +74,19 @@ body {
 }
 
 @media screen and (max-width: 700px) {
-    .tests-bar {
+    .title-bar {
         display: flex;
         margin: auto;
         flex-direction: column;
     }
-    .test-stats {
+    .title-bar-right-items {
         margin: auto;
     }
 }
 
 /*-----------------------------------------------bigger-devices--------------------------------------------------*/
-
-
-@media screen and (min-width: 450px) {
-    .level-button {
-        width: 30px;
-        height: 30px;
-    }
-}
-
 @media screen and (min-width: 700px) {
-    .tests-bar {
+    .title-bar {
         width: 100vw;
     }
     .topic-name {
@@ -498,6 +485,9 @@ body {
     background-color: var(--background-colour);
     color: var(--body-text-colour);
     font-weight: bolder;
+    width: fit-content;
+    height: 30px;
+    min-width: 30px;
 }
 
 .stats-box {
@@ -518,18 +508,20 @@ body {
     float: left;
 }
 
-.tests-bar {
+.title-bar {
     width: 100%;
-    margin-bottom: 5vh;
 }
 
-.test-stats {
+.title-bar-right-items {
     right: 10vw;
     float: right;
     font-size: 16px;
     font-weight: bold;
     height: 30px;
     display: flex;
+    flex-flow: row wrap;
+    max-width: 90vw;
+    height: fit-content;
 }
 
 .topic-item {
@@ -631,4 +623,12 @@ body {
 .quiz-radio-section {
     margin: auto;
     width: 100%;
+}
+
+.quizzes-navigation {
+
+}
+
+.quizzes-navigation-btn {
+
 }
