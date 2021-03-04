@@ -8,7 +8,12 @@ class TopicModel:
         self.needed_credit = needed_credit
     
     def json(self):
-        return {'topic_id': self.topic_id, 'is_unlocked': self.is_unlocked, 'name': self.name, 'needed_credit': self.needed_credit}
+        return {
+            'topic_id': self.topic_id,
+            'is_unlocked': self.is_unlocked,
+            'name': self.name,
+            'needed_credit': self.needed_credit
+        }
 
     def query_db(self, query, args):
         connection = sqlite3.connect('database.db')
