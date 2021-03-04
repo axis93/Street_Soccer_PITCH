@@ -46,5 +46,13 @@ events = {
             'display': display
             //'animation': `${operation}-mobile-nav 0.5s ease forwards`
         });
-    }
+    },
+}
+
+request = {
+    get: (endpoint, extension, handler) => {
+        $.get(`/${endpoint}/${extension}`, (data) => {
+            handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
+        });
+    },
 }
