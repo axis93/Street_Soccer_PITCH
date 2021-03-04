@@ -6,7 +6,7 @@ class FormativeAssessment(Resource):
         try:
             assessment = FormativeAssessmentModel.find_by_id(fa_id)
         except:
-            return {'message': 'An error occurred while reading the topic ID from the database'}, 500
+            return {'message': 'An error occurred while reading the formative assessment ID from the database'}, 500
         
         if assessment:
             return assessment.json()
