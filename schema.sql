@@ -41,7 +41,8 @@ CREATE TABLE tests(
 	pass_credit INTEGER NOT NULL,
 	time_limit TIME,
 	description TEXT,
-	is_retakable BOOLEAN,
+	is_retakeable BOOLEAN,
+	is_official BOOLEAN,
 	FOREIGN KEY (topic_id) REFERENCES topics(topic_id)
 );
 
