@@ -40,7 +40,7 @@ CREATE TABLE tests(
 	time_limit TIME,
 	description TEXT,
 	is_retakeable BOOLEAN,
-	is_official BOOLEAN,
+	is_official BOOLEAN NOT NULL,
 	FOREIGN KEY (topic_id) REFERENCES topics(topic_id)
 );
 
