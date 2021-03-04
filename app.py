@@ -58,13 +58,9 @@ def login():
 def register():
 	return render_template('register.html')
 
-@app.route('/quiz-info')
-def quizinfo():
-	return render_template('quiz-info.html')
-
-@app.route('/quiz-multiple-choice')
-def quiztmultiplechoice():
-	return render_template('quiz-multiple-choice.html')
+@app.route('/quiz')
+def quiz_page():
+	return render_template('quiz-page.html')
 
 @app.route('/test-result')
 def testresult():

@@ -4,6 +4,12 @@
 	<div class="grid-container" style="padding-top: 10vh;">
 		<div class="grid-body-item contents column quiz-body">
 			<br>
+			<div class="row quizzes-navigation">
+				{% for i in range(1, 21) %}
+					<button class="level-button quizzes-navigation-btn">{{i}}</button>
+				{% endfor %}
+			</div>
+			<br>
 			<div id="quiz-title" class="title">Quiz</div>
 			<p id="quiz-instructions" class="quiz-instructions">
 				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text

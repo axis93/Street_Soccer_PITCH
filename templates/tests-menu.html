@@ -3,27 +3,27 @@
 {% block content %}
     <script type="text/javascript">
         function testClick(number) {
-            window.location.href="{{ url_for('quizinfo') }}"
+            window.location.href="{{ url_for('quiz_page') }}"
         }
     </script>
     <div class="grid-container" style="padding-top: 10vh;"> <!-- padding moves all the elements down by 10% and therefore out from under the page header (10vh looks a little big on mobile but pretty good on desktop) -->
         <div class="grid-body-item contents column">
             <br>
             <div>
-                <div class="tests-bar">
+                <div class="title-bar">
                     <div class="title">Assignments</div>
-                    <div class="test-stats">
+                    <div class="title-bar-right-items">
                         <div class="stat-item">Progress:
                             <div class="stats-box">70%</div>
                         </div>
                         &nbsp;
                         <div class="stat-item">Credits:
-                            <div class="stats-box">10/120</div>
+                            <div class="stats-box">1000/12000</div>
                         </div>
                     </div>
                     <div style="clear: both;"></div>
                 </div>
-                <br>
+                <div style="margin-bottom: 8vh;"></div>
                 <div class="topics-menu">
                     
                     {% for topic in topics %}
