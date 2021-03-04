@@ -18,7 +18,7 @@ class TestModel:
     def json(self, withQuizzes=False, withAnswers=False):
         quizzes = []
         if withQuizzes:
-            for quiz in QuizModel.query_db(QuizModel, "SELECT * FROM quizzes WHERE test_id=?", (self.topic_id,)):
+            for quiz in QuizModel.query_db(QuizModel, "SELECT * FROM quizzes WHERE test_id=?", (self.test_id,)):
                 quizzes.append(QuizModel(*quiz).json(withAnswers=withAnswers))
         
         return {
