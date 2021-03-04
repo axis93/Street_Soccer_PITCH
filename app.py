@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file, g
 from flask_restful import Api
 from resources.topic import Topic
+from resources.formativeAssessment import FormativeAssessment
 import sqlite3
 import os
 import json
@@ -86,7 +87,7 @@ def feandbetest():
 	return render_template('fe-and-be-test.html')
 
 api.add_resource(Topic, '/topics/<string:topic_id>')
-api.add_resource(Topic, '/formative-assessments/<string:fa_id>')
+api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
 
 """
 use Ctrl+F5 to clear the cache and refresh
