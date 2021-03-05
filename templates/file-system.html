@@ -1,9 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+{% extends "base.html" %} {% block title %}file-system{% endblock %} {% block content %}
+<div class="grid-container" style="padding-top: 10vh;">
+    <!-- padding moves all the elements down by 10% and therefore out from under the page header (10vh looks a little big on mobile but pretty good on desktop) -->
+    <div class="grid-body-item">
+        <!-- removed contents column above-->
+        <br>
+        <div class="">
+            <div class="tests-bar">
+                <div class="title">Files</div>
+                <div class="test-stats">
 
-</body>
-</html>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+        <br>
+
+        <!-- ------------------------------------------Accordion section ---------------------------------------->
+        <button class="accordion">SLUM SOCCER</button>
+        <div class="panel">
+            <!----------------------------------------Sub-Accordions---------------------------------------------->
+            <button class="accordion accord2">Registration</button>
+            <div class="panel">
+                <p>Links to resource 1</p>
+            </div>
+            <div class="panel">
+                <p>Links to resource 2</p>
+            </div>
+            <div class="panel">
+                <p>Links to resource 3</p>
+            </div>
+            <button class="accordion accord2">Shakti Fellowship</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
+            <button class="accordion accord2">Edukick</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
+            <button class="accordion accord2">Young Leader</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
+            <button class="accordion accord2">CIC</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
+            <button class="accordion accord2">Homeless World Cup</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
+            <button class="accordion accord2">Inclusion World Cup</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
+
+        </div>
+        <button class="accordion">Section 2</button>
+        <div class="panel">
+            <p>Lorem ipsum...</p>
+        </div>
+        <button class="accordion">Section 3</button>
+        <div class="panel">
+            <p>Lorem ipsum...</p>
+        </div>
+        <!-- ------------------------------------------Accordion section ---------------------------------------->
+
+
+    </div>
+</div>
+
+<script>
+    //Accordion function on file-system Page using W3
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+
+{% endblock %}
