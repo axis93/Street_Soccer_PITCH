@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-        
-        <!-- import the font M PLUS Rounded 1c (Medium and ExtraBold) -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
 
-        <!-- import jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
 
-        <!-- import JSGlue - used to generate Flask URLs in JavaScript -->
-        {{ JSGlue.include() }}
+    <!-- import JSGlue - used to generate Flask URLs in JavaScript -->
+    {{ JSGlue.include() }}
 
-        <!-- local imports -->
-        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
-        <script src="{{ url_for('static',filename='scripts/main.js') }}"></script>
+    <!-- local imports -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <script src="{{ url_for('static',filename='scripts/main.js') }}"></script>
+    <!-- import the font M PLUS Rounded 1c (Medium and ExtraBold) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
 
-        <!-- browser tab properties -->
-        <title>Street Soccer PITCH | {% block title %}{% endblock %}</title>
-        <link rel="icon" href="{{ url_for('static',filename='images/DrBall.svg') }}" type="image/gif" sizes="16x16">
+    <!-- import jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        <!-- theoretically, this would apply a drop shadow to an SVG, but it doesn't work --
+    <!-- local imports -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <script src="{{ url_for('static',filename='scripts/main.js') }}"></script>
+
+    <!-- browser tab properties -->
+    <title>Street Soccer PITCH | {% block title %}{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static',filename='images/DrBall.svg') }}" type="image/gif" sizes="16x16">
+
+    <!-- theoretically, this would apply a drop shadow to an SVG, but it doesn't work --
         <filter xmlns="http://www.w3.org/2000/svg" id="dropshadow">
             <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
             <feOffset dx="2" dy="2" result="offsetblur"/>
@@ -31,22 +35,22 @@
                 <feMergeNode in="SourceGraphic"/>
             </feMerge>
         </filter>-->
-    </head>
+</head>
 
-    <body>
-        <div id="page-header">
-            <a href="{{ request.url_root }}">
-                <img id="logo" class="header-svg" src="{{ url_for('static',filename='/images/DrBall.svg') }}">
-            </a>
+<body>
+    <div id="page-header">
+        <a href="{{ request.url_root }}">
+            <img id="logo" class="header-svg" src="{{ url_for('static',filename='/images/DrBall.svg') }}">
+        </a>
 
-            <ul id="nav-bar" class="navigation">
-                <li><a href="{{ url_for('testmenu') }}">Assignments</a></li>
-                <li><a href="null.html">Forum</a></li>
-                <li><a href="null.html">My Account</a></li>
-            </ul>
+        <ul id="nav-bar" class="navigation">
+            <li><a href="{{ url_for('testmenu') }}">Assignments</a></li>
+            <li><a href="null.html">Forum</a></li>
+            <li><a href="{{ url_for('file-system') }}">My Account</a></li>
+        </ul>
 
-            <!-- Hamburger button -->
-            <svg id="mobile-nav-btn" class="header-svg" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="events.navOperationClicked('block')"> <!-- onclick="events.navOperationClicked('show')" -->
+        <!-- Hamburger button -->
+        <svg id="mobile-nav-btn" class="header-svg" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="events.navOperationClicked('block')"> <!-- onclick="events.navOperationClicked('show')" -->
                 <g clip-path="url(#clip0)">
                     <path d="M8.19238 55.4227H55.8084V47.6152H8.19238V55.4227ZM8.19238 35.9039H55.8084V28.0963H8.19238V35.9039ZM8.19238 8.57739V16.385H55.8084V8.57739H8.19238Z" fill="white"/>
                     <ellipse cx="7.84977" cy="12.4801" rx="3.84" ry="3.9" fill="white"/>
@@ -62,11 +66,11 @@
                 </clipPath>
                 </defs>
             </svg>
-        </div>
+    </div>
 
-        <div id="nav-menu">
-            <!-- close menu button -->
-            <svg id="close-btn" class="header-svg" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="events.navOperationClicked('none')"> <!-- onclick="events.navOperationClicked('hide')" -->
+    <div id="nav-menu">
+        <!-- close menu button -->
+        <svg id="close-btn" class="header-svg" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="events.navOperationClicked('none')"> <!-- onclick="events.navOperationClicked('hide')" -->
                 <path d="M33.4296 4.09965L30.1449 0.814941L17.1225 13.8373L4.10014 0.814941L0.81543 4.09965L13.8378 17.122L0.81543 30.1444L4.10014 33.4291L17.1225 20.4067L30.1449 33.4291L33.4296 30.1444L20.4072 17.122L33.4296 4.09965Z" fill="white"/>
                 <circle cx="2.32376" cy="2.32376" r="2.32376" fill="white"/>
                 <circle cx="2.5679" cy="31.6763" r="2.32376" fill="white"/>
@@ -74,14 +78,14 @@
                 <circle cx="31.6763" cy="31.6763" r="2.32376" fill="white"/>
             </svg>
 
-            <ul id="nav-menu-options" class="navigation">
-                <li><a href="{{ url_for('testmenu') }}">Assignments</a></li>
-                <li><a href="null.html">Forum</a></li>
-                <li><a href="null.html">My Account</a></li>
-            </ul>
-        </div>
+        <ul id="nav-menu-options" class="navigation">
+            <li><a href="{{ url_for('testmenu') }}">Assignments</a></li>
+            <li><a href="null.html">Forum</a></li>
+            <li><a href="{{ url_for('file-system') }}">My Account</a></li>
+        </ul>
+    </div>
 
-        {% block content %}
-        {% endblock %}
-    </body>
+    {% block content %} {% endblock %}
+</body>
+
 </html>

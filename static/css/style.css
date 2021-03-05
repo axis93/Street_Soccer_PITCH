@@ -6,7 +6,6 @@
     --accent: #527CEA;
     --accent-dim: #314E97;
     --transparent: #00000000;
-
     --header-gradient: linear-gradient(to right, var(--accent-dim), var(--accent));
     --background-colour: var(--dark);
     --title-text-colour: var(--accent);
@@ -49,11 +48,12 @@ body {
     font-size: 20px;
 }
 
+
 /*-----------------------------------------------mobile-devices--------------------------------------------------*/
 
 @media screen and (max-width: 450px) {
     .contents {
-        margin:auto;
+        margin: auto;
     }
     .quiz-attachment {
         flex: initial;
@@ -94,18 +94,18 @@ body {
     }
 }
 
+
 /*-----------------------------------------------header and navigation--------------------------------------------------*/
 
 #page-header {
     width: 100%;
     height: auto;
-    background-image: var(--transparent); /* hidden by default; prevents pop-up on page load before being hidden
+    background-image: var(--transparent);
+    /* hidden by default; prevents pop-up on page load before being hidden
                                            * --transparent is used on the home page so that the loading of the page is cleaner; the header pop-ups before being
                                            * hidden as JavaScript takes about a third of a second to load before it is able to hide it
                                            */
-
     position: fixed;
-
     z-index: 99;
 }
 
@@ -117,7 +117,8 @@ body {
 #page-header #logo {
     float: left;
     cursor: pointer;
-    opacity: 0; /* hidden by default; prevents pop-up on page load before being hidden
+    opacity: 0;
+    /* hidden by default; prevents pop-up on page load before being hidden
                  * this is used on the home page so that the loading of the page is cleaner; the header pop-ups before being
                  * hidden as JavaScript takes about a third of a second to load before it's able to hide it
                  */
@@ -125,33 +126,30 @@ body {
 
 .navigation {
     position: absolute;
-	list-style: none;
+    list-style: none;
     margin-block-start: 0;
     margin-block-end: 0;
     padding-inline-start: 0;
-	margin: 0;
-
-	display: inline-flex;
+    margin: 0;
+    display: inline-flex;
 }
 
 .navigation a {
     text-decoration: none;
-	display: block;
-	padding: 20px;
-    
-	color: #FFF;
+    display: block;
+    padding: 20px;
+    color: #FFF;
     font-weight: bold;
 }
 
 .navigation a:hover {
-	color: #AFC6FF;
+    color: #AFC6FF;
     cursor: pointer;
 }
 
 #nav-bar {
     flex-flow: row wrap;
-	justify-content: flex-start;
-
+    justify-content: flex-start;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -166,14 +164,11 @@ body {
     position: fixed;
     height: 100%;
     width: 25%;
-
     /* top: 0; */
     right: 0;
     /* transform: translate(0, 0); */
-
     background-image: radial-gradient(circle farthest-side at top right, var(--accent), var(--accent-dim));
     box-shadow: -1vw 0 10vw #0000005F;
-
     display: none;
     z-index: 100;
 }
@@ -183,7 +178,6 @@ body {
     font-size: 1.5rem;
     max-width: 25vw;
     padding-top: 6vw;
-
     display: flex;
     flex-flow: column;
 }
@@ -194,8 +188,8 @@ body {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-
-    display: none; /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
+    display: none;
+    /* instead of setting the opacity to 0, we make the entire element disappear; this way it won't be clickable while invisible */
     cursor: pointer;
 }
 
@@ -203,12 +197,9 @@ body {
     position: absolute;
     float: right;
     right: 0.6vw;
-
     width: 1.5rem;
     height: 1.5rem;
-    
     cursor: pointer;
-
     z-index: 100;
 }
 
@@ -216,21 +207,19 @@ body {
     #nav-bar {
         display: none;
     }
-
     #mobile-nav-btn {
         display: block;
     }
 }
 
-@media screen and (max-width: 768px) { /* this and the following 'max-width' queries widen the navigation menu based on the device, as smaller screens were squashing the font */
+@media screen and (max-width: 768px) {
+    /* this and the following 'max-width' queries widen the navigation menu based on the device, as smaller screens were squashing the font */
     #nav-menu {
         width: 33%;
     }
-
     #nav-menu-options {
         max-width: 33vw;
     }
-
     .header-svg {
         height: 2.4rem;
         width: 2.4rem;
@@ -242,11 +231,9 @@ body {
     #nav-menu {
         width: 50%;
     }
-
     #nav-menu-options {
         max-width: 50vw;
     }
-
     .header-svg {
         width: 2em;
         height: 2em;
@@ -258,7 +245,6 @@ body {
     #nav-menu {
         width: 65%;
     }
-
     #nav-menu-options {
         max-width: 65vw;
     }
@@ -270,6 +256,7 @@ body {
         /*animation: none !important; / disables style effects set by the move in animation; this must be marked as important in order for it to overwrite the enforcements made by jQuery */
     }
 }
+
 
 /* This animation no longer works since the separation of the nav menu from the nav bar; the menu used to slide
  * in from outside the header div but because it is now on the body of the page, if we were to use this animation,
@@ -308,9 +295,7 @@ body {
     display: block;
     width: 100%;
     height: auto;
-
     opacity: 0.6;
-
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -321,12 +306,10 @@ body {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-
     justify-content: center;
     align-items: center;
     text-align: center;
-
-    width: 100%;    
+    width: 100%;
     height: auto;
     position: absolute;
     top: 13vw;
@@ -359,19 +342,15 @@ body {
     #landing-flex {
         top: 7vw;
     }
-
     #landing-flex * {
         padding: 0 3vw;
     }
-
     #landing-flex #logo {
         height: 14vw;
     }
-
     #landing-flex h1 {
         font-size: 10vw;
     }
-
     #landing-flex h2 {
         font-size: 6vw;
     }
@@ -381,7 +360,8 @@ body {
 /*-----------------------------------------------'Contact Us' links----------------------------------------------*/
 
 .svg-list-container {
-    display: table; /* allows centre-ing of lists to work */
+    display: table;
+    /* allows centre-ing of lists to work */
     margin: 0 auto;
 }
 
@@ -391,10 +371,9 @@ body {
     margin-block-start: 0;
     margin-block-end: 0;
     padding-inline-start: 0;
-
     display: inline-flex;
-	flex-flow: row wrap;
-	justify-content: space-around;
+    flex-flow: row wrap;
+    justify-content: space-around;
 }
 
 .svg-list li {
@@ -412,7 +391,6 @@ body {
     .svg-list li {
         padding: 3vw;
     }
-
     .social-svg {
         width: 3.5em;
         height: 3.5em;
@@ -425,7 +403,6 @@ body {
 .grid-container {
     height: fit-content;
     width: 100%;
-
     box-sizing: border-box;
     display: grid;
     position: relative;
@@ -446,7 +423,8 @@ body {
     color: var(--title-text-colour);
 }
 
-.grid-body-item hr { /* https://stackoverflow.com/a/14821134 */
+.grid-body-item hr {
+    /* https://stackoverflow.com/a/14821134 */
     display: block;
     height: 2px;
     border: 0;
@@ -466,16 +444,15 @@ body {
     .grid-body-item .body-title {
         font-size: 2.3em;
     }
-
     .grid-body-item .body-text {
         font-size: 1em;
         margin: 2.5em 10vw;
     }
-
     .grid-body-item hr {
         margin: 1.5em 40vw;
     }
 }
+
 
 /*-----------------------------------------------tests-menu--------------------------------------------------*/
 
@@ -632,4 +609,57 @@ body {
 
 .quizzes-navigation-btn {
 
+}
+
+/*-----------------------------------------------file-system Page--------------------------------------------------*/
+
+/* Style the buttons that are used to open and close the accordion panel adapted from W3*/
+
+.accordion {
+    background-color: #6488e2;
+    color: #074cfa;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+.accord2 {
+    color: #074cfa;
+}
+
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+
+.active,
+.accordion:hover {
+    background-color: #ccc;
+}
+
+.accordion:after {
+    content: '\02795';
+    /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2796";
+    /* Unicode character for "minus" sign (-) */
+}
+
+
+/* Style the accordion panel. Note: hidden by default */
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: visible;
+    transition: max-height 0.2s ease-out;
 }
