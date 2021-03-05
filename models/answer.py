@@ -23,19 +23,18 @@ class AnswerModel:
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        result = cursor.execute(query, args)
-        row = result.fetchone()
+        result = cursor.execute(query, args).fetchall()
 
         connection.close()
 
-        return row
+        return result
 
     @classmethod
     def find_by_id(cls, answer_id):
         result = cls.query_db(cls, "SELECT * FROM answers WHERE answer_id=?", (answer_id,))
 
         if result:
-            answer = cls(*result)
+            answer = cls(*result[0])
         else:
             answer = None
         

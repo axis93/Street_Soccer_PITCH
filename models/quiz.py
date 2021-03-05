@@ -1,4 +1,5 @@
 import sqlite3
+from models.answer import AnswerModel
 
 class QuizModel:
     def __init__(self, quiz_id, test_id, order_num, credit_value, gained_credit, quiz_type, text_body, path_to_attachment, title, instructions):
@@ -13,7 +14,14 @@ class QuizModel:
         self.title = title
         self.instructions = instructions
     
-    def json(self):
+    def json(self, withAnswers=False):
+
+        # creates a list of the answers to this question
+        answers = []
+        if withAnswers:
+            for answer in AnswerModel.query_db(AnswerModel, "SELECT * FROM answers WHERE quiz_id=?", (self.quiz_id,)):
+                answers.append(AnswerModel(*answer).json())
+
         return {
             'quiz_id': self.quiz_id,
             'test_id': self.test_id,
@@ -24,26 +32,26 @@ class QuizModel:
             'text_body': self.text_body,
             'path_to_attachment': self.path_to_attachment,
             'title': self.title,
-            'instructions': self.instructions
+            'instructions': self.instructions,
+            'answers': answers
         }
 
     def query_db(self, query, args):
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        result = cursor.execute(query, args)
-        row = result.fetchone()
+        result = cursor.execute(query, args).fetchall()
 
         connection.close()
 
-        return row
+        return result
 
     @classmethod
     def find_by_id(cls, quiz_id):
         result = cls.query_db(cls, "SELECT * FROM quizzes WHERE quiz_id=?", (quiz_id,))
 
         if result:
-            quiz = cls(*result)
+            quiz = cls(*result[0])
         else:
             quiz = None
         
