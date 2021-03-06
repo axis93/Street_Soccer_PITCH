@@ -51,8 +51,6 @@ events = {
 
 request = {
     get: ({endpoint, extension=null, data=null, handler}={}) => {
-        //console.log(element, endpoint, extension, data, handler);
-
         $.ajax({
             url: extension === null ? `${endpoint}` : `${endpoint}/${extension}`,
             method: "GET",
@@ -63,6 +61,7 @@ request = {
             }
         });
 
+        //old implementation of doing a GET request
         /*$.get(`/${endpoint}/${extension}`, (data) => {
             handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
         });*/
@@ -70,51 +69,39 @@ request = {
 }
 
 requestHandlers = {
-    /*handleWhenReady: (element, handler, data) => {
-        jQuery(document).ready(checkContainer);
-
-        function checkContainer() {
-            if(events.isOnScreen(element)){ //if the container is visible on the page
-                handler(data); //Adds a grid to the html
-                console.log('got here');
-            }
-            else {
-                setTimeout(checkContainer, 50); //wait 50 ms, then try again
-            }
-        }
-    },*/
-
     listTopics: (data) => {
-        //console.log(data);
-        if(data != null) { //
+        if(data != null) {
             for(let i = 0; i < data.topics.length; i++) {
-                //console.log(data.topics[i]);
                 const topic = data.topics[i];
 
+                //this topic's container in the menu
                 var topicItem = document.createElement('div');
                 topicItem.className = "topic-item";
 
+                //the element in the container which displays this topic's name
                 var topicItemName = document.createElement('b');
                 topicItemName.className = "topic-name";
                 topicItemName.innerHTML = topic.name;
                 topicItem.appendChild(topicItemName);
 
+                //the line in the container that separates the name and buttons
                 var topicItemLine = document.createElement('div');
                 topicItemLine.className = "topics-line";
                 topicItem.appendChild(topicItemLine);
 
+                //the container, in this topic's container, which contains the buttons
                 var topicItemLevels = document.createElement('div');
                 topicItemLevels.className = "topic-levels";
                 topicItem.appendChild(topicItemLevels);
 
+                //for every test in this topic, add a button to the button container for it
                 for(let j = 0; j < topic.tests.length; j++) {
                     var topicItemLevel = document.createElement('button');
                     topicItemLevel.innerHTML = j + 1;
                     topicItemLevel.className = "level-button";
-                    topicItemLevel.addEventListener("click", () => { window.location.href = Flask.url_for('quiz_page')});
                     topicItemLevel.setAttribute('test', topic.tests[j].test_id);
+                    topicItemLevel.addEventListener("click", () => { window.location.href = Flask.url_for('quiz_page')});
                     topicItemLevels.appendChild(topicItemLevel);
-                    //console.log(topicItemLevel);
                 }
 
                 document.getElementById('topics-menu').appendChild(topicItem);
