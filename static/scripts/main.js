@@ -50,7 +50,7 @@ events = {
 }
 
 request = {
-    get: ({element, endpoint, extension=null, data=null, handler}={}) => {
+    get: ({endpoint, extension=null, data=null, handler}={}) => {
         //console.log(element, endpoint, extension, data, handler);
 
         $.ajax({
@@ -58,8 +58,8 @@ request = {
             method: "GET",
             data: data,
             success: (data) => {
-                if(handler != null)
-                    handler(data);
+                if(handler != null && data != null) //if we got data from the backend and we have something to do with it
+                    handler(data); //handler is the method (based on the parameter) that used the data from this request
             }
         });
 
@@ -86,17 +86,17 @@ requestHandlers = {
 
     listTopics: (data) => {
         //console.log(data);
-
-        if(data != null) {
-            var topicItem = document.createElement('div');
-            topicItem.className = "topic-item";
-
+        if(data != null) { //
             for(let i = 0; i < data.topics.length; i++) {
                 //console.log(data.topics[i]);
+                const topic = data.topics[i];
+
+                var topicItem = document.createElement('div');
+                topicItem.className = "topic-item";
 
                 var topicItemName = document.createElement('b');
                 topicItemName.className = "topic-name";
-                topicItemName.innerHTML = data.topics[i].name;
+                topicItemName.innerHTML = topic.name;
                 topicItem.appendChild(topicItemName);
 
                 var topicItemLine = document.createElement('div');
@@ -107,18 +107,18 @@ requestHandlers = {
                 topicItemLevels.className = "topic-levels";
                 topicItem.appendChild(topicItemLevels);
 
-                for(let j = 0; j < data.topics[i].tests.length; j++) {
+                for(let j = 0; j < topic.tests.length; j++) {
                     var topicItemLevel = document.createElement('button');
                     topicItemLevel.innerHTML = j + 1;
                     topicItemLevel.className = "level-button";
                     topicItemLevel.addEventListener("click", () => { window.location.href = Flask.url_for('quiz_page')});
-                    topicItemLevel.setAttribute('test', data.topics[i].tests[j].test_id);
+                    topicItemLevel.setAttribute('test', topic.tests[j].test_id);
                     topicItemLevels.appendChild(topicItemLevel);
-                    console.log(topicItemLevel);
+                    //console.log(topicItemLevel);
                 }
+
+                document.getElementById('topics-menu').appendChild(topicItem);
             }
-            
-            document.getElementById('topics-menu').appendChild(topicItem);
         }
     }
 }
