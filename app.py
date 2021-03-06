@@ -66,6 +66,10 @@ def quiz_page():
 def testresult():
 	return render_template('test-result.html')
 
+@app.route('/tests-test')
+def testtest():
+	return render_template('tests-testing.html')
+
 @app.route('/test-menu')
 def testmenu():
 	topics=[]
