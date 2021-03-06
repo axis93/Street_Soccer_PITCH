@@ -24,8 +24,8 @@
                     <div style="clear: both;"></div>
                 </div>
                 <div style="margin-bottom: 8vh;"></div>
-                <div class="topics-menu">
-                    
+                <div id="topics-menu" onload="request.get('topics', None, None, requestHandlers.listTopics)">
+                    <!--
                     {% for topic in topics %}
                     <div class="topic-item">
                         <b class="topic-name">{{topic[0]}}</b>
@@ -37,6 +37,7 @@
                         </div>
                     </div>
                     {% endfor %}
+                    -->
                 </div>
             </div>
         </div>
