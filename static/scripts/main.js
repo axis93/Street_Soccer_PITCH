@@ -50,9 +50,19 @@ events = {
 }
 
 request = {
-    get: (endpoint, extension, handler) => {
-        $.get(`/${endpoint}/${extension}`, (data) => {
-            handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
+    get: (endpoint, extension, data, handler) => {
+        $.ajax({
+            url: extension === null ? `${endpoint}` : `${endpoint}/${extension}`,
+            method: "GET",
+            data: data,
+            success: (data) => {
+                if(handler != null)
+                    handler(data);
+            }
         });
+
+        /*$.get(`/${endpoint}/${extension}`, (data) => {
+            handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
+        });*/
     },
 }
