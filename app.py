@@ -70,6 +70,7 @@ def testresult():
 
 @app.route('/test-menu')
 def testmenu():
+	"""
 	topics=[]
 	topic1 = ['Children Protection Programme',[1,2,3,4,5]]
 	topics.append(topic1)
@@ -82,7 +83,8 @@ def testmenu():
 			tests.append(y)
 		topic.append(tests)
 		topics.append(topic)
-	return render_template('tests-menu.html',topics=topics)
+	"""
+	return render_template('tests-menu.html')#,topics=topics)
 
 api.add_resource(Topic, '/topics')
 api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
