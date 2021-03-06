@@ -21,7 +21,7 @@
                 <div style="margin-bottom: 8vh;"></div>
                 <div id="topics-menu">
                     <script>
-                        request.get({element: this, endpoint: 'topics', handler: requestHandlers.listTopics});
+                        request.get({endpoint: 'topics', handler: requestHandlers.listTopics});
                     </script>
                     <!--
                     {% for topic in topics %}
