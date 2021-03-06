@@ -488,6 +488,7 @@ body {
     width: fit-content;
     height: 30px;
     min-width: 30px;
+    cursor: pointer;
 }
 
 .stats-box {
@@ -555,7 +556,7 @@ body {
     margin-right: 6vw;
 }
 
-.topics-menu {
+#topics-menu {
     font-weight: bold;
     display: flex;
     width: 90vw;

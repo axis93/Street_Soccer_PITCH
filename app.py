@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file, g
 from flask_restful import Api
+from flask_jsglue import JSGlue
 from resources.topic import Topic
 from resources.formativeAssessment import FormativeAssessment
 from resources.test import Test
@@ -12,6 +13,7 @@ import json
 
 app = Flask(__name__)
 api = Api(app)
+jsglue = JSGlue(app)
 
 db_location = 'database.db'
 
@@ -72,6 +74,7 @@ def testtest():
 
 @app.route('/test-menu')
 def testmenu():
+	"""
 	topics=[]
 	topic1 = ['Children Protection Programme',[1,2,3,4,5]]
 	topics.append(topic1)
@@ -84,9 +87,10 @@ def testmenu():
 			tests.append(y)
 		topic.append(tests)
 		topics.append(topic)
-	return render_template('tests-menu.html',topics=topics)
+	"""
+	return render_template('tests-menu.html')#,topics=topics)
 
-api.add_resource(Topic, '/topics/<string:topic_id>')
+api.add_resource(Topic, '/topics')
 api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
 api.add_resource(Test, '/tests/<string:test_id>')
 api.add_resource(Quiz, '/quizzes/<string:quiz_id>')

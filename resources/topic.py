@@ -1,13 +1,21 @@
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 from models.topic import TopicModel
 
 class Topic(Resource):
-    def get(self, topic_id):
+    parser = reqparse.RequestParser()
+    parser.add_argument('id', type=int)
+
+    def get(self):
+        request_data = Topic.parser.parse_args()
+
         try:
-            topic = TopicModel.find_by_id(topic_id)
+            if request_data['id']:
+                topic = TopicModel.find_by_id(request_data['id'])
+                return topic.json()
+            else:
+                topic = TopicModel.get_topics()
+                return {'topics': [t.json() for t in topic]}
         except:
             return {'message': 'An error occurred while reading the topic ID from the database'}, 500
-        
-        if topic:
-            return topic.json()
-        return {'message': 'Topic with the ID {} not found'.format(topic_id)}, 404
+
+        return {'message': 'Topic with the ID {} not found'.format(request_data['id'])}, 404
