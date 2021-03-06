@@ -96,7 +96,7 @@ requestHandlers = {
 
                 var topicItemName = document.createElement('b');
                 topicItemName.className = "topic-name";
-                topicItemName.innerHTML = data.topics[i];
+                topicItemName.innerHTML = data.topics[i].name;
                 topicItem.appendChild(topicItemName);
 
                 var topicItemLine = document.createElement('div');
