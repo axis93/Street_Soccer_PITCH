@@ -37,6 +37,15 @@ insert_queries = (
     "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (8, 4, 'It should be reported to the Slum Soccer Child Protection Officer, who will refer to the social services department. He should also notify the relevant Sport Governing body office',1, 0);",
     "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (9, 4, 'It should be reported to the police that after their investigations, will contact the Slum Soccer Child Protection Officer, who will inform the Sport Governing Body Child Protection Officer', 1, 0);",
     
+    "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (2, 1, 1, 80, 5, 0, 60, 'For this test you will need to complete two quizzes, please pres the button to carry on', 1, 1);",
+    "INSERT INTO quizzes (quiz_id, test_id, order_num, credit_value, gained_credit, type, text_body, title, instructions) VALUES (5, 2, 1, 0, 0, 'multiple_choice', 'What should be avoided except in emergencies?', 'Question 1', 'To complete this quiz please select an answer and then click next');",
+    "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (10, 5, 'Spending time alone with children away from others', 1, 0);",
+    "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (11, 5, 'Making sport fun, enjoyable, promoting fair play', 0, 0);",
+    "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (12, 5, 'Making sport fun, enjoyable, promoting fair play', 0, 0);",
+    "INSERT INTO quizzes (quiz_id, test_id, order_num, credit_value, gained_credit, type, text_body, title, instructions) VALUES(6, 2, 2, 0, 0, 'multiple_choice', 'Choose the most appropriate from the following options that best describes the aim of the Child Protection Policy:', 'Question 2', 'To complete this quiz please select an answer and then click next');",
+    "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (13, 6, 'Children should be safely protected with appropriate gear, so that we can minimize injuries to happen', 0, 0);",
+    "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (14, 6, 'Make sure that every young person can integrate with each other, in a safe and positive environment', 0, 0);",
+    "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (15, 6, 'Promoting good practice by providing young people with appropriate safety and protection, whilst in care of Slum Soccer', 1, 0);"
 )
 
 init_db(insert_queries)
