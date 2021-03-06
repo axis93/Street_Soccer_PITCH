@@ -8,7 +8,7 @@ class TopicModel:
         self.name = name
         self.needed_credit = needed_credit
     
-    def json(self, withTests=False, withQuizzes=False, withAnswers=False, withFormativeAssessments=False):
+    def json(self, withTests=True, withQuizzes=True, withAnswers=True, withFormativeAssessments=True): # This parameter exists as, ideally, we'd use a GET request which specifies if these are true in order to prevent getting data we don't need and slowing down the request - they're 'True' for now so we can perform tests
         tests = []
         if withTests:
             for test in TestModel.query_db(TestModel, "SELECT * FROM tests WHERE topic_id=?", (self.topic_id,)):

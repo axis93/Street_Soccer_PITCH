@@ -14,7 +14,7 @@ class QuizModel:
         self.title = title
         self.instructions = instructions
     
-    def json(self, withAnswers=False):
+    def json(self, withAnswers=True): # This parameter exists as, ideally, we'd use a GET request which specifies if these are true in order to prevent getting data we don't need and slowing down the request - they're 'True' for now so we can perform tests
 
         # creates a list of the answers to this question
         answers = []
