@@ -22,24 +22,37 @@ class TopicModel:
             'tests': tests
         }
 
-    def query_db(self, query, args):
+    def query_db(self, query, args=None):
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        result = cursor.execute(query, args)
-        row = result.fetchone()
+        if args:
+            result = cursor.execute(query, args).fetchall()
+        else:
+            result = cursor.execute(query).fetchall()
 
         connection.close()
 
-        return row
+        return result
 
     @classmethod
     def find_by_id(cls, topic_id):
-        result = cls.query_db(cls, "SELECT * FROM topics WHERE topic_id=?", (topic_id,))
+        result = cls.query_db(cls, "SELECT * FROM topics WHERE topic_id=?", args=(topic_id,))
 
         if result:
-            topic = cls(*result)
+            topic = cls(*result[0])
         else:
             topic = None
         
         return topic
+
+    @classmethod
+    def get_topics(cls):
+        result = cls.query_db(cls, "SELECT * FROM topics")
+
+        topics = []
+        if result:
+            for topic in result:
+                topics.append(cls(*topic))
+        
+        return topics
