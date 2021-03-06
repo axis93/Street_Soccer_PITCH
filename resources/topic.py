@@ -14,7 +14,7 @@ class Topic(Resource):
                 return topic.json()
             else:
                 topic = TopicModel.get_topics()
-                return {'topics': t.json() for t in topic}
+                return {'topics': [t.json() for t in topic]}
         except:
             return {'message': 'An error occurred while reading the topic ID from the database'}, 500
 
