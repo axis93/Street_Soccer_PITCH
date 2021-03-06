@@ -11,6 +11,9 @@
         <!-- import jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+        <!-- import JSGlue - used to generate Flask URLs in JavaScript -->
+        {{ JSGlue.include() }}
+
         <!-- local imports -->
         <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
         <script src="{{ url_for('static',filename='scripts/main.js') }}"></script>

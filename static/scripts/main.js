@@ -92,7 +92,7 @@ requestHandlers = {
             topicItem.className = "topic-item";
 
             for(let i = 0; i < data.topics.length; i++) {
-                console.log(data.topics[i]);
+                //console.log(data.topics[i]);
 
                 var topicItemName = document.createElement('b');
                 topicItemName.className = "topic-name";
@@ -111,7 +111,10 @@ requestHandlers = {
                     var topicItemLevel = document.createElement('button');
                     topicItemLevel.innerHTML = j + 1;
                     topicItemLevel.className = "level-button";
+                    topicItemLevel.addEventListener("click", () => { window.location.href = Flask.url_for('quiz_page')});
+                    topicItemLevel.setAttribute('test', data.topics[i].tests[j].test_id);
                     topicItemLevels.appendChild(topicItemLevel);
+                    console.log(topicItemLevel);
                 }
             }
             
