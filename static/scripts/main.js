@@ -50,7 +50,9 @@ events = {
 }
 
 request = {
-    get: (endpoint, extension, data, handler) => {
+    get: ({element, endpoint, extension=null, data=null, handler}={}) => {
+        //console.log(element, endpoint, extension, data, handler);
+
         $.ajax({
             url: extension === null ? `${endpoint}` : `${endpoint}/${extension}`,
             method: "GET",
@@ -65,4 +67,55 @@ request = {
             handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
         });*/
     },
+}
+
+requestHandlers = {
+    /*handleWhenReady: (element, handler, data) => {
+        jQuery(document).ready(checkContainer);
+
+        function checkContainer() {
+            if(events.isOnScreen(element)){ //if the container is visible on the page
+                handler(data); //Adds a grid to the html
+                console.log('got here');
+            }
+            else {
+                setTimeout(checkContainer, 50); //wait 50 ms, then try again
+            }
+        }
+    },*/
+
+    listTopics: (data) => {
+        //console.log(data);
+
+        if(data != null) {
+            var topicItem = document.createElement('div');
+            topicItem.className = "topic-item";
+
+            for(let i = 0; i < data.topics.length; i++) {
+                console.log(data.topics[i]);
+
+                var topicItemName = document.createElement('b');
+                topicItemName.className = "topic-name";
+                topicItemName.innerHTML = data.topics[i];
+                topicItem.appendChild(topicItemName);
+
+                var topicItemLine = document.createElement('div');
+                topicItemLine.className = "topics-line";
+                topicItem.appendChild(topicItemLine);
+
+                var topicItemLevels = document.createElement('div');
+                topicItemLevels.className = "topic-levels";
+                topicItem.appendChild(topicItemLevels);
+
+                for(let j = 0; j < data.topics[i].tests.length; j++) {
+                    var topicItemLevel = document.createElement('button');
+                    topicItemLevel.innerHTML = j + 1;
+                    topicItemLevel.className = "level-button";
+                    topicItemLevels.appendChild(topicItemLevel);
+                }
+            }
+            
+            document.getElementById('topics-menu').appendChild(topicItem);
+        }
+    }
 }
