@@ -142,7 +142,6 @@ quiz = {
     },
 
     loadQuestion: (question) => {
-        console.log(question);
         if(question !== null) {
             document.getElementById('quiz-title').innerHTML = question.title;
             document.getElementById('quiz-instructions').innerHTML = question.instructions;
@@ -195,7 +194,7 @@ quiz = {
                     var continueButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Continue", parent: continueContainer});
 
                     continueButton.addEventListener("click", () => {
-                        quiz.navigateQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in the listener above, but inverse
+                        quiz.navigateQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
                     });
                 }
                 continueContainer.children[0].innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";
@@ -236,7 +235,7 @@ elemUtils = {
                 var backButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Back", parent: backContainer});
 
                 backButton.addEventListener("click", () => {
-                    quiz.navigateQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
+                    quiz.navigateQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
                 });
             }
         }
