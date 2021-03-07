@@ -46,7 +46,7 @@ events = {
             'display': display
             //'animation': `${operation}-mobile-nav 0.5s ease forwards`
         });
-    },
+    }
 }
 
 request = {
@@ -99,13 +99,65 @@ requestHandlers = {
                     var topicItemLevel = document.createElement('button');
                     topicItemLevel.innerHTML = j + 1;
                     topicItemLevel.className = "level-button";
+
                     topicItemLevel.setAttribute('test', topic.tests[j].test_id);
-                    topicItemLevel.addEventListener("click", () => { window.location.href = Flask.url_for('quiz_page')});
+                    topicItemLevel.addEventListener("click", () => {
+                        storageUtils.sessionStore(storageUtils.testIdentifier, topicItemLevel.getAttribute('test'));
+                        window.location.href = Flask.url_for('quiz_page');
+                    });
+
                     topicItemLevels.appendChild(topicItemLevel);
                 }
 
                 document.getElementById('topics-menu').appendChild(topicItem);
             }
+        }
+    }
+}
+
+storageUtils = {
+    testIdentifier: "test_id",
+
+    sessionStore: (name, value) => {
+        if(name != null && typeof name === "string" && value != null) {
+            storageUtils.storeSessionValue(name, value);
+        }
+    },
+
+    storeSessionValue: (name, value) => {
+        try { //tries to store the data in temporary storage
+                window.sessionStorage.setItem(name, value);
+                return true;
+        }
+        catch (e) { //checks if storage didn't fail because it is full (returns true if it did)
+            return e instanceof DOMException && (
+                   e.code === 22 ||
+                   e.code === 1014 ||
+                   e.name === 'QuotaExceededError' ||
+                   e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                   storage.length !== 0;
+        }
+    },
+
+    getSessionValue: (name) => {
+        try {
+            return window.sessionStorage.getItem(name);
+        }
+        catch(e) {
+            return null;
+        }
+    },
+    
+    removeSessionValue: (name) => {
+        try {
+            if(window.sessionStorage.getItem(name) !== null) {
+                window.sessionStorage.removeItem(name);
+                return true;
+            }
+            throw IllegalStateException;
+        }
+        catch(e) {
+            return false;
         }
     }
 }
