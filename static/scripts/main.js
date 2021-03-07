@@ -206,11 +206,8 @@ quiz = {
                         backButton.className = "quiz-btn";
                         backButton.innerHTML = "Back";
 
-                        //backButton.setAttribute('data-q_num', question.order_num - 1);
                         backButton.addEventListener("click", (event) => {
-                            //var questionNumber = parseInt(event.target.getAttribute('data-q_num'));
-                            quiz.navigateQuestion(--quiz.currentQuestion);
-                            //event.target.setAttribute('data-q_num', questionNumber - 1);
+                            quiz.navigateQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
                         });
 
                         backContainer.appendChild(backButton);
@@ -222,16 +219,13 @@ quiz = {
                 }
 
                 const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
-                if(continueContainer.children.length === 0) { //if((quizLength === null || question.order_num <= quizLength) && continueContainer.children.length === 0) {
+                if(continueContainer.children.length === 0) {
                     var continueButton = document.createElement('button');
                     continueButton.className = "quiz-btn";
                     continueButton.innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue"; //tenerary operator here also as there may only be one question in the quiz
 
-                    //continueButton.setAttribute('data-q_num', question.order_num + 1);
                     continueButton.addEventListener("click", (event) => {
-                        //var questionNumber = parseInt(event.target.getAttribute('data-q_num'));
-                        quiz.navigateQuestion(++quiz.currentQuestion);
-                        //event.target.setAttribute('data-q_num', questionNumber + 1);
+                        quiz.navigateQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in the listener above, but inverse
                     });
 
                     continueContainer.appendChild(continueButton);
