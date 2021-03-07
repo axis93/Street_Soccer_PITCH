@@ -116,12 +116,13 @@ requestHandlers = {
     },
 
     displayTest: (data) => { // ----- TODO ----- it may be better to store the data in session storage as it will be easier to record and manage
-        console.log(data);
         storageUtils.removeSessionValue(storageUtils.testID);
         storageUtils.storeSessionValue(storageUtils.testDataID, data);
 
+        quiz.length = data.quizzes.length;
+
         const navbar = document.getElementById('quizzes-navigation');
-        for(let i = 0; i < data.quizzes.length; i++) {
+        for(let i = 0; i < quiz.length; i++) {
             var navButton = document.createElement('button');
             navButton.innerHTML = i + 1;
             navButton.className = "level-button quizzes-navigation-btn";
@@ -134,7 +135,7 @@ requestHandlers = {
             navbar.appendChild(navButton);
         }
 
-        if(data.quizzes != null && data.quizzes.length > 0)
+        if(data.quizzes != null && quiz.length > 0)
             quiz.loadQuestion({question: quiz.findQuestion(data.quizzes, 1)});
         else 
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
@@ -142,18 +143,20 @@ requestHandlers = {
 }
 
 quiz = {
+    length: null,
+
     navigateQuestion: (question) => {
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
         quiz.loadQuestion({question: quiz.findQuestion(data.quizzes, parseInt(question))});
     },
 
     findQuestion: (questions, order_num) => {
-        for(let i = 0; i < questions.length; i++)
+        for(let i = 0; i < quiz.length; i++)
             if(questions[i].order_num === order_num)
                 return questions[i];
     },
 
-    loadQuestion: ({question=null, quizLength=null}={}) => {
+    loadQuestion: ({question=null}={}) => {
         console.log(question);
         if(question !== null) {
             document.getElementById('quiz-title').innerHTML = question.title;
@@ -213,10 +216,10 @@ quiz = {
                 }
 
                 const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
-                if((quizLength === null || question.order_num <= quizLength) && continueContainer.children.length === 0) {
+                if(continueContainer.children.length === 0) { //if((quizLength === null || question.order_num <= quizLength) && continueContainer.children.length === 0) {
                     var continueButton = document.createElement('button');
                     continueButton.className = "quiz-btn";
-                    continueButton.innerHTML = question.order_num === quizLength ? "Finish" : "Continue";
+                    continueButton.innerHTML = question.order_num === quiz.length ? "Finish" : "Continue"; //tenerary operator here also as there may only be one question in the quiz
 
                     continueButton.setAttribute('data-q_num', question.order_num + 1);
                     continueButton.addEventListener("click", (event) => {
@@ -225,10 +228,8 @@ quiz = {
 
                     continueContainer.appendChild(continueButton);
                 }
-                else {
-                    if(continueContainer.children.length > 0)
-                        continueContainer.removeChild(continueContainer.children[0]); //same as above (only one child)
-                }
+                else
+                    continueContainer.children[0].innerHTML = question.order_num === quiz.length ? "Finish" : "Continue";
             }
             else
                 throw Error(`There are no answers available for the question with ID ${firstQuestion.quiz_id}`);
