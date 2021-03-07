@@ -189,6 +189,16 @@ quiz = {
                 while(answersSection.hasChildNodes())
                     answersSection.removeChild(answersSection.firstChild);
 
+                if(question.path_to_attachment != null) {
+                    var attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment", parent: document.getElementsByClassName('quiz-content-row')[0]});
+
+                    var imgElement = elemUtils.createElement({type: 'img', parent: attachmentContainer});
+                    imgElement.id = 'quiz-img';
+                    $(`#${imgElement.id}`).css({'width': '100%'});
+                    imgElement.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
+                }
+
+
                 for(let i = 0; i < question.answers.length; i++) {
                     const answer = question.answers[i];
 
