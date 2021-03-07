@@ -100,9 +100,9 @@ requestHandlers = {
                     topicItemLevel.innerHTML = j + 1;
                     topicItemLevel.className = "level-button";
 
-                    topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id);
+                    topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id); //store the ID of the test in which this button relates to
                     topicItemLevel.addEventListener("click", (event) => { //'event' is used to get the HTML element which this event is attached to
-                        storageUtils.sessionStore(storageUtils.testIdentifier, event.target.getAttribute('data-test_id'));
+                        storageUtils.sessionStore(storageUtils.testIdentifier, event.target.getAttribute('data-test_id')); //get the ID and store it in the session so it's carried over to 'quiz-page'
                         window.location.href = Flask.url_for('quiz_page');
                     });
 
@@ -119,8 +119,8 @@ requestHandlers = {
     }
 }
 
-storageUtils = {
-    testIdentifier: "test_id",
+storageUtils = { //only session storage is implemented here as we do not have a need to store anything persistently in local
+    testIdentifier: "test_id", //the key word which identifies the name of the test ID in storage
 
     sessionStore: (name, value) => {
         if(name != null && typeof name === "string" && value != null) {
@@ -133,7 +133,7 @@ storageUtils = {
                 window.sessionStorage.setItem(name, value);
                 return true;
         }
-        catch (e) { //checks if storage didn't fail because it is full (returns true if it did)
+        catch (e) { //checks if storage didn't fail because it is full (returns true if it did) - the oly other reason it would fail is if storage is made unavailable
             return e instanceof DOMException && (
                    e.code === 22 ||
                    e.code === 1014 ||
@@ -158,7 +158,7 @@ storageUtils = {
                 window.sessionStorage.removeItem(name);
                 return true;
             }
-            throw IllegalStateException;
+            throw Error(`Item \"${name}\" does not exist in local storage`);
         }
         catch(e) {
             return false;
