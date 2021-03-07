@@ -144,10 +144,12 @@ requestHandlers = {
 
 quiz = {
     length: null,
+    currentQuestion: 1,
 
     navigateQuestion: (question) => {
+        console.log(question);
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
-        quiz.loadQuestion({question: quiz.findQuestion(data.quizzes, parseInt(question))});
+        quiz.loadQuestion({question: quiz.findQuestion(data.quizzes, question)});
     },
 
     findQuestion: (questions, order_num) => {
@@ -198,17 +200,21 @@ quiz = {
                 }
 
                 const backContainer = document.getElementsByClassName('quiz-back-space')[0];
-                if(question.order_num !== 1 && backContainer.children.length === 0) {
-                    var backButton = document.createElement('button');
-                    backButton.className = "quiz-btn";
-                    backButton.innerHTML = "Back";
+                if(quiz.currentQuestion !== 1) {
+                    if(backContainer.children.length === 0) {
+                        var backButton = document.createElement('button');
+                        backButton.className = "quiz-btn";
+                        backButton.innerHTML = "Back";
 
-                    backButton.setAttribute('data-q_num', question.order_num - 1);
-                    backButton.addEventListener("click", (event) => {
-                        quiz.navigateQuestion(event.target.getAttribute('data-q_num'));
-                    });
+                        //backButton.setAttribute('data-q_num', question.order_num - 1);
+                        backButton.addEventListener("click", (event) => {
+                            //var questionNumber = parseInt(event.target.getAttribute('data-q_num'));
+                            quiz.navigateQuestion(--quiz.currentQuestion);
+                            //event.target.setAttribute('data-q_num', questionNumber - 1);
+                        });
 
-                    backContainer.appendChild(backButton);
+                        backContainer.appendChild(backButton);
+                    }
                 }
                 else {
                     if(backContainer.children.length > 0)
@@ -219,20 +225,22 @@ quiz = {
                 if(continueContainer.children.length === 0) { //if((quizLength === null || question.order_num <= quizLength) && continueContainer.children.length === 0) {
                     var continueButton = document.createElement('button');
                     continueButton.className = "quiz-btn";
-                    continueButton.innerHTML = question.order_num === quiz.length ? "Finish" : "Continue"; //tenerary operator here also as there may only be one question in the quiz
+                    continueButton.innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue"; //tenerary operator here also as there may only be one question in the quiz
 
-                    continueButton.setAttribute('data-q_num', question.order_num + 1);
+                    //continueButton.setAttribute('data-q_num', question.order_num + 1);
                     continueButton.addEventListener("click", (event) => {
-                        quiz.navigateQuestion(event.target.getAttribute('data-q_num'));
+                        //var questionNumber = parseInt(event.target.getAttribute('data-q_num'));
+                        quiz.navigateQuestion(++quiz.currentQuestion);
+                        //event.target.setAttribute('data-q_num', questionNumber + 1);
                     });
 
                     continueContainer.appendChild(continueButton);
                 }
                 else
-                    continueContainer.children[0].innerHTML = question.order_num === quiz.length ? "Finish" : "Continue";
+                    continueContainer.children[0].innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";
             }
             else
-                throw Error(`There are no answers available for the question with ID ${firstQuestion.quiz_id}`);
+                throw Error(`There are no answers available for the question with ID ${question.quiz_id}`);
         }
         else 
             throw Error('There was no question specified');
