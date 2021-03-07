@@ -127,16 +127,16 @@ requestHandlers = {
             navButton.innerHTML = i + 1;
             navButton.className = "level-button quizzes-navigation-btn";
 
-            navButton.setAttribute('data-quiz_id', i);
+            navButton.setAttribute('data-quiz_id', i + 1);
             navButton.addEventListener("click", (event) => {
-                // ----- TODO ----- load question event.target.getAttribute('data-quiz_id');
+                quiz.navigateQuestion(event.target.getAttribute('data-quiz_id'));
             });
 
             navbar.appendChild(navButton);
         }
 
         if(data.quizzes != null && quiz.length > 0)
-            quiz.loadQuestion({question: quiz.findQuestion(data.quizzes, 1)});
+            quiz.loadQuestion(quiz.findQuestion(data.quizzes, 1));
         else 
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     }
@@ -149,7 +149,7 @@ quiz = {
     navigateQuestion: (question) => {
         console.log(question);
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
-        quiz.loadQuestion({question: quiz.findQuestion(data.quizzes, question)});
+        quiz.loadQuestion(quiz.findQuestion(data.quizzes, question));
     },
 
     findQuestion: (questions, order_num) => {
@@ -158,7 +158,7 @@ quiz = {
                 return questions[i];
     },
 
-    loadQuestion: ({question=null}={}) => {
+    loadQuestion: (question) => {
         console.log(question);
         if(question !== null) {
             document.getElementById('quiz-title').innerHTML = question.title;
