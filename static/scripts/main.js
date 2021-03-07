@@ -76,30 +76,35 @@ requestHandlers = {
                 const topic = data.topics[i];
 
                 //this topic's container in the menu
-                var topicItem = document.createElement('div');
-                topicItem.className = "topic-item";
+                var topicItem = elemUtils.createElement({type: 'div', className: "topic-item", parent: document.getElementById('topics-menu')})
+                /*var topicItem = document.createElement('div');
+                topicItem.className = "topic-item";*/
 
                 //the element in the container which displays this topic's name
-                var topicItemName = document.createElement('b');
+                elemUtils.createElement({type: 'b', className: "topic-name", innerHTML: topic.name, parent: topicItem});
+                /*var topicItemName = document.createElement('b');
                 topicItemName.className = "topic-name";
                 topicItemName.innerHTML = topic.name;
-                topicItem.appendChild(topicItemName);
+                topicItem.appendChild(topicItemName);*/
 
                 //the line in the container that separates the name and buttons
-                var topicItemLine = document.createElement('div');
+                elemUtils.createElement({type: 'div', className: "topics-line", parent: topicItem});
+                /*var topicItemLine = document.createElement('div');
                 topicItemLine.className = "topics-line";
-                topicItem.appendChild(topicItemLine);
+                topicItem.appendChild(topicItemLine);*/
 
                 //the container, in this topic's container, which contains the buttons
-                var topicItemLevels = document.createElement('div');
+                var topicItemLevels = elemUtils.createElement({type: 'div', className: "topic-levels", parent: topicItem});
+                /*var topicItemLevels = document.createElement('div');
                 topicItemLevels.className = "topic-levels";
-                topicItem.appendChild(topicItemLevels);
+                topicItem.appendChild(topicItemLevels);*/
 
                 //for every test in this topic, add a button to the button container for it
                 for(let j = 0; j < topic.tests.length; j++) {
-                    var topicItemLevel = document.createElement('button');
+                    var topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
+                    /*var topicItemLevel = document.createElement('button');
                     topicItemLevel.innerHTML = j + 1;
-                    topicItemLevel.className = "level-button";
+                    topicItemLevel.className = "level-button";*/
 
                     topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id); //store the ID of the test in which this button relates to
                     topicItemLevel.addEventListener("click", (event) => { //'event' is used to get the HTML element which this event is attached to
@@ -107,15 +112,15 @@ requestHandlers = {
                         window.location.href = Flask.url_for('quiz_page');
                     });
 
-                    topicItemLevels.appendChild(topicItemLevel);
+                    //topicItemLevels.appendChild(topicItemLevel);
                 }
 
-                document.getElementById('topics-menu').appendChild(topicItem);
+                //document.getElementById('topics-menu').appendChild(topicItem);
             }
         }
     },
 
-    displayTest: (data) => { // ----- TODO ----- it may be better to store the data in session storage as it will be easier to record and manage
+    displayTest: (data) => {
         storageUtils.removeSessionValue(storageUtils.testID);
         storageUtils.storeSessionValue(storageUtils.testDataID, data);
 
@@ -123,7 +128,13 @@ requestHandlers = {
 
         const navbar = document.getElementById('quizzes-navigation');
         for(let i = 0; i < quiz.length; i++) {
-            var navButton = document.createElement('button');
+            var navButton = elemUtils.createElement({type: 'button', className: "level-button quizzes-navigation-btn", innerHTML: i + 1, parent: navbar});
+            navButton.setAttribute('data-quiz_id', i + 1);
+            navButton.addEventListener("click", (event) => {
+                quiz.navigateQuestion(parseInt(event.target.getAttribute('data-quiz_id')));
+            });
+
+            /*var navButton = document.createElement('button');
             navButton.innerHTML = i + 1;
             navButton.className = "level-button quizzes-navigation-btn";
 
@@ -132,7 +143,7 @@ requestHandlers = {
                 quiz.navigateQuestion(parseInt(event.target.getAttribute('data-quiz_id')));
             });
 
-            navbar.appendChild(navButton);
+            navbar.appendChild(navButton);*/
         }
 
         if(data.quizzes != null && quiz.length > 0)
@@ -175,41 +186,45 @@ quiz = {
                 for(let i = 0; i < question.answers.length; i++) {
                     const answer = question.answers[i];
 
-                    var answerContainer = document.createElement('div');
-                    answerContainer.className = "row quiz-radio-row";
+                    var answerContainer = elemUtils.createElement({type: 'div', className: "row quiz-radio-row", parent: answersSection});
+                    /*var answerContainer = document.createElement('div');
+                    answerContainer.className = "row quiz-radio-row";*/
 
-                    var answerButton = document.createElement('input');
+                    var answerButton = elemUtils.createElement({type: 'input', className: "quiz-radio-btn", parent: answerContainer});
+                    //var answerButton = document.createElement('input');
                     answerButton.type = 'radio';
                     answerButton.id = answer.answer_id;
                     answerButton.name = answer.type;
                     answerButton.value = answer.answer_id;
-                    answerButton.className = "quiz-radio-btn";
-                    answerContainer.appendChild(answerButton);
+                    //answerButton.className = "quiz-radio-btn";
+                    //answerContainer.appendChild(answerButton);
 
-                    var buttonLabel = document.createElement('label');
+                    var buttonLabel = elemUtils.createElement({type: 'label', innerHTML: answer.body, parent: answerContainer});
+                    //var buttonLabel = document.createElement('label');
                     buttonLabel.htmlFor = answer.answer_id;
-                    buttonLabel.innerHTML = answer.body;
-                    answerContainer.appendChild(buttonLabel);
+                    //buttonLabel.innerHTML = answer.body;
+                    //answerContainer.appendChild(buttonLabel);
 
                     /* doesn't work - switch to CSS padding instead
                     var br = document.createElement('br');
                     answerContainer.appendChild(br); */
 
-                    answersSection.appendChild(answerContainer);
+                    //answersSection.appendChild(answerContainer);
                 }
 
                 const backContainer = document.getElementsByClassName('quiz-back-space')[0];
                 if(quiz.currentQuestion !== 1) {
                     if(backContainer.children.length === 0) {
-                        var backButton = document.createElement('button');
+                        var backButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Back", parent: backContainer});
+                        /*var backButton = document.createElement('button');
                         backButton.className = "quiz-btn";
-                        backButton.innerHTML = "Back";
+                        backButton.innerHTML = "Back";*/
 
-                        backButton.addEventListener("click", (event) => {
+                        backButton.addEventListener("click", () => {
                             quiz.navigateQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
                         });
 
-                        backContainer.appendChild(backButton);
+                        //backContainer.appendChild(backButton);
                     }
                 }
                 else {
@@ -219,24 +234,46 @@ quiz = {
 
                 const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
                 if(continueContainer.children.length === 0) {
-                    var continueButton = document.createElement('button');
+                    var continueButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Continue", parent: continueContainer});
+                    /*var continueButton = document.createElement('button');
                     continueButton.className = "quiz-btn";
-                    continueButton.innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue"; //tenerary operator here also as there may only be one question in the quiz
+                    continueButton.innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";*/ 
 
-                    continueButton.addEventListener("click", (event) => {
+                    continueButton.addEventListener("click", () => {
                         quiz.navigateQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in the listener above, but inverse
                     });
 
-                    continueContainer.appendChild(continueButton);
+                    //continueContainer.appendChild(continueButton);
                 }
-                else
-                    continueContainer.children[0].innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";
+                continueContainer.children[0].innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";
             }
             else
                 throw Error(`There are no answers available for the question with ID ${question.quiz_id}`);
         }
         else 
             throw Error('There was no question specified');
+    }
+}
+
+elemUtils = {
+    createElement: ({type, className=null, innerHTML=null, parent}={}) => { //, attributes = [], eventListener=null
+        var element = document.createElement(type);
+
+        if(className != null)
+            element.className = className;
+        
+        if(innerHTML != null)
+            element.innerHTML = innerHTML;
+        
+        /*if(attributes.length > 0)
+            attributes.forEach(element.setAttribute);
+
+        if(eventListener != null)
+            element.eventListener;*/
+        
+        parent.appendChild(element);
+
+        return element
     }
 }
 
