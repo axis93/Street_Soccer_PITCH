@@ -129,7 +129,7 @@ requestHandlers = {
 
             navButton.setAttribute('data-quiz_id', i + 1);
             navButton.addEventListener("click", (event) => {
-                quiz.navigateQuestion(event.target.getAttribute('data-quiz_id'));
+                quiz.navigateQuestion(parseInt(event.target.getAttribute('data-quiz_id')));
             });
 
             navbar.appendChild(navButton);
@@ -147,7 +147,6 @@ quiz = {
     currentQuestion: 1,
 
     navigateQuestion: (question) => {
-        console.log(question);
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
         quiz.loadQuestion(quiz.findQuestion(data.quizzes, question));
     },
