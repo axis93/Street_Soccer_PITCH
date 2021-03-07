@@ -135,21 +135,27 @@ requestHandlers = {
         }
 
         if(data.quizzes != null && data.quizzes.length > 0)
-            quiz.loadQuestion({question: data.quizzes[0]});
+            quiz.loadQuestion({question: quiz.findQuestion(data.quizzes, 1)});
         else 
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     }
 }
 
 quiz = {
-    navigateQuestion: (element, direction) => {
+    navigateQuestion: (question) => {
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
+        quiz.loadQuestion({question: quiz.findQuestion(data.quizzes, parseInt(question))});
+    },
 
-
+    findQuestion: (questions, order_num) => {
+        for(let i = 0; i < questions.length; i++)
+            if(questions[i].order_num === order_num)
+                return questions[i];
     },
 
     loadQuestion: ({question=null, quizLength=null}={}) => {
-        if(question) {
+        console.log(question);
+        if(question !== null) {
             document.getElementById('quiz-title').innerHTML = question.title;
             document.getElementById('quiz-instructions').innerHTML = question.instructions;
             document.getElementById('quiz-text').innerHTML = question.text_body;
@@ -158,6 +164,7 @@ quiz = {
                 // ----- TODO ----- check if a path to an image is present and if it is, try to display it
 
                 const answersSection = document.getElementById('quiz-radio-section');
+
                 for(let i = 0; i < question.answers.length; i++) {
                     const answer = question.answers[i];
 
@@ -185,10 +192,16 @@ quiz = {
                 }
 
                 const backContainer = document.getElementsByClassName('quiz-back-space')[0];
-                if(question.order_num !== 1) {
+                if(question.order_num !== 1 && backContainer.children.length === 0) {
                     var backButton = document.createElement('button');
                     backButton.className = "quiz-btn";
                     backButton.innerHTML = "Back";
+
+                    backButton.setAttribute('data-q_num', question.order_num - 1);
+                    backButton.addEventListener("click", (event) => {
+                        quiz.navigateQuestion(event.target.getAttribute('data-q_num'));
+                    });
+
                     backContainer.appendChild(backButton);
                 }
                 else {
@@ -197,10 +210,16 @@ quiz = {
                 }
 
                 const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
-                if(quizLength === null || question.order_num <= quizLength) {
+                if((quizLength === null || question.order_num <= quizLength) && continueContainer.children.length === 0) {
                     var continueButton = document.createElement('button');
                     continueButton.className = "quiz-btn";
                     continueButton.innerHTML = question.order_num === quizLength ? "Finish" : "Continue";
+
+                    continueButton.setAttribute('data-q_num', question.order_num + 1);
+                    continueButton.addEventListener("click", (event) => {
+                        quiz.navigateQuestion(event.target.getAttribute('data-q_num'));
+                    });
+
                     continueContainer.appendChild(continueButton);
                 }
                 else {
@@ -221,10 +240,14 @@ storageUtils = { //only session storage is implemented here as we do not have a 
     testID: "test_id",
     testDataID: "test_data",
 
+    isObject: (obj) => { //credit - https://attacomsian.com/blog/javascript-check-variable-is-object
+        return Object.prototype.toString.call(obj) === '[object Object]';
+    },
+
     storeSessionValue: (name, value) => {
         try { //tries to store the data in temporary storage
             if(name != null && typeof name === "string" && value != null) {
-                window.sessionStorage.setItem(name, value);
+                window.sessionStorage.setItem(name, storageUtils.isObject(value) ? JSON.stringify(value) : value); //JavaScript objects cannot be stored so we need to convert it to a JSON
                 return true;
             }
             else
@@ -243,7 +266,13 @@ storageUtils = { //only session storage is implemented here as we do not have a 
 
     getSessionValue: (name) => {
         try {
-            return window.sessionStorage.getItem(name);
+            var value = window.sessionStorage.getItem(name);
+            try {
+                return JSON.parse(value); //because we need to serilize an object, we also need to convert it from JSON back to an object
+            }
+            catch {
+                return value;
+            }
         }
         catch(e) {
             return null;
