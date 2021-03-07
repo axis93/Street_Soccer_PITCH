@@ -110,7 +110,7 @@ requestHandlers = {
             navButton.setAttribute('data-quiz_id', i + 1);
             navButton.addEventListener("click", (event) => {
                 var questionNumber = parseInt(event.target.getAttribute('data-quiz_id'));
-                quiz.navigateQuestion(questionNumber);
+                quiz.navigateToQuestion(questionNumber);
 
                 //update the question number then update the appropriate elements, based on this change (back button availability and continue button text)
                 quiz.currentQuestion = questionNumber;
@@ -120,7 +120,7 @@ requestHandlers = {
         }
 
         if(data.quizzes != null && quiz.length > 0)
-            quiz.loadQuestion(quiz.findQuestion(data.quizzes, 1));
+            quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, 1));
         else 
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     }
@@ -130,12 +130,12 @@ quiz = {
     length: null,
     currentQuestion: 1,
 
-    navigateQuestion: (question) => {
+    navigateToQuestion: (question) => {
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
-        quiz.loadQuestion(quiz.findQuestion(data.quizzes, question));
+        quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, question));
     },
 
-    findQuestion: (questions, order_num) => {
+    findNextQuestion: (questions, order_num) => {
         for(let i = 0; i < quiz.length; i++)
             if(questions[i].order_num === order_num)
                 return questions[i];
@@ -194,7 +194,7 @@ quiz = {
                     var continueButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Continue", parent: continueContainer});
 
                     continueButton.addEventListener("click", () => {
-                        quiz.navigateQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
+                        quiz.navigateToQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
                     });
                 }
                 continueContainer.children[0].innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";
@@ -235,7 +235,7 @@ elemUtils = {
                 var backButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Back", parent: backContainer});
 
                 backButton.addEventListener("click", () => {
-                    quiz.navigateQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
+                    quiz.navigateToQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
                 });
             }
         }
