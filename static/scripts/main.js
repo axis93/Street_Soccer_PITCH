@@ -100,9 +100,9 @@ requestHandlers = {
                     topicItemLevel.innerHTML = j + 1;
                     topicItemLevel.className = "level-button";
 
-                    topicItemLevel.setAttribute('test', topic.tests[j].test_id);
-                    topicItemLevel.addEventListener("click", () => {
-                        storageUtils.sessionStore(storageUtils.testIdentifier, topicItemLevel.getAttribute('test'));
+                    topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id);
+                    topicItemLevel.addEventListener("click", (event) => { //'event' is used to get the HTML element which this event is attached to
+                        storageUtils.sessionStore(storageUtils.testIdentifier, event.target.getAttribute('data-test_id'));
                         window.location.href = Flask.url_for('quiz_page');
                     });
 
@@ -112,6 +112,10 @@ requestHandlers = {
                 document.getElementById('topics-menu').appendChild(topicItem);
             }
         }
+    },
+
+    storeTest: (data) => {
+        storageUtils.removeSessionValue(storageUtils.testIdentifier);
     }
 }
 
