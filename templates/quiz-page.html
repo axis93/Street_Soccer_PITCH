@@ -3,7 +3,7 @@
 {% block content %}
 	<div class="grid-container" style="padding-top: 10vh;">
 		<script>
-			request.get({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testIdentifier), handler: requestHandlers.displayTest});
+			request.get({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testID), handler: requestHandlers.displayTest});
 		</script>
 		<div class="grid-body-item contents column quiz-body">
 			<br>
@@ -58,17 +58,17 @@
 			<div class="row quiz-buttons">
 				<div class="column quiz-back-space">
 					<!-- Condition if this is the first page-->
-					{% if true==true %}
+					<!--{% if true==true %}
 					<button class="quiz-btn">Back</button>
-					{% endif %}
+					{% endif %}-->
 				</div>
 				<div class="column quiz-continue-space">
 					<!-- Condition if this is the last page-->
-					{% if true==true %}
+					<!--{% if true==true %}
 					<button class="quiz-btn">Continue</button>
 					{% else %}
 					<button class="quiz-finish-btn">FINISH</button>
-					{% endif %}
+					{% endif %}-->
 				</div>
 			</div>
 		</div>

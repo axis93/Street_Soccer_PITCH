@@ -1,9 +1,9 @@
-const mainImages = document.getElementsByClassName('main-img');
+const mainImage = document.getElementsByClassName('main-img');
 
 window.onload = () => {
     stateHandler.shouldHideHeader();
     
-    if (mainImages != null && mainImages.length > 0) { //if there is a dominant image in the page, add the 'window.onscroll()' event listener
+    if (mainImage != null && mainImage.length > 0) { //if there is a dominant image in the page, add the 'window.onscroll()' event listener
         window.onscroll = () => {
             stateHandler.shouldHideHeader();
         }
@@ -12,13 +12,14 @@ window.onload = () => {
 
 stateHandler = {
     shouldHideHeader: () => {
-        if(mainImages != null && mainImages.length > 0) { //we need to check this here also as 'window.onload()' will run this method separately
-            for (let i = 0; i < mainImages.length; i++) {
-                if (events.isOnScreen(mainImages[i])) //hide the dominant navbar elements if there is a main background image visible
-                    stateHandler.modifyHeader(0, 'var(--transparent)');
-                else
-                    stateHandler.modifyHeader(100, 'var(--header-gradient)');
-            }
+        if(mainImage != null && mainImage.length > 0) { //we need to check this here also as 'window.onload()' will run this method separately
+            /* hide the dominant navbar elements if there is a main background image visible
+             * we only do this for the first one as ones lower down in the page would cause the nav bar to hide when the image isn't filling the whole page
+             */
+            if (events.isOnScreen(mainImage[0]))
+                stateHandler.modifyHeader(0, 'var(--transparent)');
+            else
+                stateHandler.modifyHeader(100, 'var(--header-gradient)');
         }
         else
             stateHandler.modifyHeader(100, 'var(--header-gradient)');
@@ -102,7 +103,7 @@ requestHandlers = {
 
                     topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id); //store the ID of the test in which this button relates to
                     topicItemLevel.addEventListener("click", (event) => { //'event' is used to get the HTML element which this event is attached to
-                        storageUtils.sessionStore(storageUtils.testIdentifier, event.target.getAttribute('data-test_id')); //get the ID and store it in the session so it's carried over to 'quiz-page'
+                        storageUtils.storeSessionValue(storageUtils.testID, event.target.getAttribute('data-test_id')); //get the ID and store it in the session so it's carried over to 'quiz-page'
                         window.location.href = Flask.url_for('quiz_page');
                     });
 
@@ -116,7 +117,8 @@ requestHandlers = {
 
     displayTest: (data) => { // ----- TODO ----- it may be better to store the data in session storage as it will be easier to record and manage
         console.log(data);
-        storageUtils.removeSessionValue(storageUtils.testIdentifier);
+        storageUtils.removeSessionValue(storageUtils.testID);
+        storageUtils.storeSessionValue(storageUtils.testDataID, data);
 
         const navbar = document.getElementById('quizzes-navigation');
         for(let i = 0; i < data.quizzes.length; i++) {
@@ -126,7 +128,7 @@ requestHandlers = {
 
             navButton.setAttribute('data-quiz_id', i);
             navButton.addEventListener("click", (event) => {
-                //load question event.target.getAttribute('data-quiz_id');
+                // ----- TODO ----- load question event.target.getAttribute('data-quiz_id');
             });
 
             navbar.appendChild(navButton);
@@ -140,7 +142,13 @@ requestHandlers = {
 }
 
 quiz = {
-    loadQuestion: ({question=null}={}) => {
+    navigateQuestion: (element, direction) => {
+        const data = storageUtils.getSessionValue(storageUtils.testDataID);
+
+
+    },
+
+    loadQuestion: ({question=null, quizLength=null}={}) => {
         if(question) {
             document.getElementById('quiz-title').innerHTML = question.title;
             document.getElementById('quiz-instructions').innerHTML = question.instructions;
@@ -175,28 +183,52 @@ quiz = {
 
                     answersSection.appendChild(answerContainer);
                 }
+
+                const backContainer = document.getElementsByClassName('quiz-back-space')[0];
+                if(question.order_num !== 1) {
+                    var backButton = document.createElement('button');
+                    backButton.className = "quiz-btn";
+                    backButton.innerHTML = "Back";
+                    backContainer.appendChild(backButton);
+                }
+                else {
+                    if(backContainer.children.length > 0)
+                        backContainer.removeChild(backContainer.children[0]); //there will only ever be 1 child: the button
+                }
+
+                const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
+                if(quizLength === null || question.order_num <= quizLength) {
+                    var continueButton = document.createElement('button');
+                    continueButton.className = "quiz-btn";
+                    continueButton.innerHTML = question.order_num === quizLength ? "Finish" : "Continue";
+                    continueContainer.appendChild(continueButton);
+                }
+                else {
+                    if(continueContainer.children.length > 0)
+                        continueContainer.removeChild(continueContainer.children[0]); //same as above (only one child)
+                }
             }
             else
                 throw Error(`There are no answers available for the question with ID ${firstQuestion.quiz_id}`);
         }
         else 
-            throw Error(`There was no question specified`);
+            throw Error('There was no question specified');
     }
 }
 
 storageUtils = { //only session storage is implemented here as we do not have a need to store anything persistently in local
-    testIdentifier: "test_id", //the key word which identifies the name of the test ID in storage
-
-    sessionStore: (name, value) => {
-        if(name != null && typeof name === "string" && value != null) {
-            storageUtils.storeSessionValue(name, value);
-        }
-    },
+    //key words which identify data that will be placed in storage
+    testID: "test_id",
+    testDataID: "test_data",
 
     storeSessionValue: (name, value) => {
         try { //tries to store the data in temporary storage
+            if(name != null && typeof name === "string" && value != null) {
                 window.sessionStorage.setItem(name, value);
                 return true;
+            }
+            else
+                throw Error('Invalid storage name or null name/value');
         }
         catch (e) {
             //checks if storage didn't fail because it is full (returns true if it did) - the oly other reason it would fail is if storage is made unavailable
