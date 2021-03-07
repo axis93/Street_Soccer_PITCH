@@ -132,18 +132,26 @@ requestHandlers = {
             navbar.appendChild(navButton);
         }
 
-        if(data.quizzes != null && data.quizzes.length > 0) {
-            const firstQuestion = data.quizzes[0];
-            document.getElementById('quiz-title').innerHTML = firstQuestion.title;
-            document.getElementById('quiz-instructions').innerHTML = firstQuestion.instructions;
-            document.getElementById('quiz-text').innerHTML = firstQuestion.text_body;
+        if(data.quizzes != null && data.quizzes.length > 0)
+            quiz.loadQuestion({question: data.quizzes[0]});
+        else 
+            throw Error(`There are no questions available for the test with ID ${data.test_id}`);
+    }
+}
 
-            if(firstQuestion.answers != null && firstQuestion.answers.length > 0) {
+quiz = {
+    loadQuestion: ({question=null}={}) => {
+        if(question) {
+            document.getElementById('quiz-title').innerHTML = question.title;
+            document.getElementById('quiz-instructions').innerHTML = question.instructions;
+            document.getElementById('quiz-text').innerHTML = question.text_body;
+
+            if(question.answers != null && question.answers.length > 0) {
                 // ----- TODO ----- check if a path to an image is present and if it is, try to display it
 
                 const answersSection = document.getElementById('quiz-radio-section');
-                for(let i = 0; i < firstQuestion.answers.length; i++) {
-                    const answer = firstQuestion.answers[i];
+                for(let i = 0; i < question.answers.length; i++) {
+                    const answer = question.answers[i];
 
                     var answerContainer = document.createElement('div');
                     answerContainer.className = "row quiz-radio-row";
@@ -172,7 +180,7 @@ requestHandlers = {
                 throw Error(`There are no answers available for the question with ID ${firstQuestion.quiz_id}`);
         }
         else 
-            throw Error(`There are no questions available for the test with ID ${data.test_id}`);
+            throw Error(`There was no question specified`);
     }
 }
 
