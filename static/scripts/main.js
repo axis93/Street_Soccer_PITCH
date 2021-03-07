@@ -131,7 +131,13 @@ requestHandlers = {
             var navButton = elemUtils.createElement({type: 'button', className: "level-button quizzes-navigation-btn", innerHTML: i + 1, parent: navbar});
             navButton.setAttribute('data-quiz_id', i + 1);
             navButton.addEventListener("click", (event) => {
-                quiz.navigateQuestion(parseInt(event.target.getAttribute('data-quiz_id')));
+                var questionNumber = parseInt(event.target.getAttribute('data-quiz_id'));
+                quiz.navigateQuestion(questionNumber);
+
+                //update the question number then update the appropriate elements, based on this change (back button availability and continue button text)
+                quiz.currentQuestion = questionNumber;
+                elemUtils.checkBackButton();
+                document.getElementsByClassName('quiz-continue-space')[0].children[0].innerHTML = questionNumber === quiz.length ? "Finish" : "Continue";
             });
 
             /*var navButton = document.createElement('button');
@@ -212,25 +218,7 @@ quiz = {
                     //answersSection.appendChild(answerContainer);
                 }
 
-                const backContainer = document.getElementsByClassName('quiz-back-space')[0];
-                if(quiz.currentQuestion !== 1) {
-                    if(backContainer.children.length === 0) {
-                        var backButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Back", parent: backContainer});
-                        /*var backButton = document.createElement('button');
-                        backButton.className = "quiz-btn";
-                        backButton.innerHTML = "Back";*/
-
-                        backButton.addEventListener("click", () => {
-                            quiz.navigateQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
-                        });
-
-                        //backContainer.appendChild(backButton);
-                    }
-                }
-                else {
-                    if(backContainer.children.length > 0)
-                        backContainer.removeChild(backContainer.children[0]); //there will only ever be 1 child: the button
-                }
+                elemUtils.checkBackButton();
 
                 const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
                 if(continueContainer.children.length === 0) {
@@ -274,6 +262,26 @@ elemUtils = {
         parent.appendChild(element);
 
         return element
+    },
+
+    checkBackButton: () => {
+        const backContainer = document.getElementsByClassName('quiz-back-space')[0];
+        if(quiz.currentQuestion !== 1) {
+            if(backContainer.children.length === 0) {
+                var backButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Back", parent: backContainer});
+                /*var backButton = document.createElement('button');
+                backButton.className = "quiz-btn";
+                backButton.innerHTML = "Back";*/
+
+                backButton.addEventListener("click", () => {
+                    quiz.navigateQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
+                });
+
+                //backContainer.appendChild(backButton);
+            }
+        }
+        else if(backContainer.children.length > 0)
+            backContainer.removeChild(backContainer.children[0]); //there will only ever be 1 child: the button
     }
 }
 
