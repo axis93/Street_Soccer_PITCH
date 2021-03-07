@@ -114,8 +114,25 @@ requestHandlers = {
         }
     },
 
-    storeTest: (data) => {
+    displayTest: (data) => { // ----- TODO ----- it may be better to store the data in session storage as it will be easier to record and manage
+        console.log(data);
         storageUtils.removeSessionValue(storageUtils.testIdentifier);
+
+        const navbar = document.getElementById('quizzes-navigation');
+        for(let i = 0; i < data.quizzes.length; i++) {
+            var navButton = document.createElement('button');
+            navButton.innerHTML = i + 1;
+            navButton.className = "level-button quizzes-navigation-btn";
+
+            navButton.setAttribute('data-quiz_id', i);
+            navButton.addEventListener("click", (event) => {
+                //load question event.target.getAttribute('data-quiz_id');
+            });
+
+            navbar.appendChild(navButton);
+        }
+
+        document.getElementById('quiz-instructions').innerHTML = data.description;
     }
 }
 
@@ -133,7 +150,8 @@ storageUtils = { //only session storage is implemented here as we do not have a 
                 window.sessionStorage.setItem(name, value);
                 return true;
         }
-        catch (e) { //checks if storage didn't fail because it is full (returns true if it did) - the oly other reason it would fail is if storage is made unavailable
+        catch (e) {
+            //checks if storage didn't fail because it is full (returns true if it did) - the oly other reason it would fail is if storage is made unavailable
             return e instanceof DOMException && (
                    e.code === 22 ||
                    e.code === 1014 ||

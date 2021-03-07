@@ -2,12 +2,15 @@
 {% block title %}Quiz{% endblock %}
 {% block content %}
 	<div class="grid-container" style="padding-top: 10vh;">
+		<script>
+			request.get({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testIdentifier), handler: requestHandlers.displayTest});
+		</script>
 		<div class="grid-body-item contents column quiz-body">
 			<br>
-			<div class="row quizzes-navigation">
-				{% for i in range(1, 21) %}
+			<div id="quizzes-navigation" class="row">
+				<!--{% for i in range(1, 21) %}
 					<button class="level-button quizzes-navigation-btn">{{i}}</button>
-				{% endfor %}
+				{% endfor %}-->
 			</div>
 			<br>
 			<div id="quiz-title" class="title">Quiz</div>
