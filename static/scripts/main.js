@@ -164,6 +164,9 @@ quiz = {
                 // ----- TODO ----- check if a path to an image is present and if it is, try to display it
 
                 const answersSection = document.getElementById('quiz-radio-section');
+                
+                while(answersSection.hasChildNodes())
+                    answersSection.removeChild(answersSection.firstChild);
 
                 for(let i = 0; i < question.answers.length; i++) {
                     const answer = question.answers[i];
