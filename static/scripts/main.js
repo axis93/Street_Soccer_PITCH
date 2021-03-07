@@ -132,7 +132,47 @@ requestHandlers = {
             navbar.appendChild(navButton);
         }
 
-        document.getElementById('quiz-instructions').innerHTML = data.description;
+        if(data.quizzes != null && data.quizzes.length > 0) {
+            const firstQuestion = data.quizzes[0];
+            document.getElementById('quiz-title').innerHTML = firstQuestion.title;
+            document.getElementById('quiz-instructions').innerHTML = firstQuestion.instructions;
+            document.getElementById('quiz-text').innerHTML = firstQuestion.text_body;
+
+            if(firstQuestion.answers != null && firstQuestion.answers.length > 0) {
+                // ----- TODO ----- check if a path to an image is present and if it is, try to display it
+
+                const answersSection = document.getElementById('quiz-radio-section');
+                for(let i = 0; i < firstQuestion.answers.length; i++) {
+                    const answer = firstQuestion.answers[i];
+
+                    var answerContainer = document.createElement('div');
+                    answerContainer.className = "row quiz-radio-row";
+
+                    var answerButton = document.createElement('input');
+                    answerButton.type = 'radio';
+                    answerButton.id = answer.answer_id;
+                    answerButton.name = answer.type;
+                    answerButton.value = answer.answer_id;
+                    answerButton.className = "quiz-radio-btn";
+                    answerContainer.appendChild(answerButton);
+
+                    var buttonLabel = document.createElement('label');
+                    buttonLabel.htmlFor = answer.answer_id;
+                    buttonLabel.innerHTML = answer.body;
+                    answerContainer.appendChild(buttonLabel);
+
+                    /* doesn't work - switch to CSS padding instead
+                    var br = document.createElement('br');
+                    answerContainer.appendChild(br); */
+
+                    answersSection.appendChild(answerContainer);
+                }
+            }
+            else
+                throw Error(`There are no answers available for the question with ID ${firstQuestion.quiz_id}`);
+        }
+        else 
+            throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     }
 }
 
