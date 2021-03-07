@@ -189,16 +189,21 @@ quiz = {
                 while(answersSection.hasChildNodes())
                     answersSection.removeChild(answersSection.firstChild);
 
+                var attachmentContainer = document.getElementsByClassName('column quiz-attachment')[0];
                 if(question.path_to_attachment != null) {
-                    var attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment", parent: document.getElementsByClassName('quiz-content-row')[0]});
+                    if(attachmentContainer == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
+                        attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment", parent: document.getElementsByClassName('quiz-content-row')[0]});
 
-                    var imgElement = elemUtils.createElement({type: 'img', parent: attachmentContainer});
-                    imgElement.id = 'quiz-img';
-                    $(`#${imgElement.id}`).css({'width': '100%'});
-                    imgElement.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
+                        var imgElement = elemUtils.createElement({type: 'img', parent: attachmentContainer});
+                        imgElement.id = 'quiz-img';
+                        $(`#${imgElement.id}`).css({'width': '100%'});
+                    }
+                    attachmentContainer.firstChild.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
+                    
                 }
-
-
+                else if(attachmentContainer != null) //delete the image if it is not needed
+                    attachmentContainer.parentElement.removeChild(attachmentContainer);
+                
                 for(let i = 0; i < question.answers.length; i++) {
                     const answer = question.answers[i];
 
