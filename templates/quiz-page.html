@@ -1,67 +1,31 @@
 {% extends "base.html" %}
 {% block title %}Quiz{% endblock %}
 {% block content %}
+	<!-- this page is populated using JavaScript -->
 	<div class="grid-container" style="padding-top: 10vh;">
+		<script>
+			request.get({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testID), handler: requestHandlers.displayTest});
+		</script>
 		<div class="grid-body-item contents column quiz-body">
 			<br>
-			<div class="row quizzes-navigation">
-				{% for i in range(1, 21) %}
-					<button class="level-button quizzes-navigation-btn">{{i}}</button>
-				{% endfor %}
+			<div id="quizzes-navigation" class="row">
 			</div>
 			<br>
-			<div id="quiz-title" class="title">Quiz</div>
+			<div id="quiz-title" class="title"></div>
 			<p id="quiz-instructions" class="quiz-instructions">
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
 			</p>
 			<p id="quiz-text">
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
-				A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text A lot of text
 			</p>
 			<br>
-			<div class="row">
-				<!-- Condition if we have an image-->
-				{% if true==true %}
-					<div id="quiz-attachment" class="column quiz-attachment">
-						<img style="width: 100%;" src="{{ url_for('static', filename='images/BG_temp.png') }}">
-					</div>
-				{% endif %}
-				<!-- Condition if this is a multiple_choice quiz-->
-				{% if true==true %}
-					<div id="quiz-radio-section" class="column quiz-radio-section">
-						<!-- Generate possible answers for multiple choice quiz-->
-						{% for answer in range(1,5) %}
-							<div class="row quiz-radio-row">
-								<input type="radio" id="{{answer}}" name="multiple_choice" value="{{answer}}" class="quiz-radio-btn">
-								<label for="{{answer}}"> Answer Option {{answer}} Answer Option {{answer}}</label>
-							</div>
-							<br>
-						{% endfor %}
-					</div>
-				{% endif %}
+			<div class="row quiz-content-row">
+				<!-- displays are set to "none" and only become visible when they're needed -->
+				<div class="column quiz-attachment" style="display: none;"></div>
+				<div id="quiz-radio-section" class="column quiz-radio-section" style="display: none;"></div>
 			</div>
 			<div class="row quiz-buttons">
 				<div class="column quiz-back-space">
-					<!-- Condition if this is the first page-->
-					{% if true==true %}
-					<button class="quiz-btn">Back</button>
-					{% endif %}
 				</div>
 				<div class="column quiz-continue-space">
-					<!-- Condition if this is the last page-->
-					{% if true==true %}
-					<button class="quiz-btn">Continue</button>
-					{% else %}
-					<button class="quiz-finish-btn">FINISH</button>
-					{% endif %}
 				</div>
 			</div>
 		</div>

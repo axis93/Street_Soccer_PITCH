@@ -8,6 +8,7 @@
 - `pip install -r requirements.txt` *install all required packages (flask etc.)*
     - *On Linux, if pip isn't present in the virtualenv, try* `env/bin/python -m pip install -r requirements.txt`
 - `set FLASK_APP=app.py` *activate .py file to be the application*
+- `python database.py` *create and populate the database - this only needs to be ran once unless you delete the 'database.db' file, which you might want to do if you update the table*
 - `set FLASK_ENV=development` *activate development mode*
 - `python -m flask run --host=0.0.0.0` *run the application*
 - visit "http://localhost:5000/" *to see the application*
