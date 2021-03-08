@@ -148,11 +148,8 @@ quiz = {
             document.getElementById('quiz-text').innerHTML = question.text_body;
 
             var attachment = document.getElementById('quiz-img');
-
             if(question.path_to_attachment != null) {
                 if(attachment == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
-                    //attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment", parent: document.getElementsByClassName('quiz-content-row')[0]});
-
                     attachment = elemUtils.createElement({type: 'img', parent: document.getElementsByClassName('column quiz-attachment')[0]});
                     attachment.id = 'quiz-img';
                     $(`#${attachment.id}`).css({'width': '100%'});
@@ -166,7 +163,6 @@ quiz = {
             }
 
             const answersSection = document.getElementById('quiz-radio-section');
-                
             while(answersSection.hasChildNodes()) //remove all the answers from the answers section
                 answersSection.removeChild(answersSection.firstChild);
 
@@ -196,15 +192,26 @@ quiz = {
 
             elemUtils.checkBackButton();
 
-            const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
+            const continueContainer = document.getElementsByClassName('quiz-continue-space')[0];
+            var continueButton;
             if(continueContainer.children.length === 0) {
-                var continueButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Continue", parent: continueContainer});
+                continueButton = elemUtils.createElement({type: 'button', innerHTML: "Continue", parent: continueContainer});
 
                 continueButton.addEventListener("click", () => {
                     quiz.navigateToQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
                 });
             }
-            continueContainer.children[0].innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";
+            else
+                continueButton = continueContainer.children[0];
+
+            if(quiz.currentQuestion === quiz.length) {
+                continueButton.innerHTML = "Finish";
+                continueButton.className = "quiz-finish-btn";
+            }
+            else {
+                continueButton.innerHTML = "Continue";
+                continueButton.className = "quiz-btn";
+            }
         }
         else 
             throw Error('There was no question specified');
@@ -227,7 +234,7 @@ elemUtils = {
         if(eventListener != null)
             element.eventListener;*/
         
-        if(parent != null) //parent generally shouldn't equal null, however, if we want to insert an element before another element (such as a quiz's image before (i.e. to the left of) its answers) then we need to do this manually
+        if(parent != null) //parent generally shouldn't equal null, otherwise it will be appended to the bottom of the body
             parent.appendChild(element);
 
         return element
