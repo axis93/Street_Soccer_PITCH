@@ -147,30 +147,30 @@ quiz = {
             document.getElementById('quiz-instructions').innerHTML = question.instructions;
             document.getElementById('quiz-text').innerHTML = question.text_body;
 
+            var attachment = document.getElementById('quiz-img');
+
+            if(question.path_to_attachment != null) {
+                if(attachment == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
+                    //attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment", parent: document.getElementsByClassName('quiz-content-row')[0]});
+
+                    attachment = elemUtils.createElement({type: 'img', parent: document.getElementsByClassName('column quiz-attachment')[0]});
+                    attachment.id = 'quiz-img';
+                    $(`#${attachment.id}`).css({'width': '100%'});
+                }
+                attachment.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
+                attachment.parentElement.style.display = "block";
+            }
+            else if(attachment != null){ //delete the image if it is not needed
+                attachment.parentElement.style.display = "none";
+                attachment.parentElement.removeChild(attachment);
+            }
+
+            const answersSection = document.getElementById('quiz-radio-section');
+                
+            while(answersSection.hasChildNodes()) //remove all the answers from the answers section
+                answersSection.removeChild(answersSection.firstChild);
+
             if(question.answers != null && question.answers.length > 0) {
-                var attachment = document.getElementById('quiz-img');
-
-                if(question.path_to_attachment != null) {
-                    if(attachment == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
-                        //attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment", parent: document.getElementsByClassName('quiz-content-row')[0]});
-
-                        attachment = elemUtils.createElement({type: 'img', parent: document.getElementsByClassName('column quiz-attachment')[0]});
-                        attachment.id = 'quiz-img';
-                        $(`#${attachment.id}`).css({'width': '100%'});
-                    }
-                    attachment.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
-                    attachment.parentElement.style.display = "block";
-                }
-                else if(attachment != null){ //delete the image if it is not needed
-                    attachment.parentElement.style.display = "none";
-                    attachment.parentElement.removeChild(attachment);
-                }
-                
-                const answersSection = document.getElementById('quiz-radio-section');
-                
-                while(answersSection.hasChildNodes()) //remove all the answers from the answers section
-                    answersSection.removeChild(answersSection.firstChild);
-
                 for(let i = 0; i < question.answers.length; i++) {
                     const answer = question.answers[i];
 
@@ -189,21 +189,22 @@ quiz = {
                     var br = document.createElement('br');
                     answerContainer.appendChild(br); */
                 }
-
-                elemUtils.checkBackButton();
-
-                const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
-                if(continueContainer.children.length === 0) {
-                    var continueButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Continue", parent: continueContainer});
-
-                    continueButton.addEventListener("click", () => {
-                        quiz.navigateToQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
-                    });
-                }
-                continueContainer.children[0].innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";
+                answersSection.style.display = "flex";
             }
             else
-                throw Error(`There are no answers available for the question with ID ${question.quiz_id}`);
+                answersSection.style.display = "none";
+
+            elemUtils.checkBackButton();
+
+            const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
+            if(continueContainer.children.length === 0) {
+                var continueButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Continue", parent: continueContainer});
+
+                continueButton.addEventListener("click", () => {
+                    quiz.navigateToQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
+                });
+            }
+            continueContainer.children[0].innerHTML = quiz.currentQuestion === quiz.length ? "Finish" : "Continue";
         }
         else 
             throw Error('There was no question specified');
