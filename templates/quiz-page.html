@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Quiz{% endblock %}
 {% block content %}
+	<!-- this page is populated using JavaScript -->
 	<div class="grid-container" style="padding-top: 10vh;">
 		<script>
 			request.get({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testID), handler: requestHandlers.displayTest});
@@ -17,6 +18,7 @@
 			</p>
 			<br>
 			<div class="row quiz-content-row">
+				<!-- displays are set to "none" and only become visible when they're needed -->
 				<div class="column quiz-attachment" style="display: none;"></div>
 				<div id="quiz-radio-section" class="column quiz-radio-section" style="display: none;"></div>
 			</div>
