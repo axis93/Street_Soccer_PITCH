@@ -148,26 +148,29 @@ quiz = {
             document.getElementById('quiz-text').innerHTML = question.text_body;
 
             if(question.answers != null && question.answers.length > 0) {
+                var attachment = document.getElementById('quiz-img');
+
+                if(question.path_to_attachment != null) {
+                    if(attachment == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
+                        //attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment", parent: document.getElementsByClassName('quiz-content-row')[0]});
+
+                        attachment = elemUtils.createElement({type: 'img', parent: document.getElementsByClassName('column quiz-attachment')[0]});
+                        attachment.id = 'quiz-img';
+                        $(`#${attachment.id}`).css({'width': '100%'});
+                    }
+                    attachment.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
+                    attachment.parentElement.style.display = "block";
+                }
+                else if(attachment != null){ //delete the image if it is not needed
+                    attachment.parentElement.style.display = "none";
+                    attachment.parentElement.removeChild(attachment);
+                }
+                
                 const answersSection = document.getElementById('quiz-radio-section');
                 
-                while(answersSection.hasChildNodes())
+                while(answersSection.hasChildNodes()) //remove all the answers from the answers section
                     answersSection.removeChild(answersSection.firstChild);
 
-                var attachmentContainer = document.getElementsByClassName('column quiz-attachment')[0];
-                if(question.path_to_attachment != null) {
-                    if(attachmentContainer == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
-                        attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment"});
-
-                        var imgElement = elemUtils.createElement({type: 'img', parent: attachmentContainer});
-                        imgElement.id = 'quiz-img';
-                        $(`#${imgElement.id}`).css({'width': '100%'});
-                    }
-                    attachmentContainer.firstChild.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
-                    
-                }
-                else if(attachmentContainer != null) //delete the image if it is not needed
-                    attachmentContainer.parentElement.removeChild(attachmentContainer);
-                
                 for(let i = 0; i < question.answers.length; i++) {
                     const answer = question.answers[i];
 
@@ -186,9 +189,6 @@ quiz = {
                     var br = document.createElement('br');
                     answerContainer.appendChild(br); */
                 }
-
-                if(attachmentContainer != null)
-                    document.getElementsByClassName('quiz-content-row')[0].insertBefore(attachmentContainer, answersSection);
 
                 elemUtils.checkBackButton();
 
