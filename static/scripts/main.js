@@ -156,7 +156,7 @@ quiz = {
                 var attachmentContainer = document.getElementsByClassName('column quiz-attachment')[0];
                 if(question.path_to_attachment != null) {
                     if(attachmentContainer == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
-                        attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment", parent: document.getElementsByClassName('quiz-content-row')[0]});
+                        attachmentContainer = elemUtils.createElement({type: 'div', className: "column quiz-attachment"});
 
                         var imgElement = elemUtils.createElement({type: 'img', parent: attachmentContainer});
                         imgElement.id = 'quiz-img';
@@ -187,6 +187,9 @@ quiz = {
                     answerContainer.appendChild(br); */
                 }
 
+                if(attachmentContainer != null)
+                    document.getElementsByClassName('quiz-content-row')[0].insertBefore(attachmentContainer, answersSection);
+
                 elemUtils.checkBackButton();
 
                 const continueContainer = document.getElementsByClassName('quiz-continue-space')[0]
@@ -208,7 +211,7 @@ quiz = {
 }
 
 elemUtils = {
-    createElement: ({type, className=null, innerHTML=null, parent}={}) => { //, attributes = [], eventListener=null
+    createElement: ({type, className=null, innerHTML=null, parent=null}={}) => { //, attributes = [], eventListener=null
         var element = document.createElement(type);
 
         if(className != null)
@@ -223,7 +226,8 @@ elemUtils = {
         if(eventListener != null)
             element.eventListener;*/
         
-        parent.appendChild(element);
+        if(parent != null) //parent generally shouldn't equal null, however, if we want to insert an element before another element (such as a quiz's image before (i.e. to the left of) its answers) then we need to do this manually
+            parent.appendChild(element);
 
         return element
     },
