@@ -58,11 +58,6 @@ request = {
                     handler(data); //handler is the method (based on the parameter) that used the data from this request
             }
         });
-
-        //old implementation of doing a GET request
-        /*$.get(`/${endpoint}/${extension}`, (data) => {
-            handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
-        });*/
     },
 }
 
@@ -109,12 +104,16 @@ requestHandlers = {
             var navButton = elemUtils.createElement({type: 'button', className: "level-button quizzes-navigation-btn", innerHTML: i + 1, parent: navbar});
             navButton.setAttribute('data-quiz_id', i + 1);
             navButton.addEventListener("click", (event) => {
-                quiz.currentQuestion = parseInt(event.target.getAttribute('data-quiz_id'));
-                quiz.navigateToQuestion();
+                const newQuestion = parseInt(event.target.getAttribute('data-quiz_id'));
 
-                //update the question number then update the appropriate elements, based on this change (back button availability and continue button text)
-                elemUtils.checkBackButton();
-                elemUtils.checkContinueButton();
+                if(!quiz.viewedInfoPages.includes(newQuestion)) { //don't navigate to this button's page if it is an info page
+                    quiz.currentQuestion = newQuestion;
+                    quiz.navigateToQuestion();
+
+                    //update the question number then update the appropriate elements, based on this change (back button availability and continue button text)
+                    elemUtils.checkBackButton();
+                    elemUtils.checkContinueButton();
+                }
             });
         }
 
