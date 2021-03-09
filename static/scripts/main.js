@@ -149,17 +149,12 @@ quiz = {
 
             var attachment = document.getElementById('quiz-img');
             if(question.path_to_attachment != null) {
-                if(attachment == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
-                    attachment = elemUtils.createElement({type: 'img', parent: document.getElementsByClassName('column quiz-attachment')[0]});
-                    attachment.id = 'quiz-img';
-                    $(`#${attachment.id}`).css({'width': '100%'});
-                }
                 attachment.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
                 attachment.parentElement.style.display = "block";
             }
-            else if(attachment != null){ //delete the image if it is not needed
-                attachment.parentElement.style.display = "none";
-                attachment.parentElement.removeChild(attachment);
+            else if(attachment != null) {
+                attachment.src = "none"; //delete the image if it is not needed
+                attachment.parentElement.style.display = "none"; //also, hide it's container so it's not occupying space on the page
             }
 
             const answersSection = document.getElementById('quiz-radio-section');
@@ -180,10 +175,6 @@ quiz = {
 
                     var buttonLabel = elemUtils.createElement({type: 'label', innerHTML: answer.body, parent: answerContainer});
                     buttonLabel.htmlFor = answer.answer_id;
-
-                    /* doesn't work - switch to CSS padding instead
-                    var br = document.createElement('br');
-                    answerContainer.appendChild(br); */
                 }
                 answersSection.style.display = "flex";
             }
