@@ -115,7 +115,7 @@ requestHandlers = {
                 //update the question number then update the appropriate elements, based on this change (back button availability and continue button text)
                 quiz.currentQuestion = questionNumber;
                 elemUtils.checkBackButton();
-                document.getElementsByClassName('quiz-continue-space')[0].children[0].innerHTML = questionNumber === quiz.length ? "Finish" : "Continue";
+                elemUtils.checkContinueButton();
             });
         }
 
@@ -191,27 +191,7 @@ quiz = {
                 answersSection.style.display = "none";
 
             elemUtils.checkBackButton();
-
-            const continueContainer = document.getElementsByClassName('quiz-continue-space')[0];
-            var continueButton;
-            if(continueContainer.children.length === 0) {
-                continueButton = elemUtils.createElement({type: 'button', innerHTML: "Continue", parent: continueContainer});
-
-                continueButton.addEventListener("click", () => {
-                    quiz.navigateToQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
-                });
-            }
-            else
-                continueButton = continueContainer.children[0];
-
-            if(quiz.currentQuestion === quiz.length) {
-                continueButton.innerHTML = "Finish";
-                continueButton.className = "quiz-finish-btn";
-            }
-            else {
-                continueButton.innerHTML = "Continue";
-                continueButton.className = "quiz-btn";
-            }
+            elemUtils.checkContinueButton();
         }
         else 
             throw Error('There was no question specified');
@@ -253,6 +233,29 @@ elemUtils = {
         }
         else if(backContainer.children.length > 0)
             backContainer.removeChild(backContainer.children[0]); //there will only ever be 1 child: the button
+    },
+
+    checkContinueButton: () => {
+        const continueContainer = document.getElementsByClassName('quiz-continue-space')[0];
+        var continueButton;
+        if(continueContainer.children.length === 0) {
+            continueButton = elemUtils.createElement({type: 'button', innerHTML: "Continue", parent: continueContainer});
+
+            continueButton.addEventListener("click", () => {
+                quiz.navigateToQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
+            });
+        }
+        else
+            continueButton = continueContainer.children[0];
+
+        if(quiz.currentQuestion === quiz.length) {
+            continueButton.innerHTML = "Finish";
+            continueButton.className = "quiz-finish-btn";
+        }
+        else {
+            continueButton.innerHTML = "Continue";
+            continueButton.className = "quiz-btn";
+        }
     }
 }
 
