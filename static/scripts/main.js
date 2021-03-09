@@ -153,7 +153,7 @@ quiz = {
                 attachment.parentElement.style.display = "block";
             }
             else if(attachment != null) {
-                attachment.src = "none"; //delete the image if it is not needed
+                attachment.src = ""; //delete the image if it is not needed
                 attachment.parentElement.style.display = "none"; //also, hide it's container so it's not occupying space on the page
             }
 
