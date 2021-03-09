@@ -231,11 +231,11 @@ elemUtils = {
                 var backButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Back", parent: backContainer});
 
                 backButton.addEventListener("click", () => {
-                    if(--quiz.currentQuestion < 1)
+                    if(--quiz.currentQuestion < 1) //prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
                         ++quiz.currentQuestion;
                     quiz.isMovingBackwards = true;
 
-                    quiz.navigateToQuestion(); //this tenerary operator prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
+                    quiz.navigateToQuestion();
                 });
             }
         }
@@ -255,11 +255,11 @@ elemUtils = {
                     window.location.href = Flask.url_for('testresult');
                 }
                 else {
-                    if(++quiz.currentQuestion > quiz.length)
+                    if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
                         --quiz.currentQuestion;
                     quiz.isMovingBackwards = false;
 
-                    quiz.navigateToQuestion(); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
+                    quiz.navigateToQuestion();
                 }
             });
         }
