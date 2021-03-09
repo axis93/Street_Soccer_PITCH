@@ -109,11 +109,10 @@ requestHandlers = {
             var navButton = elemUtils.createElement({type: 'button', className: "level-button quizzes-navigation-btn", innerHTML: i + 1, parent: navbar});
             navButton.setAttribute('data-quiz_id', i + 1);
             navButton.addEventListener("click", (event) => {
-                var questionNumber = parseInt(event.target.getAttribute('data-quiz_id'));
-                quiz.navigateToQuestion(questionNumber);
+                quiz.currentQuestion = parseInt(event.target.getAttribute('data-quiz_id'));
+                quiz.navigateToQuestion();
 
                 //update the question number then update the appropriate elements, based on this change (back button availability and continue button text)
-                quiz.currentQuestion = questionNumber;
                 elemUtils.checkBackButton();
                 elemUtils.checkContinueButton();
             });
@@ -129,16 +128,31 @@ requestHandlers = {
 quiz = {
     length: null,
     currentQuestion: 1,
+    isMovingBackwards: false, //used to determine how an info page should be skipped: used to calculate if the user navigating forwards or backwards
+    viewedInfoPages: [],
 
-    navigateToQuestion: (question) => {
+    navigateToQuestion: () => { //navigates to question number 'quiz.currentQuestion'
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
-        quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, question));
+        quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
     },
 
-    findNextQuestion: (questions, order_num) => {
-        for(let i = 0; i < quiz.length; i++)
-            if(questions[i].order_num === order_num)
-                return questions[i];
+    findNextQuestion: (questions) => { //questions in the list may be out of order so we need to find it; sorting won't really be helpful as the info pages need to be prevented from loading once they've been read
+        for(let i = 0; i < quiz.length; i++) {
+            var question = questions[i];
+            
+            if(question.order_num === quiz.currentQuestion) {
+                if(question.type === "info") {
+                    if(quiz.viewedInfoPages.includes(quiz.currentQuestion)) { //if the current question is an info page that has been viewed, load the next/previous question of this one
+                        quiz.isMovingBackwards ? quiz.currentQuestion-- : quiz.currentQuestion++;
+                        i = 0; //we're now going to search for a different order number so restart the search
+                        continue;
+                    }
+                    else
+                        quiz.viewedInfoPages.push(quiz.currentQuestion);
+                }
+                return question;
+            }
+        }
     },
 
     loadQuestion: (question) => {
@@ -218,7 +232,11 @@ elemUtils = {
                 var backButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Back", parent: backContainer});
 
                 backButton.addEventListener("click", () => {
-                    quiz.navigateToQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
+                    if(--quiz.currentQuestion < 1)
+                        ++quiz.currentQuestion;
+                    quiz.isMovingBackwards = true;
+
+                    quiz.navigateToQuestion(); //this tenerary operator prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
                 });
             }
         }
@@ -233,7 +251,11 @@ elemUtils = {
             continueButton = elemUtils.createElement({type: 'button', innerHTML: "Continue", parent: continueContainer});
 
             continueButton.addEventListener("click", () => {
-                quiz.navigateToQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
+                if(++quiz.currentQuestion > quiz.length)
+                    --quiz.currentQuestion;
+                quiz.isMovingBackwards = false;
+
+                quiz.navigateToQuestion(); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
             });
         }
         else
