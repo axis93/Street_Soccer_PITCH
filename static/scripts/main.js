@@ -107,6 +107,7 @@ requestHandlers = {
                 const newQuestion = parseInt(event.target.getAttribute('data-quiz_id'));
 
                 if(!quiz.viewedInfoPages.includes(newQuestion)) { //don't navigate to this button's page if it is an info page
+                    quiz.previousQuestion = quiz.currentQuestion;
                     quiz.currentQuestion = newQuestion;
                     quiz.navigateToQuestion();
 
@@ -127,11 +128,17 @@ requestHandlers = {
 quiz = {
     length: null,
     currentQuestion: 1,
-    isMovingBackwards: false, //used to determine how an info page should be skipped: used to calculate if the user navigating forwards or backwards
+    previousQuestion: null,
     viewedInfoPages: [],
+    selectedAnswers: [],
 
     navigateToQuestion: () => { //navigates to question number 'quiz.currentQuestion'
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
+        const questions = data.quizzes;
+
+        if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) //if the last question was an info page (i.e. there were no answers available) then don't try to record one
+            quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].type);
+
         quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
     },
 
@@ -142,7 +149,7 @@ quiz = {
             if(question.order_num === quiz.currentQuestion) {
                 if(question.type === "info") {
                     if(quiz.viewedInfoPages.includes(quiz.currentQuestion)) { //if the current question is an info page that has been viewed, load the next/previous question of this one
-                        quiz.isMovingBackwards ? quiz.currentQuestion-- : quiz.currentQuestion++;
+                        quiz.previousQuestion > quiz.currentQuestion ? quiz.currentQuestion-- : quiz.currentQuestion++;
                         i = 0; //we're now going to search for a different order number so restart the search
                         continue;
                     }
@@ -152,6 +159,10 @@ quiz = {
                 return question;
             }
         }
+    },
+
+    recordAnswer: (buttonsName) => {
+        const radioButtons = null;
     },
 
     loadQuestion: (question) => {
@@ -233,7 +244,8 @@ elemUtils = {
                 backButton.addEventListener("click", () => {
                     if(--quiz.currentQuestion < 1) //prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
                         ++quiz.currentQuestion;
-                    quiz.isMovingBackwards = true;
+                    else
+                        quiz.previousQuestion = quiz.currentQuestion + 1;
 
                     quiz.navigateToQuestion();
                 });
@@ -257,7 +269,8 @@ elemUtils = {
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
                         --quiz.currentQuestion;
-                    quiz.isMovingBackwards = false;
+                    else
+                        quiz.previousQuestion = quiz.currentQuestion - 1;
 
                     quiz.navigateToQuestion();
                 }
