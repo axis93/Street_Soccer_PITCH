@@ -129,8 +129,8 @@ quiz = {
     length: null,
     currentQuestion: 1,
     previousQuestion: null,
-    viewedInfoPages: [],
-    selectedAnswers: [],
+    viewedInfoPages: [], //stores info pages (by order_num) that have been viewed
+    selectedAnswers: [], //stores the history of the user's selected answers, in the format "{question: x, answer: y}"
 
     navigateToQuestion: () => { //navigates to question number 'quiz.currentQuestion'
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
@@ -162,7 +162,24 @@ quiz = {
     },
 
     recordAnswer: (buttonsName) => {
-        const radioButtons = null;
+        const radioButtons = document.getElementsByName(buttonsName);
+
+        for(let i = 0; i < radioButtons.length; i++) {
+            if(radioButtons[i].checked) {
+                for(let j = 0; j < quiz.selectedAnswers.length; j++) { //check is we already have a recorded answer for the previous question; if we do, update it
+                    if(quiz.selectedAnswers[j].question === quiz.previousQuestion) {
+                        quiz.selectedAnswers[j].answer = i;
+                        return;
+                    }
+                }
+        
+                quiz.selectedAnswers.push({ //if we don't have a previously recorded answer for this question, record this one at 'i'
+                    question: quiz.previousQuestion,
+                    answer: i
+                });
+                return;
+            }
+        }
     },
 
     loadQuestion: (question) => {
@@ -186,6 +203,11 @@ quiz = {
                 answersSection.removeChild(answersSection.firstChild);
 
             if(question.answers != null && question.answers.length > 0) {
+                var previousAnswer = null;
+                for(let i = 0; i < quiz.selectedAnswers.length; i++)
+                    if(quiz.selectedAnswers[i].question === quiz.currentQuestion)
+                        previousAnswer = quiz.selectedAnswers[i].answer;
+
                 for(let i = 0; i < question.answers.length; i++) {
                     const answer = question.answers[i];
 
@@ -196,6 +218,7 @@ quiz = {
                     answerButton.id = answer.answer_id;
                     answerButton.name = answer.type;
                     answerButton.value = answer.answer_id;
+                    answerButton.checked = i === previousAnswer;
 
                     var buttonLabel = elemUtils.createElement({type: 'label', innerHTML: answer.body, parent: answerContainer});
                     buttonLabel.htmlFor = answer.answer_id;
