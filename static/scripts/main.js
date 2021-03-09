@@ -250,11 +250,17 @@ elemUtils = {
             continueButton = elemUtils.createElement({type: 'button', innerHTML: "Continue", parent: continueContainer});
 
             continueButton.addEventListener("click", () => {
-                if(++quiz.currentQuestion > quiz.length)
-                    --quiz.currentQuestion;
-                quiz.isMovingBackwards = false;
+                if(continueButton.className === "quiz-finish-btn") {
+                    storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
+                    window.location.href = Flask.url_for('testresult');
+                }
+                else {
+                    if(++quiz.currentQuestion > quiz.length)
+                        --quiz.currentQuestion;
+                    quiz.isMovingBackwards = false;
 
-                quiz.navigateToQuestion(); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
+                    quiz.navigateToQuestion(); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
+                }
             });
         }
         else
@@ -317,7 +323,7 @@ storageUtils = { //only session storage is implemented here as we do not have a 
     
     removeSessionValue: (name) => {
         try {
-            if(window.sessionStorage.getItem(name) !== null) {
+            if(window.sessionStorage.getItem(name) != null) {
                 window.sessionStorage.removeItem(name);
                 return true;
             }
