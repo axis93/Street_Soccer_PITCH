@@ -142,15 +142,18 @@ requestHandlers = {
 
         data.quizzes.forEach((question) => { //we need to search through every question to check which answers have been selected - if an answer hasn't been selected, we still need to change it's answer to 'false' in case it's been set to 'true' by a previous attempt of this test
             question.answers.forEach((answer) => {
-                request.ajax({
-                    endpoint: 'answers',
-                    method: 'PUT',
-                    data: {
-                        answer_id: answer.answer_id,
-                        is_selected: selectedIDs.includes(answer.answer_id) ? true : null //reqparse in Flask doesn't recognise 'false' as 0, I'm assuming this is because it sees 'is_selected' is defined and thinks it's therefore 'true'
-                    },
-                    handler: console.log //in case there is a bad request, log the details explaining why
-                });
+                var isSelectedID = selectedIDs.includes(answer.answer_id);
+
+                if((answer.is_selected && !isSelectedID) || (!answer.is_selected && isSelectedID)) //prevents PUT requests being made to the back end (for this answer) if there are no changes to be made to 'is_selected'
+                    request.ajax({
+                        endpoint: 'answers',
+                        method: 'PUT',
+                        data: {
+                            answer_id: answer.answer_id,
+                            is_selected: isSelectedID ? true : null //reqparse in Flask doesn't recognise 'false' as 0, I'm assuming this is because it sees 'is_selected' is defined and thinks it's therefore 'true'
+                        },
+                        handler: console.log //in case there is a bad request, log the details explaining why
+                    });
             })
         });
     }
