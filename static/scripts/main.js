@@ -122,6 +122,26 @@ requestHandlers = {
             quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, 1));
         else 
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
+    },
+
+    recordUserAnswers: () => {
+        const data = storageUtils.getSessionValue(storageUtils.testDataID);
+
+        data.quizzes.forEach((question) => {
+            quiz.selectedAnswers.forEach((answerRecord) => {
+                if(question.order_num === answerRecord.question) {
+                    request.ajax({
+                        endpoint: 'answers',
+                        method: 'PUT',
+                        data: {
+                            answer_id: question.answers[answerRecord.answer].answer_id,
+                            is_selected: 1
+                        },
+                        handler: console.log
+                    });
+                }
+            })
+        });
     }
 }
 
@@ -281,13 +301,15 @@ elemUtils = {
     checkContinueButton: () => {
         const continueContainer = document.getElementsByClassName('quiz-continue-space')[0];
         var continueButton;
+
         if(continueContainer.children.length === 0) {
             continueButton = elemUtils.createElement({type: 'button', innerHTML: "Continue", parent: continueContainer});
 
             continueButton.addEventListener("click", () => {
                 if(continueButton.className === "quiz-finish-btn") {
+                    requestHandlers.recordUserAnswers();
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    window.location.href = Flask.url_for('testresult');
+                    //window.location.href = Flask.url_for('testresult');
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
