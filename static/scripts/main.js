@@ -147,13 +147,13 @@ quiz = {
             var question = questions[i];
             
             if(question.order_num === quiz.currentQuestion) {
-                if(question.type === "info") {
-                    if(quiz.viewedInfoPages.includes(quiz.currentQuestion)) { //if the current question is an info page that has been viewed, load the next/previous question of this one
-                        quiz.previousQuestion > quiz.currentQuestion ? quiz.currentQuestion-- : quiz.currentQuestion++;
+                if(question.type === "info") { //if the current question is an info page...
+                    if(quiz.viewedInfoPages.includes(quiz.currentQuestion)) { //... that has been viewed, load the next/previous question of this one
+                        quiz.previousQuestion > quiz.currentQuestion ? quiz.currentQuestion-- : quiz.currentQuestion++; // previous is > current if the user clicked "Back", otherwise they clicked continue: this is used to change which question to load
                         i = 0; //we're now going to search for a different order number so restart the search
                         continue;
                     }
-                    else
+                    else //... that hasn't been viewed, add the order_num of this info page to the list of viewed info pages
                         quiz.viewedInfoPages.push(quiz.currentQuestion);
                 }
                 return question;
@@ -166,7 +166,7 @@ quiz = {
 
         for(let i = 0; i < radioButtons.length; i++) {
             if(radioButtons[i].checked) {
-                for(let j = 0; j < quiz.selectedAnswers.length; j++) { //check is we already have a recorded answer for the previous question; if we do, update it
+                for(let j = 0; j < quiz.selectedAnswers.length; j++) { //check if we already have a recorded answer for the previous question; if we do, update it
                     if(quiz.selectedAnswers[j].question === quiz.previousQuestion) {
                         quiz.selectedAnswers[j].answer = i;
                         return;
