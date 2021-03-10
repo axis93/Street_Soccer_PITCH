@@ -48,10 +48,10 @@ events = {
 }
 
 request = {
-    get: ({endpoint, extension=null, data=null, handler}={}) => {
+    get: ({endpoint, method="GET", extension=null, data=null, handler}={}) => {
         $.ajax({
             url: extension === null ? `${endpoint}` : `${endpoint}/${extension}`,
-            method: "GET",
+            method: method,
             data: data,
             success: (data) => {
                 if(handler != null && data != null) //if we got data from the backend and we have something to do with it
