@@ -53,12 +53,13 @@ request = {
             url: extension === null ? `${endpoint}` : `${endpoint}/${extension}`,
             method: method,
             data: data,
+            async: true,
             success: (servedData) => {
                 if(handler != null && servedData != null) //if we got data from the backend and we have something to do with it
                     handler(servedData); //handler is the method (based on the parameter) that used the data from this request
             }
         });
-    },
+    }
 }
 
 requestHandlers = {
@@ -127,20 +128,23 @@ requestHandlers = {
 
     recordUserAnswers: () => {
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
+        var selectedIDs = [];
+
+        quiz.selectedAnswers.forEach((answerRecord) => { //create a list of the IDs of answers that the user selected
+            selectedIDs.push(answerRecord.answer_id);
+        })
 
         data.quizzes.forEach((question) => {
-            quiz.selectedAnswers.forEach((answerRecord) => {
-                if(question.order_num === answerRecord.question) {
-                    request.ajax({
-                        endpoint: 'answers',
-                        method: 'PUT',
-                        data: {
-                            answer_id: question.answers[answerRecord.answer].answer_id,
-                            is_selected: 1
-                        },
-                        handler: console.log //in case there is a bad request, log the details explaining why
-                    });
-                }
+            question.answers.forEach((answer) => {
+                request.ajax({
+                    endpoint: 'answers',
+                    method: 'PUT',
+                    data: {
+                        answer_id: answer.answer_id,
+                        is_selected: selectedIDs.includes(answer.answer_id) ? true : null //reqparse in Flask doesn't recognise 'false' as 0, I'm assuming this is because it sees 'is_selected' is defined and thinks it's therefore 'true'
+                    },
+                    handler: console.log //in case there is a bad request, log the details explaining why
+                });
             })
         });
     }
@@ -153,14 +157,15 @@ quiz = {
     viewedInfoPages: [], //stores info pages (by order_num) that have been viewed
     selectedAnswers: [], //stores the history of the user's selected answers, in the format "{question: x, answer: y}"
 
-    navigateToQuestion: () => { //navigates to question number 'quiz.currentQuestion'
+    navigateToQuestion: ({isFinish=false}={}) => { //navigates to question number 'quiz.currentQuestion'
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
         const questions = data.quizzes;
 
         if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) //if the last question was an info page (i.e. there were no answers available) then don't try to record one
             quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].type);
 
-        quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
+        if(!isFinish)
+            quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
     },
 
     findNextQuestion: (questions) => { //questions in the list may be out of order so we need to find them in order (it's be more efficient to just sort the list based on 'question.order_num', but I haven't implemented that yet)
@@ -196,7 +201,8 @@ quiz = {
         
                 quiz.selectedAnswers.push({ //if we don't have a previously recorded answer for this question, record this one at 'i'
                     question: quiz.previousQuestion,
-                    answer: i
+                    answer: i,
+                    answer_id: parseInt(radioButtons[i].value)
                 });
                 return;
             }
@@ -311,9 +317,13 @@ elemUtils = {
 
             continueButton.addEventListener("click", () => {
                 if(continueButton.className === "quiz-finish-btn") {
+                    //this is only done so we can record the user's answer to the last question
+                    quiz.previousQuestion = quiz.currentQuestion;
+                    quiz.navigateToQuestion({isFinish: true});
+
                     requestHandlers.recordUserAnswers();
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    window.location.href = Flask.url_for('testresult');
+                    //window.location.href = Flask.url_for('testresult');
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
