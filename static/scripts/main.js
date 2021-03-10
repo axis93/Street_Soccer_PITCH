@@ -94,15 +94,16 @@ requestHandlers = {
     },
 
     displayTest: (data) => {
-        storageUtils.removeSessionValue(storageUtils.testID);
+        storageUtils.removeSessionValue(storageUtils.testID); //at this point we have collected the data for this test from the back end, so we can now delete the ID used to acquire it
         storageUtils.storeSessionValue(storageUtils.testDataID, data);
 
         quiz.length = data.quizzes.length;
 
         const navbar = document.getElementById('quizzes-navigation');
-        for(let i = 0; i < quiz.length; i++) {
+        for(let i = 0; i < quiz.length; i++) { //for each question in the quiz, create a button for each of them which we can use to navigate to a specific question 
             var navButton = elemUtils.createElement({type: 'button', className: "level-button quizzes-navigation-btn", innerHTML: i + 1, parent: navbar});
-            navButton.setAttribute('data-quiz_id', i + 1);
+
+            navButton.setAttribute('data-quiz_id', i + 1); //give this button an attribute which stores the ID of the question it should take the user to
             navButton.addEventListener("click", (event) => {
                 const newQuestion = parseInt(event.target.getAttribute('data-quiz_id'));
 
@@ -111,7 +112,7 @@ requestHandlers = {
                     quiz.currentQuestion = newQuestion;
                     quiz.navigateToQuestion();
 
-                    //update the question number then update the appropriate elements, based on this change (back button availability and continue button text)
+                    //update the appropriate elements based on the new question number (back button availability and continue button style)
                     elemUtils.checkBackButton();
                     elemUtils.checkContinueButton();
                 }
@@ -137,7 +138,7 @@ requestHandlers = {
                             answer_id: question.answers[answerRecord.answer].answer_id,
                             is_selected: 1
                         },
-                        handler: console.log
+                        handler: console.log //in case there is a bad request, log the details explaining why
                     });
                 }
             })
@@ -162,7 +163,7 @@ quiz = {
         quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
     },
 
-    findNextQuestion: (questions) => { //questions in the list may be out of order so we need to find it; sorting won't really be helpful as the info pages need to be prevented from loading once they've been read
+    findNextQuestion: (questions) => { //questions in the list may be out of order so we need to find them in order (it's be more efficient to just sort the list based on 'question.order_num', but I haven't implemented that yet)
         for(let i = 0; i < quiz.length; i++) {
             var question = questions[i];
             
@@ -204,6 +205,7 @@ quiz = {
 
     loadQuestion: (question) => {
         if(question !== null) {
+            //update all the constant HTML elements
             document.getElementById('quiz-title').innerHTML = question.title;
             document.getElementById('quiz-instructions').innerHTML = question.instructions;
             document.getElementById('quiz-text').innerHTML = question.text_body;
@@ -224,22 +226,24 @@ quiz = {
 
             if(question.answers != null && question.answers.length > 0) {
                 var previousAnswer = null;
-                for(let i = 0; i < quiz.selectedAnswers.length; i++)
+                for(let i = 0; i < quiz.selectedAnswers.length; i++) //if an answer for this question has been previously selected, we need to re-select it
                     if(quiz.selectedAnswers[i].question === quiz.currentQuestion)
                         previousAnswer = quiz.selectedAnswers[i].answer;
 
-                for(let i = 0; i < question.answers.length; i++) {
+                for(let i = 0; i < question.answers.length; i++) { //list all the available answers for this question
                     const answer = question.answers[i];
 
                     var answerContainer = elemUtils.createElement({type: 'div', className: "row quiz-radio-row", parent: answersSection});
 
+                    //creates a radio button
                     var answerButton = elemUtils.createElement({type: 'input', className: "quiz-radio-btn", parent: answerContainer});
                     answerButton.type = 'radio';
                     answerButton.id = answer.answer_id;
                     answerButton.name = answer.type;
                     answerButton.value = answer.answer_id;
-                    answerButton.checked = i === previousAnswer;
+                    answerButton.checked = i === previousAnswer; //if there is a previously selected answer in this list of answers - and it's the one we're currently creating on the page - check it's radio button
 
+                    //creates a lable which corresponds to the radio button created above
                     var buttonLabel = elemUtils.createElement({type: 'label', innerHTML: answer.body, parent: answerContainer});
                     buttonLabel.htmlFor = answer.answer_id;
                 }
@@ -309,7 +313,7 @@ elemUtils = {
                 if(continueButton.className === "quiz-finish-btn") {
                     requestHandlers.recordUserAnswers();
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    //window.location.href = Flask.url_for('testresult');
+                    window.location.href = Flask.url_for('testresult');
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
