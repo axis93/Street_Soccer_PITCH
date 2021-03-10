@@ -134,7 +134,7 @@ requestHandlers = {
             selectedIDs.push(answerRecord.answer_id);
         })
 
-        data.quizzes.forEach((question) => {
+        data.quizzes.forEach((question) => { //we need to search through every question to check which answers have been selected - if an answer hasn't been selected, we still need to change it's answer to 'false' in case it's been set to 'true' by a previous attempt of this test
             question.answers.forEach((answer) => {
                 request.ajax({
                     endpoint: 'answers',
