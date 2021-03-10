@@ -25,6 +25,7 @@ class Answer(Resource):
 
     def put(self):
         request_data = Answer.parser.parse_args()
+        
         if request_data['is_selected'] == None:
             return {'message': 'An error occured - \'is_selected\' was empty'}
 
@@ -33,8 +34,6 @@ class Answer(Resource):
                 return {'message': 'Answer with ID {} doesn\'t exist in the database'}.format(request_data['answer_id']), 404
         except:
             return {'message': 'An error occured while reading the answer ID from the database'}, 500
-
-        
 
         # there is, currently, only the option to update the item in the database: all test data is inserted prior to the app starting and we have no need to insert any data during runtime yet
         try:
