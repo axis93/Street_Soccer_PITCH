@@ -89,11 +89,17 @@ requestHandlers = {
                 //for every test in this topic, add a button to the button container for it
                 for(let j = 0; j < topic.tests.length; j++) {
                     var topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
-
+                    
+                    //attributes for the button
+                    topicItemLevel.setAttribute('id', String('test-button-' + topic.tests[j].test_id));
                     topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id); //store the ID of the test in which this button relates to
+                    
+                    //when the button is clicked
                     topicItemLevel.addEventListener("click", (event) => { //'event' is used to get the HTML element which this event is attached to
+                        document.getElementById(String('test-button-' + storageUtils.getSessionValue(storageUtils.testID))).style = "background-color: var(--dark);"
                         storageUtils.storeSessionValue(storageUtils.testID, event.target.getAttribute('data-test_id')); //get the ID and store it in the session so it's carried over to 'quiz-page'
-                        window.location.href = Flask.url_for('quiz_page');
+                        document.getElementById(String('test-button-' + topic.tests[j].test_id)).style = "background-color: var(--darker);"
+                        document.getElementById("side-panel").style.visibility = "visible";
                     });
                 }
             }
@@ -413,5 +419,16 @@ storageUtils = { //only session storage is implemented here as we do not have a 
         catch(e) {
             return false;
         }
+    }
+}
+
+functions = {
+    startQuiz() {
+        window.location.href = Flask.url_for('quiz_page');
+    },
+
+    closeSidepanel() {
+        document.getElementById(String('test-button-' + storageUtils.getSessionValue(storageUtils.testID))).style = "background-color: var(--dark);"
+        document.getElementById("side-panel").style.visibility = "hidden";
     }
 }

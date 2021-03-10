@@ -3,6 +3,7 @@
     --darker: #242424;
     --darkest: #1a1919;
     --light: #FFF;
+    --less-dark: #585858;
     --accent: #527CEA;
     --accent-dim: #314E97;
     --transparent: #00000000;
@@ -62,6 +63,9 @@ body {
     .quiz-radio-section {
         flex: initial;
     }
+    .side-panel {
+        width: 100vw;
+    }
     .title-bar {
         width: min-content;
         flex-flow: column wrap;
@@ -85,6 +89,12 @@ body {
 }
 
 /*-----------------------------------------------bigger-devices--------------------------------------------------*/
+@media screen and (min-width: 450px) {
+    .side-panel {
+        width: 300px;
+    }
+}
+
 @media screen and (min-width: 700px) {
     .title-bar {
         width: 100vw;
@@ -564,6 +574,27 @@ body {
     text-align: left;
 }
 
+/* SIDE PANEL */
+
+.side-panel {
+    visibility: hidden;
+    background-color: var(--darker);
+    z-index: 50;
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100vh;
+}
+
+.close-side-panel-button {
+    color: var(--less-dark);
+    float: left;
+}
+
+.close-side-panel-button:hover {
+    cursor: pointer;
+}
+
 /*-----------------------------------------------quiz--------------------------------------------------*/
 .quiz-back-space {
     align-content: flex-start;
@@ -583,6 +614,10 @@ body {
     height: 40px;
 }
 
+.quiz-btn:hover {
+    cursor: pointer;
+}
+
 .quiz-buttons {
     margin: 5vh 0;
 }
@@ -599,6 +634,10 @@ body {
     background-color: var(--light);
     color: var(--accent-dim);
     height: 40px;
+}
+
+.quiz-finish-btn {
+    cursor: pointer;
 }
 
 .quiz-instructions {
