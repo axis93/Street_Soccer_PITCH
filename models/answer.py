@@ -35,7 +35,7 @@ class AnswerModel:
 
         cursor.execute(query, args)
 
-        connection .commit()
+        connection.commit()
         connection.close()
 
     @classmethod
