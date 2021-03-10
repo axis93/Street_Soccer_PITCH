@@ -4,7 +4,7 @@
 	<!-- this page is populated using JavaScript -->
 	<div class="grid-container" style="padding-top: 10vh;">
 		<script>
-			request.get({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testID), handler: requestHandlers.displayTest});
+			request.ajax({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testID), handler: requestHandlers.displayTest});
 		</script>
 		<div class="grid-body-item contents column quiz-body">
 			<br>
@@ -19,7 +19,9 @@
 			<br>
 			<div class="row quiz-content-row">
 				<!-- displays are set to "none" and only become visible when they're needed -->
-				<div class="column quiz-attachment" style="display: none;"></div>
+				<div class="column quiz-attachment" style="display: none;">
+					<img id="quiz-img" style="width: 100%;" src=""/>
+				</div>
 				<div id="quiz-radio-section" class="column quiz-radio-section" style="display: none;"></div>
 			</div>
 			<div class="row quiz-buttons">

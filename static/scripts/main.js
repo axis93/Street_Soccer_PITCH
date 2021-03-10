@@ -48,22 +48,24 @@ events = {
 }
 
 request = {
-    get: ({endpoint, extension=null, data=null, handler}={}) => {
+    /* endpoint - the resource you want to get data from (a list of available resources are available at the bottom of 'app.py')
+     * method - the type of request you want to make
+     * extension - any additional information the resource may need - if you looked in 'app.py' you'll see that some of them need an ID: this is where the ID is specified
+     * data - this is basically an extension but with more information: you send the API a JavaScript object with the attributes needed, for example "{ topic_id: 2 }" at the endpoint "/topics" to get the topic with an ID of '2'
+     * handler - this is the function you want to use your data from the back end in, for example: 'request.listTopics' creates HTML elements dynamically for every topic's name and buttons that take the user to that topic's tests
+     */
+    ajax: ({endpoint=null, method="GET", extension=null, data=null, handler=null}={}) => { //defaults to a "GET" request as this is used most frequently
         $.ajax({
             url: extension === null ? `${endpoint}` : `${endpoint}/${extension}`,
-            method: "GET",
+            method: method,
             data: data,
-            success: (data) => {
-                if(handler != null && data != null) //if we got data from the backend and we have something to do with it
-                    handler(data); //handler is the method (based on the parameter) that used the data from this request
+            async: true,
+            success: (servedData) => {
+                if(handler != null && servedData != null) //if we got data from the backend and we have something to do with it
+                    handler(servedData); //handler is the method (based on the parameter) that used the data from this request
             }
         });
-
-        //old implementation of doing a GET request
-        /*$.get(`/${endpoint}/${extension}`, (data) => {
-            handler(data); //'handler' is the JavaScript function that will handle the data returned from the backend
-        });*/
-    },
+    }
 }
 
 requestHandlers = {
@@ -99,23 +101,28 @@ requestHandlers = {
     },
 
     displayTest: (data) => {
-        storageUtils.removeSessionValue(storageUtils.testID);
+        storageUtils.removeSessionValue(storageUtils.testID); //at this point we have collected the data for this test from the back end, so we can now delete the ID used to acquire it
         storageUtils.storeSessionValue(storageUtils.testDataID, data);
 
         quiz.length = data.quizzes.length;
 
         const navbar = document.getElementById('quizzes-navigation');
-        for(let i = 0; i < quiz.length; i++) {
+        for(let i = 0; i < quiz.length; i++) { //for each question in the quiz, create a button for each of them which we can use to navigate to a specific question 
             var navButton = elemUtils.createElement({type: 'button', className: "level-button quizzes-navigation-btn", innerHTML: i + 1, parent: navbar});
-            navButton.setAttribute('data-quiz_id', i + 1);
-            navButton.addEventListener("click", (event) => {
-                var questionNumber = parseInt(event.target.getAttribute('data-quiz_id'));
-                quiz.navigateToQuestion(questionNumber);
 
-                //update the question number then update the appropriate elements, based on this change (back button availability and continue button text)
-                quiz.currentQuestion = questionNumber;
-                elemUtils.checkBackButton();
-                document.getElementsByClassName('quiz-continue-space')[0].children[0].innerHTML = questionNumber === quiz.length ? "Finish" : "Continue";
+            navButton.setAttribute('data-quiz_id', i + 1); //give this button an attribute which stores the ID of the question it should take the user to
+            navButton.addEventListener("click", (event) => {
+                const newQuestion = parseInt(event.target.getAttribute('data-quiz_id'));
+
+                if(!quiz.viewedInfoPages.includes(newQuestion)) { //don't navigate to this button's page if it is an info page
+                    quiz.previousQuestion = quiz.currentQuestion;
+                    quiz.currentQuestion = newQuestion;
+                    quiz.navigateToQuestion();
+
+                    //update the appropriate elements based on the new question number (back button availability and continue button style)
+                    elemUtils.checkBackButton();
+                    elemUtils.checkContinueButton();
+                }
             });
         }
 
@@ -123,43 +130,109 @@ requestHandlers = {
             quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, 1));
         else 
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
+    },
+
+    recordUserAnswers: () => {
+        const data = storageUtils.getSessionValue(storageUtils.testDataID);
+        var selectedIDs = [];
+
+        quiz.selectedAnswers.forEach((answerRecord) => { //create a list of the IDs of answers that the user selected
+            selectedIDs.push(answerRecord.answer_id);
+        })
+
+        data.quizzes.forEach((question) => { //we need to search through every question to check which answers have been selected - if an answer hasn't been selected, we still need to change it's answer to 'false' in case it's been set to 'true' by a previous attempt of this test
+            question.answers.forEach((answer) => {
+                var isSelectedID = selectedIDs.includes(answer.answer_id);
+
+                if((answer.is_selected && !isSelectedID) || (!answer.is_selected && isSelectedID)) //prevents PUT requests being made to the back end (for this answer) if there are no changes to be made to 'is_selected'
+                    request.ajax({
+                        endpoint: 'answers',
+                        method: 'PUT',
+                        data: {
+                            answer_id: answer.answer_id,
+                            is_selected: isSelectedID ? true : null //reqparse in Flask doesn't recognise 'false' as 0, I'm assuming this is because it sees 'is_selected' is defined and thinks it's therefore 'true'
+                        },
+                        handler: console.log //in case there is a bad request, log the details explaining why
+                    });
+            })
+        });
     }
 }
 
 quiz = {
     length: null,
     currentQuestion: 1,
+    previousQuestion: null,
+    viewedInfoPages: [], //stores info pages (by order_num) that have been viewed
+    selectedAnswers: [], //stores the history of the user's selected answers, in the format "{question: x, answer: y}"
 
-    navigateToQuestion: (question) => {
+    navigateToQuestion: ({isFinish=false}={}) => { //navigates to question number 'quiz.currentQuestion'
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
-        quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, question));
+        const questions = data.quizzes;
+
+        if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) //if the last question was an info page (i.e. there were no answers available) then don't try to record one
+            quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].type);
+
+        if(!isFinish)
+            quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
     },
 
-    findNextQuestion: (questions, order_num) => {
-        for(let i = 0; i < quiz.length; i++)
-            if(questions[i].order_num === order_num)
-                return questions[i];
+    findNextQuestion: (questions) => { //questions in the list may be out of order so we need to find them in order (it's be more efficient to just sort the list based on 'question.order_num', but I haven't implemented that yet)
+        for(let i = 0; i < quiz.length; i++) {
+            var question = questions[i];
+            
+            if(question.order_num === quiz.currentQuestion) {
+                if(question.type === "info") { //if the current question is an info page...
+                    if(quiz.viewedInfoPages.includes(quiz.currentQuestion)) { //... that has been viewed, load the next/previous question of this one
+                        quiz.previousQuestion > quiz.currentQuestion ? quiz.currentQuestion-- : quiz.currentQuestion++; // previous is > current if the user clicked "Back", otherwise they clicked continue: this is used to change which question to load
+                        i = 0; //we're now going to search for a different order number so restart the search
+                        continue;
+                    }
+                    else //... that hasn't been viewed, add the order_num of this info page to the list of viewed info pages
+                        quiz.viewedInfoPages.push(quiz.currentQuestion);
+                }
+                return question;
+            }
+        }
+    },
+
+    recordAnswer: (buttonsName) => {
+        const radioButtons = document.getElementsByName(buttonsName);
+
+        for(let i = 0; i < radioButtons.length; i++) {
+            if(radioButtons[i].checked) {
+                for(let j = 0; j < quiz.selectedAnswers.length; j++) { //check if we already have a recorded answer for the previous question; if we do, update it
+                    if(quiz.selectedAnswers[j].question === quiz.previousQuestion) {
+                        quiz.selectedAnswers[j].answer = i;
+                        return;
+                    }
+                }
+        
+                quiz.selectedAnswers.push({ //if we don't have a previously recorded answer for this question, record this one at 'i'
+                    question: quiz.previousQuestion,
+                    answer: i,
+                    answer_id: parseInt(radioButtons[i].value)
+                });
+                return;
+            }
+        }
     },
 
     loadQuestion: (question) => {
         if(question !== null) {
+            //update all the constant HTML elements
             document.getElementById('quiz-title').innerHTML = question.title;
             document.getElementById('quiz-instructions').innerHTML = question.instructions;
             document.getElementById('quiz-text').innerHTML = question.text_body;
 
             var attachment = document.getElementById('quiz-img');
             if(question.path_to_attachment != null) {
-                if(attachment == null) { //if an image doesn't already exist, create a container for a new one and add an image to it
-                    attachment = elemUtils.createElement({type: 'img', parent: document.getElementsByClassName('column quiz-attachment')[0]});
-                    attachment.id = 'quiz-img';
-                    $(`#${attachment.id}`).css({'width': '100%'});
-                }
                 attachment.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
                 attachment.parentElement.style.display = "block";
             }
-            else if(attachment != null){ //delete the image if it is not needed
-                attachment.parentElement.style.display = "none";
-                attachment.parentElement.removeChild(attachment);
+            else if(attachment != null) {
+                attachment.src = ""; //delete the image if it is not needed
+                attachment.parentElement.style.display = "none"; //also, hide it's container so it's not occupying space on the page
             }
 
             const answersSection = document.getElementById('quiz-radio-section');
@@ -167,23 +240,27 @@ quiz = {
                 answersSection.removeChild(answersSection.firstChild);
 
             if(question.answers != null && question.answers.length > 0) {
-                for(let i = 0; i < question.answers.length; i++) {
+                var previousAnswer = null;
+                for(let i = 0; i < quiz.selectedAnswers.length; i++) //if an answer for this question has been previously selected, we need to re-select it
+                    if(quiz.selectedAnswers[i].question === quiz.currentQuestion)
+                        previousAnswer = quiz.selectedAnswers[i].answer;
+
+                for(let i = 0; i < question.answers.length; i++) { //list all the available answers for this question
                     const answer = question.answers[i];
 
                     var answerContainer = elemUtils.createElement({type: 'div', className: "row quiz-radio-row", parent: answersSection});
 
+                    //creates a radio button
                     var answerButton = elemUtils.createElement({type: 'input', className: "quiz-radio-btn", parent: answerContainer});
                     answerButton.type = 'radio';
                     answerButton.id = answer.answer_id;
                     answerButton.name = answer.type;
                     answerButton.value = answer.answer_id;
+                    answerButton.checked = i === previousAnswer; //if there is a previously selected answer in this list of answers - and it's the one we're currently creating on the page - check it's radio button
 
+                    //creates a lable which corresponds to the radio button created above
                     var buttonLabel = elemUtils.createElement({type: 'label', innerHTML: answer.body, parent: answerContainer});
                     buttonLabel.htmlFor = answer.answer_id;
-
-                    /* doesn't work - switch to CSS padding instead
-                    var br = document.createElement('br');
-                    answerContainer.appendChild(br); */
                 }
                 answersSection.style.display = "flex";
             }
@@ -191,27 +268,7 @@ quiz = {
                 answersSection.style.display = "none";
 
             elemUtils.checkBackButton();
-
-            const continueContainer = document.getElementsByClassName('quiz-continue-space')[0];
-            var continueButton;
-            if(continueContainer.children.length === 0) {
-                continueButton = elemUtils.createElement({type: 'button', innerHTML: "Continue", parent: continueContainer});
-
-                continueButton.addEventListener("click", () => {
-                    quiz.navigateToQuestion(++quiz.currentQuestion > quiz.length ? --quiz.currentQuestion : quiz.currentQuestion); //same as the tenerary operator in 'elemUtils.checkBackButton()', but inverse
-                });
-            }
-            else
-                continueButton = continueContainer.children[0];
-
-            if(quiz.currentQuestion === quiz.length) {
-                continueButton.innerHTML = "Finish";
-                continueButton.className = "quiz-finish-btn";
-            }
-            else {
-                continueButton.innerHTML = "Continue";
-                continueButton.className = "quiz-btn";
-            }
+            elemUtils.checkContinueButton();
         }
         else 
             throw Error('There was no question specified');
@@ -219,7 +276,13 @@ quiz = {
 }
 
 elemUtils = {
-    createElement: ({type, className=null, innerHTML=null, parent=null}={}) => { //, attributes = [], eventListener=null
+    /* only use 'createElement' if you need to create elements dynamically, otherwise you should still make elements in the HTML page
+     * type - the type of HTML tag you want to use, for example: 'div'
+     * className - the class of the element; use this so you can still apply CSS styling to the tag (if you want to specify an ID, you can still do that manually after creating an element with this)
+     * innerHTML - use this to set the text of, for example, an 'h1' tag
+     * parent - this is the container of the element you're creating, for example: if you want to place a button in a div, get the div (by using "document.getElementById", or something) and setting 'parent' as the element you just acquired
+     */
+    createElement: ({type, className=null, innerHTML=null, parent=null}={}) => {
         var element = document.createElement(type);
 
         if(className != null)
@@ -227,12 +290,6 @@ elemUtils = {
         
         if(innerHTML != null)
             element.innerHTML = innerHTML;
-        
-        /*if(attributes.length > 0)
-            attributes.forEach(element.setAttribute);
-
-        if(eventListener != null)
-            element.eventListener;*/
         
         if(parent != null) //parent generally shouldn't equal null, otherwise it will be appended to the bottom of the body
             parent.appendChild(element);
@@ -247,12 +304,57 @@ elemUtils = {
                 var backButton = elemUtils.createElement({type: 'button', className: "quiz-btn", innerHTML: "Back", parent: backContainer});
 
                 backButton.addEventListener("click", () => {
-                    quiz.navigateToQuestion(--quiz.currentQuestion < 1 ? ++quiz.currentQuestion : quiz.currentQuestion); //this tenerary operator prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
+                    if(--quiz.currentQuestion < 1) //prevents the number from going out of bounds - take away 1 then, if it is lower than the minimum (1), add 1, otherwise use the number with 1 subtracted
+                        ++quiz.currentQuestion;
+                    else
+                        quiz.previousQuestion = quiz.currentQuestion + 1;
+
+                    quiz.navigateToQuestion();
                 });
             }
         }
         else if(backContainer.children.length > 0)
             backContainer.removeChild(backContainer.children[0]); //there will only ever be 1 child: the button
+    },
+
+    checkContinueButton: () => {
+        const continueContainer = document.getElementsByClassName('quiz-continue-space')[0];
+        var continueButton;
+
+        if(continueContainer.children.length === 0) {
+            continueButton = elemUtils.createElement({type: 'button', innerHTML: "Continue", parent: continueContainer});
+
+            continueButton.addEventListener("click", () => {
+                if(continueButton.className === "quiz-finish-btn") {
+                    //this is only done so we can record the user's answer to the last question
+                    quiz.previousQuestion = quiz.currentQuestion;
+                    quiz.navigateToQuestion({isFinish: true});
+
+                    requestHandlers.recordUserAnswers();
+                    storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
+                    window.location.href = Flask.url_for('testresult');
+                }
+                else {
+                    if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
+                        --quiz.currentQuestion;
+                    else
+                        quiz.previousQuestion = quiz.currentQuestion - 1;
+
+                    quiz.navigateToQuestion();
+                }
+            });
+        }
+        else
+            continueButton = continueContainer.children[0];
+
+        if(quiz.currentQuestion === quiz.length) { //change the class and innerHTML of the button to signify the change in the button's operation more clearly
+            continueButton.innerHTML = "Finish";
+            continueButton.className = "quiz-finish-btn";
+        }
+        else {
+            continueButton.innerHTML = "Continue";
+            continueButton.className = "quiz-btn";
+        }
     }
 }
 
@@ -302,7 +404,7 @@ storageUtils = { //only session storage is implemented here as we do not have a 
     
     removeSessionValue: (name) => {
         try {
-            if(window.sessionStorage.getItem(name) !== null) {
+            if(window.sessionStorage.getItem(name) != null) {
                 window.sessionStorage.removeItem(name);
                 return true;
             }
