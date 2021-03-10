@@ -48,14 +48,14 @@ events = {
 }
 
 request = {
-    get: ({endpoint, method="GET", extension=null, data=null, handler}={}) => {
+    ajax: ({endpoint=null, method="GET", extension=null, data=null, handler=null}={}) => { //defaults to a "GET" request as this is used most frequently
         $.ajax({
             url: extension === null ? `${endpoint}` : `${endpoint}/${extension}`,
             method: method,
             data: data,
-            success: (data) => {
-                if(handler != null && data != null) //if we got data from the backend and we have something to do with it
-                    handler(data); //handler is the method (based on the parameter) that used the data from this request
+            success: (servedData) => {
+                if(handler != null && servedData != null) //if we got data from the backend and we have something to do with it
+                    handler(servedData); //handler is the method (based on the parameter) that used the data from this request
             }
         });
     },
@@ -302,7 +302,7 @@ elemUtils = {
         else
             continueButton = continueContainer.children[0];
 
-        if(quiz.currentQuestion === quiz.length) {
+        if(quiz.currentQuestion === quiz.length) { //change the class and innerHTML of the button to signify the change in the button's operation more clearly
             continueButton.innerHTML = "Finish";
             continueButton.className = "quiz-finish-btn";
         }

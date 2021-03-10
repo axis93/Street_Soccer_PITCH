@@ -4,7 +4,7 @@
 	<!-- this page is populated using JavaScript -->
 	<div class="grid-container" style="padding-top: 10vh;">
 		<script>
-			request.get({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testID), handler: requestHandlers.displayTest});
+			request.ajax({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testID), handler: requestHandlers.displayTest});
 		</script>
 		<div class="grid-body-item contents column quiz-body">
 			<br>
