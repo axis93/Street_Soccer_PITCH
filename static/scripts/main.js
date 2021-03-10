@@ -48,6 +48,12 @@ events = {
 }
 
 request = {
+    /* endpoint - the resource you want to get data from (a list of available resources are available at the bottom of 'app.py')
+     * method - the type of request you want to make
+     * extension - any additional information the resource may need - if you looked in 'app.py' you'll see that some of them need an ID: this is where the ID is specified
+     * data - this is basically an extension but with more information: you send the API a JavaScript object with the attributes needed, for example "{ topic_id: 2 }" at the endpoint "/topics" to get the topic with an ID of '2'
+     * handler - this is the function you want to use your data from the back end in, for example: 'request.listTopics' creates HTML elements dynamically for every topic's name and buttons that take the user to that topic's tests
+     */
     ajax: ({endpoint=null, method="GET", extension=null, data=null, handler=null}={}) => { //defaults to a "GET" request as this is used most frequently
         $.ajax({
             url: extension === null ? `${endpoint}` : `${endpoint}/${extension}`,
@@ -267,7 +273,13 @@ quiz = {
 }
 
 elemUtils = {
-    createElement: ({type, className=null, innerHTML=null, parent=null}={}) => { //, attributes = [], eventListener=null
+    /* only use 'createElement' if you need to create elements dynamically, otherwise you should still make elements in the HTML page
+     * type - the type of HTML tag you want to use, for example: 'div'
+     * className - the class of the element; use this so you can still apply CSS styling to the tag (if you want to specify an ID, you can still do that manually after creating an element with this)
+     * innerHTML - use this to set the text of, for example, an 'h1' tag
+     * parent - this is the container of the element you're creating, for example: if you want to place a button in a div, get the div (by using "document.getElementById", or something) and setting 'parent' as the element you just acquired
+     */
+    createElement: ({type, className=null, innerHTML=null, parent=null}={}) => {
         var element = document.createElement(type);
 
         if(className != null)
@@ -275,12 +287,6 @@ elemUtils = {
         
         if(innerHTML != null)
             element.innerHTML = innerHTML;
-        
-        /*if(attributes.length > 0)
-            attributes.forEach(element.setAttribute);
-
-        if(eventListener != null)
-            element.eventListener;*/
         
         if(parent != null) //parent generally shouldn't equal null, otherwise it will be appended to the bottom of the body
             parent.appendChild(element);
