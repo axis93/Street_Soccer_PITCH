@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Assignments{% endblock %}
 {% block content %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <div class="grid-container" style="padding-top: 10vh;"> <!-- padding moves all the elements down by 10% and therefore out from under the page header (10vh looks a little big on mobile but pretty good on desktop) -->
         <div class="grid-body-item contents column">
             <br>
@@ -23,21 +25,46 @@
                     <script>
                         request.ajax({endpoint: 'topics', handler: requestHandlers.listTopics});
                     </script>
-                    <!--
-                    {% for topic in topics %}
-                    <div class="topic-item">
-                        <b class="topic-name">{{topic[0]}}</b>
-                        <div class="topics-line"></div>
-                        <div class="topic-levels">
-                            {% for test in topic[1] %}
-                            <button class="level-button" onclick="testClick({{test}});">{{test}}</button>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                    -->
                 </div>
             </div>
+            <div id="side-panel" class="side-panel">
+                <div class="side-panel-header-spacing"></div>
+                <a onclick="functions.closeSidepanel()" style="width: 100%; justify-content: flex-start;">
+                    <span class="material-icons close-side-panel-button" style="font-size: 40px;">close</span>
+                </a>
+                <div id="side-panel-title" class="title">Title</div>
+                <div class="row" style="color: var(--darkest);">
+                    <span id="side-panel-star1" class="material-icons" style="font-size: 60px;">star</span>
+                    <span id="side-panel-star2" class="material-icons" style="font-size: 80px;">star</span>
+                    <span id="side-panel-star3" class="material-icons" style="font-size: 60px;">star</span>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <div class="row" style="padding-bottom: 2vh;">
+                            <span class="material-icons" style="font-size: 30px;">timer</span>
+                            &nbsp;
+                            <a id="side-panel-timelimit"></a>
+                        </div>
+                        <div class="row" style="padding-bottom: 2vh;">
+                            <span class="material-icons" style="font-size: 30px;">replay</span>
+                            &nbsp;
+                            <a id="side-panel-retakeable"></a>
+                        </div>
+                        <div class="row" style="padding-bottom: 2vh;">
+                            <span class="material-icons" style="font-size: 30px;">payment</span>
+                            &nbsp;
+                            <a id="side-panel-credits"></a>
+                        </div>
+                    </div>
+                </div>
+                <p id="side-panel-description" class="row side-panel-description"></p>
+                <div class="row"></div>
+                <div style="width: 100%; padding-bottom: 20px;">
+                    <button class="quiz-btn" onclick="functions.startQuiz()" 
+                    style="float: right; margin-right: 20px;">START</button>
+                </div>
+            </div>
+            
         </div>
     </div>
 {% endblock %}
