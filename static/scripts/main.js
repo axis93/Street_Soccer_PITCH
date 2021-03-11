@@ -70,6 +70,9 @@ request = {
 
 requestHandlers = {
     listTopics: (data) => {
+        //data for the side panel
+        var sidePanelData = [];
+
         if(data != null) {
             for(let i = 0; i < data.topics.length; i++) {
                 const topic = data.topics[i];
@@ -93,7 +96,17 @@ requestHandlers = {
                     //attributes for the button
                     topicItemLevel.setAttribute('id', String('test-button-' + topic.tests[j].test_id));
                     topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id); //store the ID of the test in which this button relates to
-                    
+
+                    //save data for the side panel
+                    sidePanelData.push([
+                        String(topic.name + ': ' + Number(j+1)), //TODO the test number should be order_num
+                        topic.tests[j].time_limit===null ? 'No limit' : String(topic.tests[j].time_limit),
+                        topic.tests[j].is_retakeable===1 ? 'No limit' : 'No retakes',
+                        topic.tests[j].gained_credit,
+                        topic.tests[j].max_credit,
+                        topic.tests[j].description
+                    ]);
+
                     //when the button is clicked
                     topicItemLevel.addEventListener("click", (event) => { //'event' is used to get the HTML element which this event is attached to
                         //if the testID exists change the colour back to the original colour
@@ -101,8 +114,11 @@ requestHandlers = {
                             document.getElementById(String('test-button-' + storageUtils.getSessionValue(storageUtils.testID))).style = "background-color: var(--dark);"
                         }
                         storageUtils.storeSessionValue(storageUtils.testID, event.target.getAttribute('data-test_id')); //get the ID and store it in the session so it's carried over to 'quiz-page'
-                        document.getElementById(String('test-button-' + topic.tests[j].test_id)).style = "background-color: var(--darker);"
+                        document.getElementById(String('test-button-' + topic.tests[j].test_id)).style = "background-color: var(--darker);";
                         document.getElementById("side-panel").style.visibility = "visible";
+                        
+                        //send data to the side panel
+                        elemUtils.displaySidePanel(sidePanelData[event.target.getAttribute('data-test_id')-1]);
                     });
                 }
             }
@@ -110,9 +126,8 @@ requestHandlers = {
     },
 
     displayTest: (data) => {
-        storageUtils.removeSessionValue(storageUtils.testID); //at this point we have collected the data for this test from the back end, so we can now delete the ID used to acquire it
+        //storageUtils.removeSessionValue(storageUtils.testID); //at this point we have collected the data for this test from the back end, so we can now delete the ID used to acquire it
         storageUtils.storeSessionValue(storageUtils.testDataID, data);
-
         quiz.length = data.quizzes.length;
 
         const navbar = document.getElementById('quizzes-navigation');
@@ -363,6 +378,28 @@ elemUtils = {
         else {
             continueButton.innerHTML = "Continue";
             continueButton.className = "quiz-btn";
+        }
+    },
+    displaySidePanel: (data) => {
+        document.getElementById('side-panel-title').innerHTML = data[0];
+        document.getElementById('side-panel-timelimit').innerHTML = data[1];
+        document.getElementById('side-panel-retakeable').innerHTML = data[2];
+        document.getElementById('side-panel-credits').innerHTML = String(data[3]+ '/' + data[4]);
+        document.getElementById('side-panel-description').innerHTML =  data[5] + data[5] + data[5] + data[5] + data[5] + data[5];
+
+        //calculate how many stars to display
+        var score = Number(data[3]/data[4]) * 100;
+        if (score>=90) {
+            document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
+            document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
+            document.getElementById('side-panel-star3').style = "color: var(--accent); font-size: 60px;"
+        }
+        else if (score>=60) {
+            document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
+            document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
+        }
+        else if (score>=30) {
+            document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
         }
     }
 }
