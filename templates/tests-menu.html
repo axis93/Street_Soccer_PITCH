@@ -27,18 +27,38 @@
                     </script>
                 </div>
             </div>
-            <div id="side-panel" class="side-panel column">
-                
+            <div id="side-panel" class="side-panel">
                 <div class="header-svg"></div>
                 <a onclick="functions.closeSidepanel()" style="width: 100%; justify-content: flex-start;">
                     <span class="material-icons close-side-panel-button" style="font-size: 40px;">close</span>
                 </a>
-                <div id="side-panel-title" class="row title">Title</div>
-                <div id="side-panel-stars" class="row">stars</div>
-                <div class="row">time limit</div>
-                <div class="row">retakable</div>
-                <div class="row">credits</div>
-                <p id="side-panel-description" class="row">Wow thakbPRH WTE VBWIE THWTEITB webt iWB Tew tbW;EKH BKET Bwet b;WETJB KETBw jetkbW ETwij ebtW TB;KWE TBWEJB kw</p>
+                <div id="side-panel-title" class="title">Title</div>
+                <div class="row" style="color: var(--darkest);">
+                    <span id="side-panel-star1" class="material-icons" style="font-size: 60px;">star</span>
+                    <span id="side-panel-star2" class="material-icons" style="font-size: 80px;">star</span>
+                    <span id="side-panel-star3" class="material-icons" style="font-size: 60px;">star</span>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <div class="row" style="padding-bottom: 2vh;">
+                            <span class="material-icons" style="font-size: 30px;">timer</span>
+                            &nbsp;
+                            <a id="side-panel-timelimit">No limit</a>
+                        </div>
+                        <div class="row" style="padding-bottom: 2vh;">
+                            <span class="material-icons" style="font-size: 30px;">replay</span>
+                            &nbsp;
+                            <a id="side-panel-retakable">No limit</a>
+                        </div>
+                        <div class="row" style="padding-bottom: 2vh;">
+                            <span class="material-icons" style="font-size: 30px;">payment</span>
+                            &nbsp;
+                            <a id="side-panel-credits">0/20 credits</a>
+                        </div>
+                    </div>
+                </div>
+                <p id="side-panel-description" class="row">Wow thakb rujryjrtj ytjtwehr wth wh whwrh th wr whyw jwj ty  jwrwyjry yj yjery yjwrj wry wjwy yj wy tye wj wjwj etyj tey jy teyj eyj tey e ejye ytjetjety jetyjej ePRH WTE VBWIE THWTEITB webt iWB Tew tbW;EKH BKET Bwet b;WETJB KETBw jetkbW ETwij ebtW TB;KWE TBWEJB kw</p>
+                <div class="row"></div>
                 <div style="width: 100%; padding-bottom: 20px;">
                     <button class="quiz-btn" onclick="functions.startQuiz()" 
                     style="float: right; margin-right: 20px;">START</button>

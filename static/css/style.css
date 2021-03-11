@@ -575,9 +575,12 @@ body {
 }
 
 /* SIDE PANEL */
-
 .side-panel {
     visibility: hidden;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
     background-color: var(--darker);
     z-index: 50;
     position: fixed;
@@ -594,7 +597,6 @@ body {
 .close-side-panel-button:hover {
     cursor: pointer;
 }
-
 /*-----------------------------------------------quiz--------------------------------------------------*/
 .quiz-back-space {
     align-content: flex-start;

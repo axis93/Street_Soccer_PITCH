@@ -96,7 +96,10 @@ requestHandlers = {
                     
                     //when the button is clicked
                     topicItemLevel.addEventListener("click", (event) => { //'event' is used to get the HTML element which this event is attached to
-                        document.getElementById(String('test-button-' + storageUtils.getSessionValue(storageUtils.testID))).style = "background-color: var(--dark);"
+                        //if the testID exists change the colour back to the original colour
+                        if (storageUtils.getSessionValue(storageUtils.testID)!=null) {
+                            document.getElementById(String('test-button-' + storageUtils.getSessionValue(storageUtils.testID))).style = "background-color: var(--dark);"
+                        }
                         storageUtils.storeSessionValue(storageUtils.testID, event.target.getAttribute('data-test_id')); //get the ID and store it in the session so it's carried over to 'quiz-page'
                         document.getElementById(String('test-button-' + topic.tests[j].test_id)).style = "background-color: var(--darker);"
                         document.getElementById("side-panel").style.visibility = "visible";
