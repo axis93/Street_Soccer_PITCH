@@ -385,7 +385,7 @@ elemUtils = {
         document.getElementById('side-panel-timelimit').innerHTML = data[1];
         document.getElementById('side-panel-retakeable').innerHTML = data[2];
         document.getElementById('side-panel-credits').innerHTML = String(data[3]+ '/' + data[4]);
-        document.getElementById('side-panel-description').innerHTML =  data[5] + data[5] + data[5] + data[5] + data[5] + data[5];
+        document.getElementById('side-panel-description').innerHTML =  data[5];
 
         //calculate how many stars to display
         var score = Number(data[3]/data[4]) * 100;
