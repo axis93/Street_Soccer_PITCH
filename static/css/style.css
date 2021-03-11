@@ -593,11 +593,11 @@ body {
     right: 0;
     top: 0;
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .side-panel-description {
-    overflow-y: scroll;
+    overflow-y: auto;
     min-height: 40vh;
 }
 
