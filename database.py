@@ -123,9 +123,9 @@ insert_queries = ( # these are queries used only for inserting test data, this s
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (10, 2, 0, 20, 6, 0, 10, 'Empty, lonely just incomplete...', 1, 0);",
 
     # Topic 3 - Yet One More Topic Here
-    "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (3, 0, 'Yet One More Topic Here', 600);",
+    "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (3, 0, 'Yet One More Topic Here', 500);",
         # Test 1 - locked and empty
-        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (11, 3, 1, 100, 1, 0, 50, 'Very small locked test', 1, 0);",
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (11, 3, 0, 100, 1, 0, 50, 'Very small locked test', 1, 0);",
         # Test 2 - locked and empty
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (12, 3, 0, 100, 2, 0, 50, 'Sad test full of emptyness.', 1, 1);",
         # Test 3 - locked and empty
@@ -137,21 +137,55 @@ insert_queries = ( # these are queries used only for inserting test data, this s
 
     # Topic 4 - Topic
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (4, 0, 'Topic', 100);",
+        # Test 1 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (16, 4, 0, 50, 1, 0, 25, 'Nothin..', 1, 0);",
+        # Test 2 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (17, 4, 0, 50, 2, 0, 25, 'Empty', 1, 1);",
 
     # Topic 5 - Topicnic
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (5, 0, 'Topicnic', 20);",
+        # Test 1 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (18, 5, 0, 5, 1, 0, 3, 'Locked test', 1, 0);",
+        # Test 2 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (19, 5, 0, 5, 2, 0, 3, 'Test of emptyness.', 1, 1);",
+        # Test 3 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (20, 5, 0, 5, 3, 0, 3, 'The secrets...', 1, 1);",
+        # Test 4 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (21, 5, 0, 5, 4, 0, 3, 'Empty2', 0, 0);",
 
     # Topic 6 - Topic of all the topics
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (6, 0, 'Topic of all the topics', 10);",
+        # Test 1 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (22, 6, 0, 10, 1, 0, 5, 'ONLY ONE TEST BUT IT S HARD', 1, 0);",
 
     # Topic 7 - Topic as well
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (7, 0, 'Topic as well', 1000);",
+        # Test 1 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (23, 7, 0, 333, 1, 0, 150, 'Smallest Test', 1, 0);",
+        # Test 2 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (24, 7, 0, 333, 2, 0, 200, 'Smaller Test', 1, 1);",
+        # Test 3 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (25, 7, 0, 334, 3, 0, 250, 'Small Test', 1, 1);",
 
     # Topic 8 - Incomplete topic
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (8, 0, 'Incomplete topic', 50);",
+        # Test 1 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (26, 8, 0, 10, 1, 0, 5, 'Very small locked test', 1, 0);",
+        # Test 2 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (27, 8, 0, 10, 2, 0, 5, 'VERY LOCKED.', 1, 1);",
+        # Test 3 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (28, 8, 0, 10, 3, 0, 5, 'Nothing to see here in this world.', 1, 1);",
+        # Test 4 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (29, 8, 0, 10, 4, 0, 5, 'Sorry, empty', 0, 0);",
+        # Test 5 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (30, 8, 0, 10, 5, 0, 5, 'I am empty', 0, 1);",
 
     # Topic 9 - Very old topic
-    "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (9, 0, 'Very old topic', 140);"
+    "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (9, 0, 'Very old topic', 140);",
+            # Test 1 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (31, 9, 0,70, 1, 0, 35, 'I am first but locked.', 1, 0);",
+        # Test 2 - locked and empty
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (32, 9, 0, 70, 2, 0, 35, 'I am second but locked.', 1, 1);"
 )
 
     # HELP TEMPLATE INSERTS
