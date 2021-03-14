@@ -74,21 +74,7 @@ def testtest():
 
 @app.route('/test-menu')
 def testmenu():
-	"""
-	topics=[]
-	topic1 = ['Children Protection Programme',[1,2,3,4,5]]
-	topics.append(topic1)
-	for x in range(1,11):
-		topic=[]
-		topicName='Topic'+ str(x)
-		topic.append(topicName)
-		tests=[]
-		for y in range(1,5):
-			tests.append(y)
-		topic.append(tests)
-		topics.append(topic)
-	"""
-	return render_template('tests-menu.html')#,topics=topics)
+	return render_template('tests-menu.html')
 
 api.add_resource(Topic, '/topics')
 api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
