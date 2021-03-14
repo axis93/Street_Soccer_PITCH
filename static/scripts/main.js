@@ -159,7 +159,9 @@ requestHandlers = {
     recordUserAnswers: () => {
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
         var selectedIDs = [];
+        var gainedCredits = 0;
 
+        console.log(data);
         quiz.selectedAnswers.forEach((answerRecord) => { //create a list of the IDs of answers that the user selected
             selectedIDs.push(answerRecord.answer_id);
         })
@@ -168,17 +170,43 @@ requestHandlers = {
             question.answers.forEach((answer) => {
                 var isSelectedID = selectedIDs.includes(answer.answer_id);
 
+                // if the selected answer is correct add its credits to the gained credits total
+                if (answer.is_selected && answer.is_correct) {
+                    gainedCredits = gainedCredits + Number(question.credit_value);
+
+                    // save the credit score for the correctly answered quiz
+                    request.ajax({
+                        endpoint: String('quizzes'+'/'+question.quiz_id),
+                        method: 'PUT',
+                        data: {
+                            quiz_id: question.quiz_id,
+                            gained_credit: Number(question.credit_value)
+                        },
+                        handler: console.log //in case there is a bad request, log the details explaining why
+                    });
+                }
+
                 if((answer.is_selected && !isSelectedID) || (!answer.is_selected && isSelectedID)) //prevents PUT requests being made to the back end (for this answer) if there are no changes to be made to 'is_selected'
                     request.ajax({
                         endpoint: 'answers',
                         method: 'PUT',
                         data: {
                             answer_id: answer.answer_id,
-                            is_selected: isSelectedID ? true : null //reqparse in Flask doesn't recognise 'false' as 0, I'm assuming this is because it sees 'is_selected' is defined and thinks it's therefore 'true'
+                            is_selected: isSelectedID ? true : null, //reqparse in Flask doesn't recognise 'false' as 0, I'm assuming this is because it sees 'is_selected' is defined and thinks it's therefore 'true'
                         },
                         handler: console.log //in case there is a bad request, log the details explaining why
                     });
             })
+        });
+        // save the credit score of the whole test
+        request.ajax({
+            endpoint: String('tests'+'/'+data.test_id),
+            method: 'PUT',
+            data: {
+                test_id: data.test_id,
+                gained_credit: gainedCredits
+            },
+            handler: console.log //in case there is a bad request, log the details explaining why
         });
     }
 }
@@ -356,7 +384,7 @@ elemUtils = {
 
                     requestHandlers.recordUserAnswers();
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    window.location.href = Flask.url_for('testresult');
+                    //window.location.href = Flask.url_for('testresult');
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
