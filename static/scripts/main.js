@@ -195,8 +195,8 @@ requestHandlers = {
                 },
                 handler: console.log //in case there is a bad request, log the details explaining why
             });
-            
         });
+
         // save the credit score of the whole test
         request.ajax({
             endpoint: 'tests',
@@ -407,6 +407,7 @@ elemUtils = {
             continueButton.className = "quiz-btn";
         }
     },
+    
     displaySidePanel: (data) => {
         document.getElementById('side-panel-title').innerHTML = data[0];
         document.getElementById('side-panel-timelimit').innerHTML = data[1];
@@ -414,28 +415,20 @@ elemUtils = {
         document.getElementById('side-panel-credits').innerHTML = String(data[3]+ '/' + data[4]);
         document.getElementById('side-panel-description').innerHTML =  data[5];
 
+        /* these appear to be redundant? - the stars still appear as dark without these
+        * document.getElementById('side-panel-star1').style = "color: var(--darkest); font-size: 60px;"
+        * document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
+        * document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
+        */
+
         //calculate how many stars to display
         var score = Number(data[3]/data[4]) * 100;
-        if (score>=90) {
+        if (score>=30)
             document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
+        if (score>=60)
             document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
+        if (score>=90)
             document.getElementById('side-panel-star3').style = "color: var(--accent); font-size: 60px;"
-        }
-        else if (score>=60) {
-            document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
-            document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
-            document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
-        }
-        else if (score>=30) {
-            document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
-            document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
-            document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
-        }
-        else {
-            document.getElementById('side-panel-star1').style = "color: var(--darkest); font-size: 60px;"
-            document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
-            document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
-        }
     }
 }
 
