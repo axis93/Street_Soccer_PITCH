@@ -137,7 +137,7 @@ requestHandlers = {
             navButton.addEventListener("click", (event) => {
                 const newQuestion = parseInt(event.target.getAttribute('data-quiz_id'));
 
-                if(!quiz.viewedInfoPages.includes(newQuestion)) { //don't navigate to this button's page if it is an info page
+                if(!isNaN(newQuestion) && !quiz.viewedInfoPages.includes(newQuestion)) { //don't navigate to this button's page if it is an info page
                     quiz.previousQuestion = quiz.currentQuestion;
                     quiz.currentQuestion = newQuestion;
                     quiz.navigateToQuestion();
@@ -306,8 +306,10 @@ quiz = {
                         i = 0; //we're now going to search for a different order number so restart the search
                         continue;
                     }
-                    else //... that hasn't been viewed, add the order_num of this info page to the list of viewed info pages
+                    else { //... that hasn't been viewed, add the order_num of this info page to the list of viewed info pages
                         quiz.viewedInfoPages.push(quiz.currentQuestion);
+                        elemUtils.updateQuizNav(i);
+                    }
                 }
                 return question;
             }
@@ -495,6 +497,15 @@ elemUtils = {
             document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
         if (score>=90)
             document.getElementById('side-panel-star3').style = "color: var(--accent); font-size: 60px;"
+    },
+
+    updateQuizNav: (child) => {
+        const nav = document.getElementById('quizzes-navigation');
+
+        nav.children[child].innerHTML = '';
+        var img = elemUtils.createElement({type: 'img', parent: nav.children[child]});
+        img.src = Flask.url_for('static', {'filename': 'icons/close.svg'})
+        img.style = "position: absolute; transform: translate(-50%, -50%); filter: invert(.5) sepia(5) saturate(100);";
     }
 }
 
