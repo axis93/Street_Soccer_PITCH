@@ -47,6 +47,15 @@ class TestModel:
 
         return result
 
+    def update_db(self, query, args):
+        connection = sqlite3.connect('database.db')
+        cursor = connection.cursor()
+
+        cursor.execute(query, args)
+
+        connection.commit()
+        connection.close()
+
     @classmethod
     def find_by_id(cls, test_id):
         result = cls.query_db(cls, "SELECT * FROM tests WHERE test_id=?", (test_id,))

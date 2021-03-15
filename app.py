@@ -78,7 +78,7 @@ def testmenu():
 
 api.add_resource(Topic, '/topics')
 api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
-api.add_resource(Test, '/tests/<string:test_id>')
+api.add_resource(Test, '/tests')
 api.add_resource(Quiz, '/quizzes')
 api.add_resource(Answer, '/answers')
 api.add_resource(User, '/users/<string:user_id>')
