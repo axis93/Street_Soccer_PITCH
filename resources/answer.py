@@ -7,7 +7,7 @@ class Answer(Resource):
         'answer_id',
         type=int,
         required=True,
-        help='An error occured - \'answer_id\' was empty'
+        help='An error occurred - \'answer_id\' was empty'
     )
     parser.add_argument('is_selected', type=bool)
 
@@ -27,17 +27,17 @@ class Answer(Resource):
         request_data = Answer.parser.parse_args()
         
         if request_data['is_selected'] == None:
-            return {'message': 'An error occured - \'is_selected\' was empty'}
+            return {'message': 'An error occurred - \'is_selected\' was empty'}
 
         try:
             if not AnswerModel.find_by_id(request_data['answer_id']):
                 return {'message': 'Answer with ID {} doesn\'t exist in the database'}.format(request_data['answer_id']), 404
         except:
-            return {'message': 'An error occured while reading the answer ID from the database'}, 500
+            return {'message': 'An error occurred while reading the answer ID from the database'}, 500
 
         # there is, currently, only the option to update the item in the database: all test data is inserted prior to the app starting and we have no need to insert any data during runtime yet
         try:
             AnswerModel.update_db(self, "UPDATE answers SET is_selected=? WHERE answer_id=?", (request_data['is_selected'], request_data['answer_id']))
         except:
-            return {'message': 'An error occured while updating the answer in the database'}, 500
+            return {'message': 'An error occurred while updating the answer in the database'}, 500
 
