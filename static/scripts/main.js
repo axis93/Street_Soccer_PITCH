@@ -491,12 +491,14 @@ elemUtils = {
         document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
         document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
 
-        if (score>=30)
+        if (score>=30) {
             document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
-        if (score>=60)
-            document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
-        if (score>=90)
-            document.getElementById('side-panel-star3').style = "color: var(--accent); font-size: 60px;"
+            if (score>=60) {
+                document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
+                if (score>=90)
+                    document.getElementById('side-panel-star3').style = "color: var(--accent); font-size: 60px;"
+            }
+        }
     },
 
     updateQuizNav: (child) => {
