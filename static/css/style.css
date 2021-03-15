@@ -688,6 +688,12 @@ body {
     max-width: 500px;
 }
 
+.quiz-nav-info-btn {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    filter: invert(.5) sepia(5) saturate(100); /* applies a red filter to the vector - it's loaded in an 'img' tag so 'fill' doesn't work */
+}
+
 .quizzes-navigation {
 
 }

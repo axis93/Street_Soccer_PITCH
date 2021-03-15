@@ -505,9 +505,8 @@ elemUtils = {
         const nav = document.getElementById('quizzes-navigation');
 
         nav.children[child].innerHTML = '';
-        var img = elemUtils.createElement({type: 'img', parent: nav.children[child]});
-        img.src = Flask.url_for('static', {'filename': 'icons/close.svg'})
-        img.style = "position: absolute; transform: translate(-50%, -50%); filter: invert(.5) sepia(5) saturate(100);";
+        var img = elemUtils.createElement({type: 'img', className: 'quiz-nav-info-btn', parent: nav.children[child]});
+        img.src = Flask.url_for('static', {'filename': 'icons/close.svg'});
     }
 }
 
