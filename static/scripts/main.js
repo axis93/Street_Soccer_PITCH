@@ -126,7 +126,6 @@ requestHandlers = {
     },
 
     displayTest: (data) => {
-        //storageUtils.removeSessionValue(storageUtils.testID); //at this point we have collected the data for this test from the back end, so we can now delete the ID used to acquire it
         storageUtils.storeSessionValue(storageUtils.testDataID, data);
         quiz.length = data.quizzes.length;
 
@@ -175,7 +174,7 @@ requestHandlers = {
 
                     // save the credit score for the correctly answered quiz
                     request.ajax({
-                        endpoint: String('quizzes'+'/'+question.quiz_id),
+                        endpoint: 'quizzes',
                         method: 'PUT',
                         data: {
                             quiz_id: question.quiz_id,
@@ -199,7 +198,7 @@ requestHandlers = {
         });
         // save the credit score of the whole test
         request.ajax({
-            endpoint: String('tests'+'/'+data.test_id),
+            endpoint: 'tests',
             method: 'PUT',
             data: {
                 test_id: data.test_id,
@@ -383,7 +382,7 @@ elemUtils = {
 
                     requestHandlers.recordUserAnswers();
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    //window.location.href = Flask.url_for('testresult');
+                    window.location.href = Flask.url_for('testresult');
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
