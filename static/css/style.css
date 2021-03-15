@@ -3,10 +3,14 @@
     --darker: #242424;
     --darkest: #1a1919;
     --light: #FFF;
+    --less-light: rgb(189, 188, 188);
     --less-dark: #585858;
     --accent: #527CEA;
     --accent-dim: #314E97;
     --transparent: #00000000;
+
+    --correctGreen: #70ff70;
+    --wrongRed: #ff7777;
 
     --header-gradient: linear-gradient(to right, var(--accent-dim), var(--accent));
     --background-colour: var(--dark);
@@ -690,4 +694,21 @@ body {
 .answer{
 
     background-color: none;
+}
+
+/*-----------------------------------------------test-results--------------------------------------------------*/
+.feedback-answer {
+    font-size: 18px;
+    color: var(--less-light);
+    padding-bottom: 10px;
+}
+
+.feedback-answers {
+    background-color: var(--darker);
+    border-radius: 25px;
+    padding: 2vw;
+}
+
+.results-icon-space {
+
 }
