@@ -14,7 +14,7 @@ CREATE TABLE topics(
 
 CREATE TABLE formativeAssessments(
 	fa_ID INTEGER NOT NULL PRIMARY KEY,
-	test_id INTEGER,
+	topic_id INTEGER,
 	is_unlocked BOOLEAN NOT NULL,
 	order_num INTEGER NOT NULL,
 	gained_credit INTEGER,
@@ -26,7 +26,7 @@ CREATE TABLE formativeAssessments(
 	deadline TEXT,	
 	reviewer_comment TEXT,
 	is_marked BOOLEAN,
-	FOREIGN KEY (test_id) REFERENCES topics(topic_id)
+	FOREIGN KEY (topic_id) REFERENCES topics(topic_id)
 );
 
 CREATE TABLE tests(

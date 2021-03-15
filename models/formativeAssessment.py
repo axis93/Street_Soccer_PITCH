@@ -1,9 +1,9 @@
 import sqlite3
 
 class FormativeAssessmentModel:
-    def __init__(self, fa_id, test_id, is_unlocked, order_num, gained_credit, answer, pass_credit, instructions, title, path_to_attachment, deadline, reviewer_comment, is_marked):
+    def __init__(self, fa_id, topic_id, is_unlocked, order_num, gained_credit, answer, pass_credit, instructions, title, path_to_attachment, deadline, reviewer_comment, is_marked):
         self.fa_id = fa_id
-        self.test_id = test_id
+        self.topic_id = topic_id
         self.is_unlocked = is_unlocked
         self.order_num = order_num
         self.gained_credit = gained_credit
@@ -19,7 +19,7 @@ class FormativeAssessmentModel:
     def json(self):
         return {
             'fa_id': self.fa_id,
-            'test_id': self.test_id,
+            'topic_id': self.topic_id,
             'is_unlocked': self.is_unlocked,
             'order_num': self.order_num,
             'gained_credit': self.gained_credit,

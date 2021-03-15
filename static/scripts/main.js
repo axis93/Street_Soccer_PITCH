@@ -161,7 +161,6 @@ requestHandlers = {
         var selectedIDs = [];
         var gainedCredits = 0;
 
-        console.log(data);
         quiz.selectedAnswers.forEach((answerRecord) => { //create a list of the IDs of answers that the user selected
             selectedIDs.push(answerRecord.answer_id);
         })
@@ -192,7 +191,7 @@ requestHandlers = {
                         method: 'PUT',
                         data: {
                             answer_id: answer.answer_id,
-                            is_selected: isSelectedID ? true : null, //reqparse in Flask doesn't recognise 'false' as 0, I'm assuming this is because it sees 'is_selected' is defined and thinks it's therefore 'true'
+                            is_selected: isSelectedID ? true : null //reqparse in Flask doesn't recognise 'false' as 0, I'm assuming this is because it sees 'is_selected' is defined and thinks it's therefore 'true'
                         },
                         handler: console.log //in case there is a bad request, log the details explaining why
                     });
