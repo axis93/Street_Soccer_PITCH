@@ -74,6 +74,7 @@ rel="stylesheet">
 			document.getElementById('test-results-timelimit-left').innerHTML = 'You had ' + data.time_limit + 'mins left';
 		}
 	}
+
 	request.ajax({endpoint: 'tests', extension: storageUtils.getSessionValue(storageUtils.testID), handler: displayResults});
 </script>
 
@@ -87,7 +88,7 @@ rel="stylesheet">
 		<div id="test-results-timelimit-left" class="row"></div>
 		<br>
 		<div class="row">
-			<button class="quiz-btn">Go back to the Tests Menu</button>
+			<button class="quiz-btn" onclick="functions.goToTestsMenu()">Go back to the Tests Menu</button>
 		</div>
 		<br>
 		<div class="row">

@@ -498,5 +498,8 @@ functions = {
     closeSidepanel() {
         document.getElementById(String('test-button-' + storageUtils.getSessionValue(storageUtils.testID))).style = "background-color: var(--dark);"
         document.getElementById("side-panel").style.visibility = "hidden";
+    },
+    goToTestsMenu() {
+        window.location.href = Flask.url_for('testmenu');
     }
 }
