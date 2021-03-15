@@ -40,14 +40,14 @@ displayResults = (data) => {
 		  			answerBody.style.borderStyle = "solid";
 		  			answerBody.style.backgroundColor = "pink";		
 		  			wrongAndSelected = true;
-		  		}   
+		  		}
 		    }) 
 		    var feedback = elemUtils.createElement({type: 'p', className: 'feedback', parent: quizSection});
 		    if(correctAndSelected){
 		    	feedback.innerHTML = 'You answer is correct, and the credit gained is ' + gainedCredit;
 		    }else if(wrongAndSelected){
 		    	feedback.innerHTML = 'You answer is wrong!';
-		    }correctAndSelected
+		    }
 		    
 		}
 	});
