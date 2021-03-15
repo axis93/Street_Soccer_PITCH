@@ -11,11 +11,12 @@ class Topic(Resource):
         try:
             if request_data['topic_id']:
                 topic = TopicModel.find_by_id(request_data['topic_id'])
-                return topic.json()
+                if topic:
+                    return topic.json()
+                else:
+                    return {'message': 'Topic with the ID {} not found'.format(request_data['topic_id'])}, 404
             else:
                 topic = TopicModel.get_topics()
                 return {'topics': [t.json() for t in topic]}
         except:
             return {'message': 'An error occurred while reading the topic ID from the database'}, 500
-
-        return {'message': 'Topic with the ID {} not found'.format(request_data['topic_id'])}, 404
