@@ -198,7 +198,6 @@ requestHandlers = {
             
         });
         // save the credit score of the whole test
-        console.log(gainedCredits);
         request.ajax({
             endpoint: 'tests',
             method: 'PUT',
