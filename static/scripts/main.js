@@ -126,7 +126,6 @@ requestHandlers = {
     },
 
     displayTest: (data) => {
-        //storageUtils.removeSessionValue(storageUtils.testID); //at this point we have collected the data for this test from the back end, so we can now delete the ID used to acquire it
         storageUtils.storeSessionValue(storageUtils.testDataID, data);
         quiz.length = data.quizzes.length;
 
@@ -156,15 +155,16 @@ requestHandlers = {
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     },
 
-    recordUserAnswers: () => {
-        const data = storageUtils.getSessionValue(storageUtils.testDataID);
+    recordUserAnswers: (data) => {
         var selectedIDs = [];
+        var gainedCredits = 0;
 
         quiz.selectedAnswers.forEach((answerRecord) => { //create a list of the IDs of answers that the user selected
             selectedIDs.push(answerRecord.answer_id);
         })
 
         data.quizzes.forEach((question) => { //we need to search through every question to check which answers have been selected - if an answer hasn't been selected, we still need to change it's answer to 'false' in case it's been set to 'true' by a previous attempt of this test
+            var quizCredits = 0;
             question.answers.forEach((answer) => {
                 var isSelectedID = selectedIDs.includes(answer.answer_id);
 
@@ -178,7 +178,34 @@ requestHandlers = {
                         },
                         handler: console.log //in case there is a bad request, log the details explaining why
                     });
-            })
+                
+                // if the selected answer is correct add its credits to the gained credits total
+                if (isSelectedID && answer.is_correct) {
+                    gainedCredits = gainedCredits + Number(question.credit_value);
+                    quizCredits = Number(question.credit_value);
+                }
+            });
+            
+            request.ajax({
+                endpoint: 'quizzes',
+                method: 'PUT',
+                data: {
+                    quiz_id: question.quiz_id,
+                    gained_credit: quizCredits
+                },
+                handler: console.log //in case there is a bad request, log the details explaining why
+            });
+        });
+
+        // save the credit score of the whole test
+        request.ajax({
+            endpoint: 'tests',
+            method: 'PUT',
+            data: {
+                test_id: data.test_id,
+                gained_credit: gainedCredits
+            },
+            handler: console.log //in case there is a bad request, log the details explaining why
         });
     }
 }
@@ -354,9 +381,9 @@ elemUtils = {
                     quiz.previousQuestion = quiz.currentQuestion;
                     quiz.navigateToQuestion({isFinish: true});
 
-                    requestHandlers.recordUserAnswers();
+                    requestHandlers.recordUserAnswers(storageUtils.getSessionValue(storageUtils.testDataID));
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    window.location.href = Flask.url_for('testresult');
+                    setTimeout(() => {window.location.href = Flask.url_for('testresult')}, 800);
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
@@ -380,6 +407,7 @@ elemUtils = {
             continueButton.className = "quiz-btn";
         }
     },
+    
     displaySidePanel: (data) => {
         document.getElementById('side-panel-title').innerHTML = data[0];
         document.getElementById('side-panel-timelimit').innerHTML = data[1];
@@ -387,20 +415,20 @@ elemUtils = {
         document.getElementById('side-panel-credits').innerHTML = String(data[3]+ '/' + data[4]);
         document.getElementById('side-panel-description').innerHTML =  data[5];
 
+        /* these appear to be redundant? - the stars still appear as dark without these
+        * document.getElementById('side-panel-star1').style = "color: var(--darkest); font-size: 60px;"
+        * document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
+        * document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
+        */
+
         //calculate how many stars to display
         var score = Number(data[3]/data[4]) * 100;
-        if (score>=90) {
+        if (score>=30)
             document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
+        if (score>=60)
             document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
+        if (score>=90)
             document.getElementById('side-panel-star3').style = "color: var(--accent); font-size: 60px;"
-        }
-        else if (score>=60) {
-            document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
-            document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
-        }
-        else if (score>=30) {
-            document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
-        }
     }
 }
 

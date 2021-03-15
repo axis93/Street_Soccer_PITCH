@@ -74,26 +74,12 @@ def testtest():
 
 @app.route('/test-menu')
 def testmenu():
-	"""
-	topics=[]
-	topic1 = ['Children Protection Programme',[1,2,3,4,5]]
-	topics.append(topic1)
-	for x in range(1,11):
-		topic=[]
-		topicName='Topic'+ str(x)
-		topic.append(topicName)
-		tests=[]
-		for y in range(1,5):
-			tests.append(y)
-		topic.append(tests)
-		topics.append(topic)
-	"""
-	return render_template('tests-menu.html')#,topics=topics)
+	return render_template('tests-menu.html')
 
 api.add_resource(Topic, '/topics')
-api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
-api.add_resource(Test, '/tests/<string:test_id>')
-api.add_resource(Quiz, '/quizzes/<string:quiz_id>')
+api.add_resource(FormativeAssessment, '/formativeAssessments')
+api.add_resource(Test, '/tests')
+api.add_resource(Quiz, '/quizzes')
 api.add_resource(Answer, '/answers')
 api.add_resource(User, '/users/<string:user_id>')
 

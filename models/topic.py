@@ -1,5 +1,6 @@
 import sqlite3
 from models.test import TestModel
+from models.formativeAssessment import FormativeAssessmentModel
 
 class TopicModel:
     def __init__(self, topic_id, is_unlocked, name, needed_credit):
@@ -12,14 +13,20 @@ class TopicModel:
         tests = []
         if withTests:
             for test in TestModel.query_db(TestModel, "SELECT * FROM tests WHERE topic_id=?", (self.topic_id,)):
-                tests.append(TestModel(*test).json(withQuizzes=withQuizzes, withAnswers=withAnswers, withFormativeAssessments=withFormativeAssessments))
+                tests.append(TestModel(*test).json(withQuizzes=withQuizzes, withAnswers=withAnswers))
+
+        formativeAssessments = []
+        if withFormativeAssessments:
+            for fa in FormativeAssessmentModel.query_db(FormativeAssessmentModel, "SELECT * FROM formativeAssessments WHERE topic_id=?", (self.topic_id,)):
+                formativeAssessments.append(FormativeAssessmentModel(*fa).json())
 
         return {
             'topic_id': self.topic_id,
             'is_unlocked': self.is_unlocked,
             'name': self.name,
             'needed_credit': self.needed_credit,
-            'tests': tests
+            'tests': tests,
+            'formative_assessments': formativeAssessments
         }
 
     def query_db(self, query, args=None):
