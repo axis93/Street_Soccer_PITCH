@@ -43,6 +43,15 @@ class FormativeAssessmentModel:
 
         return result
 
+    def update_db(self, query, args):
+        connection = sqlite3.connect('database.db')
+        cursor = connection.cursor()
+
+        cursor.execute(query, args)
+
+        connection.commit()
+        connection.close()
+
     @classmethod
     def find_by_id(cls, fa_id):
         result = cls.query_db(cls, "SELECT * FROM formativeAssessments WHERE fa_id=?", (fa_id,))

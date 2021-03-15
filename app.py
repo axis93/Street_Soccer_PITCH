@@ -77,7 +77,7 @@ def testmenu():
 	return render_template('tests-menu.html')
 
 api.add_resource(Topic, '/topics')
-api.add_resource(FormativeAssessment, '/formative-assessments/<string:fa_id>')
+api.add_resource(FormativeAssessment, '/formativeAssessments')
 api.add_resource(Test, '/tests')
 api.add_resource(Quiz, '/quizzes')
 api.add_resource(Answer, '/answers')
