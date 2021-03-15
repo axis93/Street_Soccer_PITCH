@@ -155,8 +155,7 @@ requestHandlers = {
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     },
 
-    recordUserAnswers: () => {
-        const data = storageUtils.getSessionValue(storageUtils.testDataID);
+    recordUserAnswers: (data) => {
         var selectedIDs = [];
         var gainedCredits = 0;
 
@@ -383,7 +382,7 @@ elemUtils = {
                     quiz.previousQuestion = quiz.currentQuestion;
                     quiz.navigateToQuestion({isFinish: true});
 
-                    requestHandlers.recordUserAnswers();
+                    requestHandlers.recordUserAnswers(storageUtils.getSessionValue(storageUtils.testDataID));
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
                     window.location.href = Flask.url_for('testmenu');
                 }
