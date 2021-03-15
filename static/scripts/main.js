@@ -384,7 +384,7 @@ elemUtils = {
 
                     requestHandlers.recordUserAnswers(storageUtils.getSessionValue(storageUtils.testDataID));
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    window.location.href = Flask.url_for('testmenu');
+                    setTimeout(() => {window.location.href = Flask.url_for('testresult')}, 800);
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
