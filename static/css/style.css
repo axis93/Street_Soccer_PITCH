@@ -683,6 +683,11 @@ body {
     width: 100%;
 }
 
+#quiz-img {
+    width: 100%;
+    max-width: 500px;
+}
+
 .quizzes-navigation {
 
 }
@@ -692,7 +697,6 @@ body {
 }
 
 .answer{
-
     background-color: none;
 }
 
