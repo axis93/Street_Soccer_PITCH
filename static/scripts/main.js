@@ -165,24 +165,9 @@ requestHandlers = {
         })
 
         data.quizzes.forEach((question) => { //we need to search through every question to check which answers have been selected - if an answer hasn't been selected, we still need to change it's answer to 'false' in case it's been set to 'true' by a previous attempt of this test
+            var quizCredits = 0;
             question.answers.forEach((answer) => {
                 var isSelectedID = selectedIDs.includes(answer.answer_id);
-
-                // if the selected answer is correct add its credits to the gained credits total
-                if (answer.is_selected && answer.is_correct) {
-                    gainedCredits = gainedCredits + Number(question.credit_value);
-
-                    // save the credit score for the correctly answered quiz
-                    request.ajax({
-                        endpoint: 'quizzes',
-                        method: 'PUT',
-                        data: {
-                            quiz_id: question.quiz_id,
-                            gained_credit: Number(question.credit_value)
-                        },
-                        handler: console.log //in case there is a bad request, log the details explaining why
-                    });
-                }
 
                 if((answer.is_selected && !isSelectedID) || (!answer.is_selected && isSelectedID)) //prevents PUT requests being made to the back end (for this answer) if there are no changes to be made to 'is_selected'
                     request.ajax({
@@ -194,9 +179,27 @@ requestHandlers = {
                         },
                         handler: console.log //in case there is a bad request, log the details explaining why
                     });
-            })
+                
+                // if the selected answer is correct add its credits to the gained credits total
+                if (isSelectedID && answer.is_correct) {
+                    gainedCredits = gainedCredits + Number(question.credit_value);
+                    quizCredits = Number(question.credit_value);
+                }
+            });
+            
+            request.ajax({
+                endpoint: 'quizzes',
+                method: 'PUT',
+                data: {
+                    quiz_id: question.quiz_id,
+                    gained_credit: quizCredits
+                },
+                handler: console.log //in case there is a bad request, log the details explaining why
+            });
+            
         });
         // save the credit score of the whole test
+        console.log(gainedCredits);
         request.ajax({
             endpoint: 'tests',
             method: 'PUT',
@@ -382,7 +385,7 @@ elemUtils = {
 
                     requestHandlers.recordUserAnswers();
                     storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    window.location.href = Flask.url_for('testresult');
+                    window.location.href = Flask.url_for('testmenu');
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse
@@ -423,9 +426,17 @@ elemUtils = {
         else if (score>=60) {
             document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
             document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
+            document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
         }
         else if (score>=30) {
             document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
+            document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
+            document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
+        }
+        else {
+            document.getElementById('side-panel-star1').style = "color: var(--darkest); font-size: 60px;"
+            document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
+            document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
         }
     }
 }
