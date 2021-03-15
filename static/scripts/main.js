@@ -207,7 +207,74 @@ requestHandlers = {
             },
             handler: console.log //in case there is a bad request, log the details explaining why
         });
-    }
+    },
+
+    displayResults: (data) => {
+		const answersFeedback = document.getElementById('results-feedback-answers');
+
+		//score calcualtions
+		var gainedCredits = 0;
+		var	correctAnswersAmount = 0;
+		var questionsAmount = 0;
+
+		data.quizzes.forEach((quiz) => {
+			//if this is a multiple choice quiz display it
+			if(quiz.type === 'multiple_choice'){
+				questionsAmount = questionsAmount + 1;
+
+				//row with the question with a break row bellow
+				elemUtils.createElement({type: 'div', className: 'row', innerHTML: String(quiz.order_num + ') ' + quiz.text_body), parent: answersFeedback});
+				elemUtils.createElement({type: 'br', parent: answersFeedback}); 
+				var answersSection = elemUtils.createElement({type: 'div', className: 'column quiz-radio-section', parent: answersFeedback});
+				quiz.answers.forEach((answer) => {
+					var answerSection = elemUtils.createElement({type: 'div', className: 'quiz-radio-row feedback-answer', parent: answersSection});
+					
+					//select the right way to display the answer - correct = green, wrong = red, else = grey
+					if (answer.is_correct) {
+						elemUtils.createElement({type: 'span', className: 'material-icons quiz-radio-btn', innerHTML: 'check_circle_outline', parent: answerSection});
+						answerSection.style = 'color: var(--correctGreen);';
+					}
+					else if ((!answer.is_correct) && answer.is_selected) {
+						elemUtils.createElement({type: 'span', className: 'material-icons quiz-radio-btn', innerHTML: 'highlight_off', parent: answerSection});
+						answerSection.style = 'color: var(--wrongRed);';
+					}
+					else {
+						elemUtils.createElement({type: 'span', className: 'material-icons quiz-radio-btn', innerHTML: 'radio_button_unchecked', parent: answerSection});
+					}
+
+					//if the answer is correct add the amount of credits gained at the end of the line
+					if (answer.is_correct && answer.is_selected) {
+						elemUtils.createElement({type: 'label', innerHTML: String(answer.body + ' &nbsp;&nbsp;(+' + quiz.credit_value + ' credits)'), parent: answerSection});
+						gainedCredits = gainedCredits + quiz.credit_value;
+						correctAnswersAmount = correctAnswersAmount + 1;
+					}
+					else {
+						elemUtils.createElement({type: 'label', innerHTML: answer.body, parent: answerSection});
+					}
+
+				});
+				elemUtils.createElement({type: 'br', parent: answersFeedback}); 
+			}
+		});
+
+		//display final scores
+		var percScore = (gainedCredits / data.max_credit * 100).toFixed(2);
+
+		if (gainedCredits >= data.pass_credit) {
+			document.getElementById('test-results-passing').innerHTML = String('You have gotten ' + percScore +'% correct and passed');
+			document.getElementById('test-results-passing').style = 'color: var(--correctGreen);';
+		}
+		else {
+			document.getElementById('test-results-passing').innerHTML = String('You have gotten ' + percScore +'% correct and failed');
+			document.getElementById('test-results-passing').style = 'color: var(--wrongRed);';
+		}
+		
+		document.getElementById('test-results-correct-answers').innerHTML = 'Correct answers: '+ correctAnswersAmount + '/' + questionsAmount;
+		document.getElementById('test-results-total-gained-credits').innerHTML = String('You have gained ' + gainedCredits + '/' + data.max_credit + ' credits');
+		if (data.time_limit!=null) {
+			document.getElementById('test-results-timelimit-left').innerHTML = 'You had ' + data.time_limit + 'mins left';
+		}
+	}
 }
 
 quiz = {
@@ -415,14 +482,13 @@ elemUtils = {
         document.getElementById('side-panel-credits').innerHTML = String(data[3]+ '/' + data[4]);
         document.getElementById('side-panel-description').innerHTML =  data[5];
 
-        /* these appear to be redundant? - the stars still appear as dark without these
-        * document.getElementById('side-panel-star1').style = "color: var(--darkest); font-size: 60px;"
-        * document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
-        * document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
-        */
-
         //calculate how many stars to display
         var score = Number(data[3]/data[4]) * 100;
+
+        document.getElementById('side-panel-star1').style = "color: var(--darkest); font-size: 60px;"
+        document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
+        document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
+
         if (score>=30)
             document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
         if (score>=60)
