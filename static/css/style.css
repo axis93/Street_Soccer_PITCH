@@ -694,6 +694,28 @@ body {
     filter: invert(.5) sepia(5) saturate(100); /* applies a red filter to the vector - it's loaded in an 'img' tag so 'fill' doesn't work */
 }
 
+#quiz-progress-container {
+    width: 80%;
+}
+
+.progress-bar {
+    height: 20px;
+    border-radius: 25px;
+}
+
+#progress-bar-bg {
+    width: inherit;
+    transform: translateY(156%);
+    margin: 0 10px;
+    background-color: var(--darker);
+}
+
+#progress-bar-content {
+    float: left;
+    width: 0;
+    background-color: var(--accent);
+}
+
 .quizzes-navigation {
 
 }
