@@ -619,6 +619,7 @@ body {
 }
 
 .quiz-body {
+    margin: 0;
     padding: 0 8vw
 }
 
@@ -705,8 +706,8 @@ body {
 
 #progress-bar-bg {
     width: inherit;
-    transform: translateY(156%);
-    margin: 0 10px;
+    transform: translateY(106%);
+    margin: 10px 10px;
     background-color: var(--darker);
 }
 
