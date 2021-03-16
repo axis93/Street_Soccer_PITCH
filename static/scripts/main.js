@@ -290,6 +290,8 @@ quiz = {
 
         if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) //if the last question was an info page (i.e. there were no answers available) then don't try to record one
             quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].type);
+        else
+            elemUtils.updateInfoBtnInNav(quiz.previousQuestion - 1);
 
         if(!isFinish)
             quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
@@ -306,10 +308,8 @@ quiz = {
                         i = 0; //we're now going to search for a different order number so restart the search
                         continue;
                     }
-                    else { //... that hasn't been viewed, add the order_num of this info page to the list of viewed info pages
+                    else //... that hasn't been viewed, add the order_num of this info page to the list of viewed info pages
                         quiz.viewedInfoPages.push(quiz.currentQuestion);
-                        elemUtils.updateQuizNav(i);
-                    }
                 }
                 return question;
             }
@@ -501,7 +501,7 @@ elemUtils = {
         }
     },
 
-    updateQuizNav: (child) => {
+    updateInfoBtnInNav: (child) => {
         const nav = document.getElementById('quizzes-navigation');
 
         nav.children[child].innerHTML = '';
