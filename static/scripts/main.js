@@ -149,8 +149,13 @@ requestHandlers = {
             });
         }
 
-        if(data.quizzes != null && quiz.length > 0)
+        if(data.quizzes != null && quiz.length > 0) {
+            data.quizzes.forEach((question) => {
+                if(question.type === "info")
+                    quiz.infoPagesCount++;
+            });
             quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, 1));
+        }
         else 
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     },
@@ -281,6 +286,7 @@ quiz = {
     length: null,
     currentQuestion: 1,
     previousQuestion: null,
+    infoPagesCount: 0, //used to deduct the info pages from the length of the quiz - for the progress bar
     viewedInfoPages: [], //stores info pages (by order_num) that have been viewed
     selectedAnswers: [], //stores the history of the user's selected answers, in the format "{question: x, answer: y}"
 
@@ -288,8 +294,10 @@ quiz = {
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
         const questions = data.quizzes;
 
-        if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) //if the last question was an info page (i.e. there were no answers available) then don't try to record one
+        if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) { //if the last question was an info page (i.e. there were no answers available) then don't try to record one
             quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].type);
+            elemUtils.updateProgressBar(quiz.length, quiz.selectedAnswers.length);
+        }
         else
             elemUtils.updateInfoBtnInQuizNav(quiz.previousQuestion - 1);
 
@@ -526,6 +534,15 @@ elemUtils = {
         nav.children[child].innerHTML = '';
         var img = elemUtils.createElement({type: 'img', className: 'quiz-nav-info-btn', parent: nav.children[child]});
         img.src = Flask.url_for('static', {'filename': 'icons/close.svg'});
+    },
+
+    updateProgressBar: (maxProgress, currentProgress) => {
+        const percent = Math.round(currentProgress/(maxProgress - quiz.infoPagesCount) * 100);
+        console.log(percent);
+        $('#progress-bar-content').css({
+            'width': `${percent}%`
+        });
+        document.getElementById('progress-percent').innerHTML = `${percent}%`;
     }
 }
 
