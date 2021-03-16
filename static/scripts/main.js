@@ -291,7 +291,7 @@ quiz = {
         if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) //if the last question was an info page (i.e. there were no answers available) then don't try to record one
             quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].type);
         else
-            elemUtils.updateInfoBtnInNav(quiz.previousQuestion - 1);
+            elemUtils.updateInfoBtnInQuizNav(quiz.previousQuestion - 1);
 
         if(!isFinish)
             quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
@@ -311,6 +311,7 @@ quiz = {
                     else //... that hasn't been viewed, add the order_num of this info page to the list of viewed info pages
                         quiz.viewedInfoPages.push(quiz.currentQuestion);
                 }
+                elemUtils.updateQuizNav(quiz.currentQuestion - 1, quiz.previousQuestion - 1);
                 return question;
             }
         }
@@ -509,7 +510,17 @@ elemUtils = {
         }
     },
 
-    updateInfoBtnInNav: (child) => {
+    updateQuizNav: (currentChild, previousChild) => {
+        const nav = document.getElementById('quizzes-navigation');
+
+        if(nav.children[currentChild] != null)
+            nav.children[currentChild].style = "color: #00FF00;";
+
+        if(nav.children[previousChild] != null)
+            nav.children[previousChild].style = "color: #FFFFFF;";
+    },
+
+    updateInfoBtnInQuizNav: (child) => {
         const nav = document.getElementById('quizzes-navigation');
 
         nav.children[child].innerHTML = '';
