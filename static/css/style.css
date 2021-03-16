@@ -452,6 +452,22 @@ body {
     grid-gap: 10vw;
 }
 
+.container-with-top-pad { /* moves the page content down to accompany the header */
+    padding-top: 68px;
+}
+
+@media screen and (max-width: 768px) {
+    .container-with-top-pad {
+        padding-top: 52px;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    .container-with-top-pad {
+        padding-top: 42px;
+    }
+}
+
 .grid-body-item {
     max-width: 100vw;
     overflow: hidden;

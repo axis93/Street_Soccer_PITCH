@@ -1,38 +1,33 @@
-<!DOCTYPE html>
-<html>
 {% extends "base.html" %}
 {% block title %}Quiz{% endblock %}
 {% block content %}
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-rel="stylesheet">
-<script>
-	request.ajax({endpoint: 'tests', data: {test_id: storageUtils.getSessionValue(storageUtils.testID)}, handler: requestHandlers.displayResults});
-</script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script>
+		request.ajax({endpoint: 'tests', data: {test_id: storageUtils.getSessionValue(storageUtils.testID)}, handler: requestHandlers.displayResults});
+	</script>
 
-<div class="grid-container" style="padding-top: 10vh;">
-	<div class="grid-body-item contents column quiz-body">	
-		<h1>Results</h1>
-		<div id="test-results-passing" class="title"></div>
-		<br>
-		<div id="test-results-correct-answers" class="row"></div>
-		<div id="test-results-total-gained-credits" class="row"></div>
-		<div id="test-results-timelimit-left" class="row"></div>
-		<br>
-		<div class="row">
-			<button class="quiz-btn" onclick="functions.goToTestsMenu()">Go back to the Tests Menu</button>
-		</div>
-		<br>
-		<div class="row">
-			<div class="column">
-				<div class="title">Your answers:</div>
-				<br>
-				<div id="results-feedback-answers" class="feedback-answers">
+	<div class="grid-container container-with-top-pad">
+		<div class="grid-body-item contents column quiz-body">	
+			<h1>Results</h1>
+			<div id="test-results-passing" class="title"></div>
+			<br>
+			<div id="test-results-correct-answers" class="row"></div>
+			<div id="test-results-total-gained-credits" class="row"></div>
+			<div id="test-results-timelimit-left" class="row"></div>
+			<br>
+			<div class="row">
+				<button class="quiz-btn" onclick="functions.goToTestsMenu()">Go back to the Tests Menu</button>
+			</div>
+			<br>
+			<div class="row">
+				<div class="column">
+					<div class="title">Your answers:</div>
+					<br>
+					<div id="results-feedback-answers" class="feedback-answers">
+					</div>
 				</div>
 			</div>
+			<br>
 		</div>
-		<br>
 	</div>
-</div>
-
 {% endblock %}
-</html>

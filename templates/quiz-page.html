@@ -2,7 +2,7 @@
 {% block title %}Quiz{% endblock %}
 {% block content %}
 	<!-- this page is populated using JavaScript -->
-	<div class="grid-container" style="padding-top: 10vh;">
+	<div class="grid-container container-with-top-pad">
 		<script>
 			request.ajax({endpoint: 'tests', data: {test_id: storageUtils.getSessionValue(storageUtils.testID)}, handler: requestHandlers.displayTest});
 		</script>
