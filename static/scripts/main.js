@@ -336,6 +336,14 @@ quiz = {
                 return;
             }
         }
+
+        /* this is redundant: the user currently cannot click a radio button to remove their answer, so this check is useless for now - unless this feature is ever implemented
+        for(let i = 0; i < quiz.selectedAnswers.length; i++) { //if we reach this point then that means no answer was selected by the user, so check if there was an answer recorded for the previous question because we'll need to delete it
+            if(quiz.selectedAnswers[i].question === quiz.previousQuestion) {
+                quiz.selectedAnswers.splice(quiz.selectedAnswers.indexOf(i), 1);
+                return;
+            }
+        }*/
     },
 
     loadQuestion: (question) => {
