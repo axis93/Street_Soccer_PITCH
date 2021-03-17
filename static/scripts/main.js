@@ -137,7 +137,7 @@ requestHandlers = {
             navButton.addEventListener("click", (event) => {
                 const newQuestion = parseInt(event.target.getAttribute('data-quiz_id'));
 
-                if(!quiz.viewedInfoPages.includes(newQuestion)) { //don't navigate to this button's page if it is an info page
+                if(!isNaN(newQuestion) && !quiz.viewedInfoPages.includes(newQuestion)) { //don't navigate to this button's page if it is an info page
                     quiz.previousQuestion = quiz.currentQuestion;
                     quiz.currentQuestion = newQuestion;
                     quiz.navigateToQuestion();
@@ -149,8 +149,13 @@ requestHandlers = {
             });
         }
 
-        if(data.quizzes != null && quiz.length > 0)
+        if(data.quizzes != null && quiz.length > 0) {
+            data.quizzes.forEach((question) => {
+                if(question.type === "info")
+                    quiz.infoPagesCount++;
+            });
             quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, 1));
+        }
         else 
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     },
@@ -281,6 +286,7 @@ quiz = {
     length: null,
     currentQuestion: 1,
     previousQuestion: null,
+    infoPagesCount: 0, //used to deduct the info pages from the length of the quiz - for the progress bar
     viewedInfoPages: [], //stores info pages (by order_num) that have been viewed
     selectedAnswers: [], //stores the history of the user's selected answers, in the format "{question: x, answer: y}"
 
@@ -288,8 +294,12 @@ quiz = {
         const data = storageUtils.getSessionValue(storageUtils.testDataID);
         const questions = data.quizzes;
 
-        if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) //if the last question was an info page (i.e. there were no answers available) then don't try to record one
+        if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) { //if the last question was an info page (i.e. there were no answers available) then don't try to record one
             quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].type);
+            elemUtils.updateProgressBar(quiz.length, quiz.selectedAnswers.length);
+        }
+        else
+            elemUtils.updateInfoBtnInQuizNav(quiz.previousQuestion - 1);
 
         if(!isFinish)
             quiz.loadQuestion(quiz.findNextQuestion(data.quizzes));
@@ -309,6 +319,7 @@ quiz = {
                     else //... that hasn't been viewed, add the order_num of this info page to the list of viewed info pages
                         quiz.viewedInfoPages.push(quiz.currentQuestion);
                 }
+                elemUtils.updateQuizNav(quiz.currentQuestion - 1, quiz.previousQuestion - 1);
                 return question;
             }
         }
@@ -334,6 +345,14 @@ quiz = {
                 return;
             }
         }
+
+        /* this is redundant: the user currently cannot click a radio button to remove their answer, so this check is useless for now - unless this feature is ever implemented
+        for(let i = 0; i < quiz.selectedAnswers.length; i++) { //if we reach this point then that means no answer was selected by the user, so check if there was an answer recorded for the previous question because we'll need to delete it
+            if(quiz.selectedAnswers[i].question === quiz.previousQuestion) {
+                quiz.selectedAnswers.splice(quiz.selectedAnswers.indexOf(i), 1);
+                return;
+            }
+        }*/
     },
 
     loadQuestion: (question) => {
@@ -489,12 +508,41 @@ elemUtils = {
         document.getElementById('side-panel-star2').style = "color: var(--darkest); font-size: 80px;"
         document.getElementById('side-panel-star3').style = "color: var(--darkest); font-size: 60px;"
 
-        if (score>=30)
+        if (score>=30) {
             document.getElementById('side-panel-star1').style = "color: var(--accent); font-size: 60px;"
-        if (score>=60)
-            document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
-        if (score>=90)
-            document.getElementById('side-panel-star3').style = "color: var(--accent); font-size: 60px;"
+            if (score>=60) {
+                document.getElementById('side-panel-star2').style = "color: var(--accent); font-size: 80px;"
+                if (score>=90)
+                    document.getElementById('side-panel-star3').style = "color: var(--accent); font-size: 60px;"
+            }
+        }
+    },
+
+    updateQuizNav: (currentChild, previousChild) => {
+        const nav = document.getElementById('quizzes-navigation');
+
+        if(nav.children[currentChild] != null)
+            nav.children[currentChild].style = "color: #00FF00;";
+
+        if(nav.children[previousChild] != null)
+            nav.children[previousChild].style = "color: #FFFFFF;";
+    },
+
+    updateInfoBtnInQuizNav: (child) => {
+        const nav = document.getElementById('quizzes-navigation');
+
+        nav.children[child].innerHTML = '';
+        var img = elemUtils.createElement({type: 'img', className: 'quiz-nav-info-btn', parent: nav.children[child]});
+        img.src = Flask.url_for('static', {'filename': 'icons/close.svg'});
+    },
+
+    updateProgressBar: (maxProgress, currentProgress) => {
+        const percent = Math.round(currentProgress/(maxProgress - quiz.infoPagesCount) * 100);
+        console.log(percent);
+        $('#progress-bar-content').css({
+            'width': `${percent}%`
+        });
+        document.getElementById('progress-percent').innerHTML = `${percent}%`;
     }
 }
 

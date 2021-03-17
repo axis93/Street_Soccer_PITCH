@@ -2,11 +2,18 @@
 {% block title %}Quiz{% endblock %}
 {% block content %}
 	<!-- this page is populated using JavaScript -->
-	<div class="grid-container" style="padding-top: 10vh;">
+	<div class="grid-container container-with-top-pad">
 		<script>
 			request.ajax({endpoint: 'tests', data: {test_id: storageUtils.getSessionValue(storageUtils.testID)}, handler: requestHandlers.displayTest});
 		</script>
 		<div class="grid-body-item contents column quiz-body">
+			<br>
+			<div id="quiz-progress-container" class="row">
+				<span id="progress-bar-bg" class="progress-bar">
+					<span id="progress-bar-content" class="progress-bar"></span>
+				</span>
+				<h3 id="progress-percent">0%</h3>
+			</div>
 			<br>
 			<div id="quizzes-navigation" class="row">
 			</div>
@@ -20,7 +27,7 @@
 			<div class="row quiz-content-row">
 				<!-- displays are set to "none" and only become visible when they're needed -->
 				<div class="column quiz-attachment" style="display: none;">
-					<img id="quiz-img" style="width: 100%;" src=""/>
+					<img id="quiz-img" src=""/>
 				</div>
 				<div id="quiz-radio-section" class="column quiz-radio-section" style="display: none;"></div>
 			</div>
