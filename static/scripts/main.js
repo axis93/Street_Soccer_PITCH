@@ -80,7 +80,6 @@ requestHandlers = {
         var gainedProgress = 0;
 
         if(data != null) {
-            console.log(data);
             for(let i = 0; i < data.topics.length; i++) {
                 const topic = data.topics[i];
                 var topicsCredit = 0;
