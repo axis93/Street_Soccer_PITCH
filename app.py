@@ -1,7 +1,6 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file, g
+from flask import Flask, render_template
 from flask_restful import Api
 from flask_jsglue import JSGlue
-from sqlalchemy.orm import query
 from database import database, insert_queries
 from resources.topic import Topic
 from resources.formativeAssessment import FormativeAssessment
