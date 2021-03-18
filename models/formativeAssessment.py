@@ -1,4 +1,3 @@
-import sqlite3
 from database import database
 
 class FormativeAssessmentModel(database.Model):
@@ -50,7 +49,10 @@ class FormativeAssessmentModel(database.Model):
             'is_marked': self.is_marked
         }
 
-    def query_db(self, query, args):
+    def save_to_database(self):
+        database.session.add(self)
+        database.session.commit()
+        """
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
@@ -59,8 +61,12 @@ class FormativeAssessmentModel(database.Model):
         connection.close()
 
         return result
+        """
 
-    def update_db(self, query, args):
+    def delete_from_database(self, query, args):
+        database.session.delete(self)
+        database.session.commit()
+        """
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
@@ -68,9 +74,12 @@ class FormativeAssessmentModel(database.Model):
 
         connection.commit()
         connection.close()
+        """
 
     @classmethod
     def find_by_id(cls, fa_id):
+        return database.query.filter_by(fa_id=fa_id)
+        """
         result = cls.query_db(cls, "SELECT * FROM formativeAssessments WHERE fa_id=?", (fa_id,))
 
         if result:
@@ -79,3 +88,4 @@ class FormativeAssessmentModel(database.Model):
             assessment = None
         
         return assessment
+        """
