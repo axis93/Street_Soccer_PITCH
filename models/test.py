@@ -1,4 +1,3 @@
-import sqlite3
 from database import database
 
 class TestModel(database.Model):
@@ -50,32 +49,14 @@ class TestModel(database.Model):
             'quizzes': quizzes
         }
 
-    def query_db(self, query, args):
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
+    def save_to_database(self):
+        database.session.add(self)
+        database.session.commit()
 
-        result = cursor.execute(query, args).fetchall()
-
-        connection.close()
-
-        return result
-
-    def update_db(self, query, args):
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        cursor.execute(query, args)
-
-        connection.commit()
-        connection.close()
+    def delete_from_database(self):
+        database.session.delete(self)
+        database.session.commit()
 
     @classmethod
     def find_by_id(cls, test_id):
-        result = cls.query_db(cls, "SELECT * FROM tests WHERE test_id=?", (test_id,))
-
-        if result:
-            test = cls(*result[0])
-        else:
-            test = None
-        
-        return test
+        return database.query.filter_by(test_id=test_id)
