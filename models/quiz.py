@@ -4,10 +4,10 @@ from database import database
 class QuizModel(database.Model):
     __tablename__ = 'quizzes'
 
-    quiz_id = database.Column(database.Integer, primary_key=True)
-    test_id = database.Column(database.Integer)
-    order_num = database.Column(database.Integer)
-    credit_value = database.Column(database.Integer)
+    quiz_id = database.Column(database.Integer, primary_key=True, nullable=False)
+    test_id = database.Column(database.Integer, nullable=False)
+    order_num = database.Column(database.Integer, nullable=False)
+    credit_value = database.Column(database.Integer, nullable=False)
     gained_credit = database.Column(database.Integer)
     quiz_type = database.Column(database.String)
     text_body = database.Column(database.String)

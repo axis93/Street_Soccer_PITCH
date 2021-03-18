@@ -4,8 +4,8 @@ from database import database
 class AnswerModel(database.Model):
     __tablename__ = 'answers'
 
-    answer_id = database.Column(database.Integer, primary_key=True)
-    quiz_id = database.Column(database.Integer)
+    answer_id = database.Column(database.Integer, primary_key=True, nullable=False)
+    quiz_id = database.Column(database.Integer, nullable=False)
     body = database.Column(database.String)
     is_correct = database.Column(database.Boolean)
     path_to_attachment = database.Column(database.String)

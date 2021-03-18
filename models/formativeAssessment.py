@@ -4,15 +4,15 @@ from database import database
 class FormativeAssessmentModel(database.Model):
     __tablename__ = 'formativeAssessments'
 
-    fa_id = database.Column(database.Integer, primary_key=True)
+    fa_id = database.Column(database.Integer, primary_key=True, nullable=False)
     topic_id = database.Column(database.Integer)
-    is_unlocked = database.Column(database.Boolean)
-    order_num = database.Column(database.Integer)
+    is_unlocked = database.Column(database.Boolean, nullable=False)
+    order_num = database.Column(database.Integer, nullable=False)
     gained_credit = database.Column(database.Integer)
     answer = database.Column(database.String)
     pass_credit = database.Column(database.Integer)
     instructions = database.Column(database.String)
-    title = database.Column(database.String(100))
+    title = database.Column(database.String(100), nullable=False)
     path_to_attachment = database.Column(database.String)
     deadline = database.Column(database.String)
     reviewer_comment = database.Column(database.String)
