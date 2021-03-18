@@ -72,10 +72,19 @@ requestHandlers = {
     listTopics: (data) => {
         //data for the side panel
         var sidePanelData = [];
+        //the credits value of the unlocked topics
+        var neededCredits = 0;
+        var gainedCredits = 0;
+        //the progress of the successfully completed tests in the unlocked topics
+        var maxProgress = 0;
+        var gainedProgress = 0;
 
         if(data != null) {
             for(let i = 0; i < data.topics.length; i++) {
                 const topic = data.topics[i];
+
+                //get the required/needed credit from the topic (if the topic is unlocked)
+                neededCredits = topic.is_unlocked == 1 ? neededCredits + Number(topic.needed_credit) : neededCredits;
 
                 //this topic's container in the menu
                 var topicItem = elemUtils.createElement({type: 'div', className: "topic-item", parent: document.getElementById('topics-menu')})
@@ -91,6 +100,15 @@ requestHandlers = {
 
                 //for every test in this topic, add a button to the button container for it
                 for(let j = 0; j < topic.tests.length; j++) {
+                    // if the topic is unlocked count gained credits and the progress made
+                    if (topic.is_unlocked == 1) {
+                        gainedCredits = gainedCredits + topic.tests[j].gained_credit;
+
+                        gainedProgress = topic.tests[j].gained_credit >= topic.tests[j].pass_credit ? 
+                            gainedProgress + 1 : gainedProgress;
+                        maxProgress = maxProgress + 1;
+                    }
+
                     var topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
                     
                     //attributes for the button
@@ -122,6 +140,11 @@ requestHandlers = {
                     });
                 }
             }
+            //set progress made
+            var progressPerc = gainedProgress / maxProgress * 100;
+            document.getElementById('tests-menu-progress').innerHTML = String(progressPerc + '%');
+            //set credits gained
+            document.getElementById('tests-menu-credits').innerHTML = String(gainedCredits + '/' + neededCredits);
         }
     },
 

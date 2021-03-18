@@ -562,7 +562,6 @@ body {
 }
 
 .topic-item {
-    /* margin-bottom: 1rem; */
     flex-direction: row wrap;
     display: flex;
     align-self: center;
