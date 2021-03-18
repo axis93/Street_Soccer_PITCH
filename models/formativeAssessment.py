@@ -60,3 +60,7 @@ class FormativeAssessmentModel(database.Model):
     @classmethod
     def find_by_id(cls, fa_id):
         return cls.query.filter_by(fa_id=fa_id)
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()

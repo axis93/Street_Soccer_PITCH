@@ -43,5 +43,5 @@ class TopicModel(database.Model):
         return cls.query.filter_by(topic_id=topic_id)
 
     @classmethod
-    def get_topics(cls):
+    def get_all(cls):
         return cls.query.all()

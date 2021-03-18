@@ -39,3 +39,7 @@ class AnswerModel(database.Model):
     @classmethod
     def find_by_id(cls, answer_id):
         return cls.query.filter_by(answer_id=answer_id).first()
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
