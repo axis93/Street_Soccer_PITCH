@@ -55,7 +55,7 @@ class TestModel(database.Model):
 
     @classmethod
     def find_by_id(cls, test_id):
-        return cls.query.filter_by(test_id=test_id)
+        return cls.query.filter_by(test_id=test_id).first()
 
     @classmethod
     def get_all(cls):

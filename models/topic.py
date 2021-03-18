@@ -32,7 +32,7 @@ class TopicModel(database.Model):
 
     @classmethod
     def find_by_id(cls, topic_id):
-        return cls.query.filter_by(topic_id=topic_id)
+        return cls.query.filter_by(topic_id=topic_id).first()
 
     @classmethod
     def get_all(cls):

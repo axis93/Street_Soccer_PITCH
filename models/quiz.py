@@ -52,7 +52,7 @@ class QuizModel(database.Model):
 
     @classmethod
     def find_by_id(cls, quiz_id):
-        return cls.query.filter_by(quiz_id=quiz_id)
+        return cls.query.filter_by(quiz_id=quiz_id).first()
 
     @classmethod
     def get_all(cls):
