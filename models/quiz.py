@@ -39,7 +39,7 @@ class QuizModel(database.Model):
             'path_to_attachment': self.path_to_attachment,
             'title': self.title,
             'instructions': self.instructions,
-            'answers': [a for a in AnswerModel.get_all_for_quiz(self.quiz_id)]
+            'answers': [a.json() for a in AnswerModel.get_all_for_quiz(self.quiz_id)]
         }
 
     def save_to_database(self):
