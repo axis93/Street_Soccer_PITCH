@@ -19,12 +19,12 @@ class Answer(Resource):
         request_data = Answer.parser.parse_args()
 
         try:
-            topic = AnswerModel.find_by_id(request_data['answer_id'])
+            answer = AnswerModel.find_by_id(request_data['answer_id'])
         except:
             return {'message': 'An error occurred while reading the answer ID from the database'}, 500
         
-        if topic:
-            return topic.json()
+        if answer:
+            return answer.json()
         return {'message': 'Answer with the ID {} not found'.format(request_data['answer_id'])}, 404
 
     def put(self):
