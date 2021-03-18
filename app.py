@@ -21,6 +21,7 @@ def create_tables():
 	#if '--insert' in sys.argv:
 	for query in insert_queries:
 		database.session.execute(query) 
+	database.session.commit()
 
 @app.route('/')
 def index():
