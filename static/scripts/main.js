@@ -151,7 +151,7 @@ requestHandlers = {
 
         if(data.quizzes != null && quiz.length > 0) {
             data.quizzes.forEach((question) => {
-                if(question.type === "info")
+                if(question.quiz_type === "info")
                     quiz.infoPagesCount++;
             });
             quiz.loadQuestion(quiz.findNextQuestion(data.quizzes, 1));
@@ -224,7 +224,7 @@ requestHandlers = {
 
 		data.quizzes.forEach((quiz) => {
 			//if this is a multiple choice quiz display it
-			if(quiz.type === 'multiple_choice'){
+			if(quiz.quiz_type === 'multiple_choice'){
 				questionsAmount = questionsAmount + 1;
 
 				//row with the question with a break row bellow
@@ -295,7 +295,7 @@ quiz = {
         const questions = data.quizzes;
 
         if(quiz.previousQuestion != null && questions[quiz.previousQuestion - 1].answers.length > 0) { //if the last question was an info page (i.e. there were no answers available) then don't try to record one
-            quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].type);
+            quiz.recordAnswer(questions[quiz.previousQuestion - 1].answers[0].quiz_type);
             elemUtils.updateProgressBar(quiz.length, quiz.selectedAnswers.length);
         }
         else
@@ -310,7 +310,7 @@ quiz = {
             var question = questions[i];
             
             if(question.order_num === quiz.currentQuestion) {
-                if(question.type === "info") { //if the current question is an info page...
+                if(question.quiz_type === "info") { //if the current question is an info page...
                     if(quiz.viewedInfoPages.includes(quiz.currentQuestion)) { //... that has been viewed, load the next/previous question of this one
                         quiz.previousQuestion > quiz.currentQuestion ? quiz.currentQuestion-- : quiz.currentQuestion++; // previous is > current if the user clicked "Back", otherwise they clicked continue: this is used to change which question to load
                         i = 0; //we're now going to search for a different order number so restart the search
