@@ -17,11 +17,13 @@ jsglue = JSGlue(app)
 
 @app.before_first_request
 def create_tables():
-	database.create_all()
-	#if '--insert' in sys.argv:
-	for query in insert_queries:
-		database.session.execute(query) 
-	database.session.commit()
+	if '--create' in sys.argv or '-c' in sys.argv:
+		database.create_all()
+
+	if '--insert' in sys.argv or '-i' in sys.argv:
+		for query in insert_queries:
+			database.session.execute(query) 
+		database.session.commit()
 
 @app.route('/')
 def index():
