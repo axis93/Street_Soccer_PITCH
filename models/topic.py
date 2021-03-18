@@ -1,4 +1,3 @@
-import sqlite3
 from database import database
 
 class TopicModel(database.Model):
@@ -35,37 +34,14 @@ class TopicModel(database.Model):
             'formative_assessments': formativeAssessments
         }
 
-    def query_db(self, query, args=None):
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        if args:
-            result = cursor.execute(query, args).fetchall()
-        else:
-            result = cursor.execute(query).fetchall()
-
-        connection.close()
-
-        return result
+    def save_to_database(self, query, args=None):
+        database.session.add(self)
+        database.session.commit()
 
     @classmethod
     def find_by_id(cls, topic_id):
-        result = cls.query_db(cls, "SELECT * FROM topics WHERE topic_id=?", args=(topic_id,))
-
-        if result:
-            topic = cls(*result[0])
-        else:
-            topic = None
-        
-        return topic
+        return cls.query.filter_by(topic_id=topic_id)
 
     @classmethod
     def get_topics(cls):
-        result = cls.query_db(cls, "SELECT * FROM topics")
-
-        topics = []
-        if result:
-            for topic in result:
-                topics.append(cls(*topic))
-        
-        return topics
+        return cls.query.all()
