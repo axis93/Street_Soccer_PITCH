@@ -42,7 +42,7 @@ class TestModel(database.Model):
             'description': self.description,
             'is_retakeable': self.is_retakeable,
             'is_official': self.is_official,
-            'quizzes': [q.json() for q in QuizModel.get_all()]
+            'quizzes': [q.json() for q in QuizModel.get_all_for_test(self.test_id)]
         }
 
     def save_to_database(self):
@@ -60,3 +60,7 @@ class TestModel(database.Model):
     @classmethod
     def get_all(cls):
         return cls.query.all()
+
+    @classmethod
+    def get_all_for_topic(cls, topic_id):
+        return cls.query.filter_by(topic_id=topic_id).all()

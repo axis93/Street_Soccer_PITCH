@@ -22,8 +22,8 @@ class TopicModel(database.Model):
             'is_unlocked': self.is_unlocked,
             'name': self.name,
             'needed_credit': self.needed_credit,
-            'tests': [t.json() for t in TestModel.get_all()],
-            'formative_assessments': [fa.json() for fa in FormativeAssessmentModel.get_all()]
+            'tests': [t.json() for t in TestModel.get_all_for_topic(self.topic_id)],
+            'formative_assessments': [fa.json() for fa in FormativeAssessmentModel.get_all_for_topic(self.topic_id)]
         }
 
     def save_to_database(self, query, args=None):

@@ -39,7 +39,7 @@ class QuizModel(database.Model):
             'path_to_attachment': self.path_to_attachment,
             'title': self.title,
             'instructions': self.instructions,
-            'answers': [a for a in AnswerModel.get_all()]
+            'answers': [a for a in AnswerModel.get_all_for_quiz(self.quiz_id)]
         }
 
     def save_to_database(self):
@@ -57,3 +57,7 @@ class QuizModel(database.Model):
     @classmethod
     def get_all(cls):
         return cls.query.all()
+
+    @classmethod
+    def get_all_for_test(cls, test_id):
+        return cls.query.filter_by(test_id=test_id).all()

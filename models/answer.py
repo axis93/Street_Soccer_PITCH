@@ -43,3 +43,7 @@ class AnswerModel(database.Model):
     @classmethod
     def get_all(cls):
         return cls.query.all()
+
+    @classmethod
+    def get_all_for_quiz(cls, quiz_id):
+        return cls.query.filter_by(quiz_id=quiz_id).all()
