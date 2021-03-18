@@ -52,9 +52,9 @@ class Quiz(Resource):
         except:
             return {'message': 'An error occurred while reading the quiz ID from the database'}, 500
 
-        # there is, currently, only the option to update the item in the database: all test data is inserted prior to the app starting and we have no need to insert any data during runtime yet
         try:
-            QuizModel.update_db(self, "UPDATE quizzes SET gained_credit=? WHERE quiz_id=?", (request_data['gained_credit'], request_data['quiz_id']))
+            quiz.save_to_database()
+            return quiz.json()
         except:
             return {'message': 'An error occurred while updating the quiz in the database'}, 500
     

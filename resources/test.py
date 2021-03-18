@@ -55,7 +55,7 @@ class Test(Resource):
             return {'message': 'An error occurred while reading the test ID from the database'}, 500
 
         try:
-            test.save_to_database(self)
+            test.save_to_database()
             return test.json()
         except:
             return {'message': 'An error occurred while updating the test in the database'}, 500
