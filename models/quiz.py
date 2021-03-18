@@ -1,3 +1,4 @@
+from models.answer import AnswerModel
 from database import database
 
 class QuizModel(database.Model):
@@ -26,14 +27,7 @@ class QuizModel(database.Model):
         self.title = title
         self.instructions = instructions
     
-    def json(self, withAnswers=True): # This parameter exists as, ideally, we'd use a GET request which specifies if these are true in order to prevent getting data we don't need and slowing down the request - they're 'True' for now so we can perform tests
-
-        # creates a list of the answers to this question
-        answers = []
-        if withAnswers:
-            for answer in AnswerModel.query_db(AnswerModel, "SELECT * FROM answers WHERE quiz_id=?", (self.quiz_id,)):
-                answers.append(AnswerModel(*answer).json())
-
+    def json(self):
         return {
             'quiz_id': self.quiz_id,
             'test_id': self.test_id,
@@ -45,7 +39,7 @@ class QuizModel(database.Model):
             'path_to_attachment': self.path_to_attachment,
             'title': self.title,
             'instructions': self.instructions,
-            'answers': answers
+            'answers': [a for a in AnswerModel.get_all()]
         }
 
     def save_to_database(self):

@@ -1,3 +1,5 @@
+from models.formativeAssessment import FormativeAssessmentModel
+from models.test import TestModel
 from database import database
 
 class TopicModel(database.Model):
@@ -14,24 +16,14 @@ class TopicModel(database.Model):
         self.name = name
         self.needed_credit = needed_credit
     
-    def json(self, withTests=True, withQuizzes=True, withAnswers=True, withFormativeAssessments=True): # This parameter exists as, ideally, we'd use a GET request which specifies if these are true in order to prevent getting data we don't need and slowing down the request - they're 'True' for now so we can perform tests
-        tests = []
-        if withTests:
-            for test in TestModel.query_db(TestModel, "SELECT * FROM tests WHERE topic_id=?", (self.topic_id,)):
-                tests.append(TestModel(*test).json(withQuizzes=withQuizzes, withAnswers=withAnswers))
-
-        formativeAssessments = []
-        if withFormativeAssessments:
-            for fa in FormativeAssessmentModel.query_db(FormativeAssessmentModel, "SELECT * FROM formativeAssessments WHERE topic_id=?", (self.topic_id,)):
-                formativeAssessments.append(FormativeAssessmentModel(*fa).json())
-
+    def json(self):
         return {
             'topic_id': self.topic_id,
             'is_unlocked': self.is_unlocked,
             'name': self.name,
             'needed_credit': self.needed_credit,
-            'tests': tests,
-            'formative_assessments': formativeAssessments
+            'tests': [t.json() for t in TestModel.get_all()],
+            'formative_assessments': [fa.json() for fa in FormativeAssessmentModel.get_all()]
         }
 
     def save_to_database(self, query, args=None):
