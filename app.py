@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file, g
 from flask_restful import Api
 from flask_jsglue import JSGlue
+from database import database
 from resources.topic import Topic
 from resources.formativeAssessment import FormativeAssessment
 from resources.test import Test
@@ -14,6 +15,9 @@ import json
 app = Flask(__name__)
 api = Api(app)
 jsglue = JSGlue(app)
+
+"""
+this is the old database connection method
 
 db_location = 'database.db'
 
@@ -42,7 +46,7 @@ def init_db(queries):
 				db.cursor().execute(query)
 
 		db.commit()
-
+"""
 
 @app.route('/')
 def index():
@@ -107,4 +111,5 @@ def dated_url_for(endpoint, **values):
 """
 
 if __name__ == "__main__":
+	database.init_app(app)
 	app.run(host='127.0.0.1', debug=True)

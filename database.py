@@ -1,4 +1,8 @@
-from app import init_db
+from flask_sqlalchemy import SQLAlchemy
+
+database = SQLAlchemy()
+
+# from app import init_db
 
 """
 this would prevent having to duplicate the 'query_db'
@@ -194,4 +198,4 @@ insert_queries = ( # these are queries used only for inserting test data, this s
     # "INSERT INTO quizzes (quiz_id, test_id, order_num, credit_value, gained_credit, type, text_body, title, instructions) VALUES(ID, testID, orderNum, credNum, gainedCred, 'multiple_choice/info', 'mainText', 'title', 'instructions');",
     # "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (ID, quizID, 'text', boolCorrect, boolSelected);",
 
-init_db(insert_queries)
+# init_db(insert_queries)
