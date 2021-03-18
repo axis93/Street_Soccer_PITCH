@@ -1,15 +1,14 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, send_file, g
 from flask_restful import Api
 from flask_jsglue import JSGlue
-from database import database
+from sqlalchemy.orm import query
+from database import database, insert_queries
 from resources.topic import Topic
 from resources.formativeAssessment import FormativeAssessment
 from resources.test import Test
 from resources.quiz import Quiz
 from resources.answer import Answer
-import sqlite3
-import os
-import json
+import sys
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -17,37 +16,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 api = Api(app)
 jsglue = JSGlue(app)
 
-"""
-this is the old database connection method
-
-db_location = 'database.db'
-
-def get_db():
-	db = getattr(g, 'db', None)
-	if db is None:
-		db = sqlite3.connect(db_location)
-		g.db = db
-	return db
-
-
-@app.teardown_appcontext
-def close_db_connection(exception):
-	db = getattr(g, 'db', None)
-	if db is not None:
-		db.close()
-
-def init_db(queries):
-	with app.app_context():
-		db = get_db()
-		with app.open_resource('schema.sql', mode='r') as f:
-			db.cursor().executescript(f.read())
-
-		if db and queries:
-			for query in queries:
-				db.cursor().execute(query)
-
-		db.commit()
-"""
+@app.before_first_request
+def create_tables():
+	database.create_all()
+	#if '--insert' in sys.argv:
+	for query in insert_queries:
+		database.session.execute(query) 
 
 @app.route('/')
 def index():
