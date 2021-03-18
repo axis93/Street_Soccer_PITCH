@@ -31,40 +31,11 @@ class AnswerModel(database.Model):
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()
-        """
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        cursor.execute(query, args)
-
-        connection.commit()
-        connection.close()
-        """
 
     def delete_from_database(self):
         database.session.delete(self)
         database.session.commit()
-        """
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        result = cursor.execute(query, args).fetchall()
-
-        connection.close()
-
-        return result
-        """
 
     @classmethod
     def find_by_id(cls, answer_id):
         return cls.query.filter_by(answer_id=answer_id).first()
-        """
-        result = cls.query_db(cls, "SELECT * FROM answers WHERE answer_id=?", (answer_id,))
-
-        if result:
-            answer = cls(*result[0])
-        else:
-            answer = None
-        
-        return answer
-        """

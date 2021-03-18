@@ -52,40 +52,11 @@ class FormativeAssessmentModel(database.Model):
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()
-        """
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        result = cursor.execute(query, args).fetchall()
-
-        connection.close()
-
-        return result
-        """
 
     def delete_from_database(self, query, args):
         database.session.delete(self)
         database.session.commit()
-        """
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        cursor.execute(query, args)
-
-        connection.commit()
-        connection.close()
-        """
 
     @classmethod
     def find_by_id(cls, fa_id):
         return database.query.filter_by(fa_id=fa_id)
-        """
-        result = cls.query_db(cls, "SELECT * FROM formativeAssessments WHERE fa_id=?", (fa_id,))
-
-        if result:
-            assessment = cls(*result[0])
-        else:
-            assessment = None
-        
-        return assessment
-        """
