@@ -1,4 +1,3 @@
-import sqlite3
 from database import database
 
 class QuizModel(database.Model):
@@ -21,7 +20,7 @@ class QuizModel(database.Model):
         self.order_num = order_num
         self.credit_value = credit_value
         self.gained_credit = gained_credit
-        self.type = quiz_type # 'type' is a key word in Python
+        self.quiz_type = quiz_type # 'type' is a key word in Python
         self.text_body = text_body
         self.path_to_attachment = path_to_attachment
         self.title = title
@@ -49,32 +48,14 @@ class QuizModel(database.Model):
             'answers': answers
         }
 
-    def query_db(self, query, args):
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
+    def save_to_database(self):
+        database.session.add(self)
+        database.session.commit()
 
-        result = cursor.execute(query, args).fetchall()
-
-        connection.close()
-
-        return result
-
-    def update_db(self, query, args):
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        cursor.execute(query, args)
-
-        connection.commit()
-        connection.close()
+    def update_db(self):
+        database.session.delete(self)
+        database.session.commit()
 
     @classmethod
     def find_by_id(cls, quiz_id):
-        result = cls.query_db(cls, "SELECT * FROM quizzes WHERE quiz_id=?", (quiz_id,))
-
-        if result:
-            quiz = cls(*result[0])
-        else:
-            quiz = None
-        
-        return quiz
+        return database.query.filter_by(quiz_id=quiz_id)
