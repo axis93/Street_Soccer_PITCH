@@ -1,4 +1,3 @@
-import sqlite3
 from database import database
 
 class AnswerModel(database.Model):
@@ -29,7 +28,23 @@ class AnswerModel(database.Model):
             'is_selected': self.is_selected,
         }
 
-    def query_db(self, query, args):
+    def save_to_database(self):
+        database.session.add(self)
+        database.session.commit()
+        """
+        connection = sqlite3.connect('database.db')
+        cursor = connection.cursor()
+
+        cursor.execute(query, args)
+
+        connection.commit()
+        connection.close()
+        """
+
+    def delete_from_database(self):
+        database.session.delete(self)
+        database.session.commit()
+        """
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
@@ -38,18 +53,12 @@ class AnswerModel(database.Model):
         connection.close()
 
         return result
-
-    def update_db(self, query, args):
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        cursor.execute(query, args)
-
-        connection.commit()
-        connection.close()
+        """
 
     @classmethod
     def find_by_id(cls, answer_id):
+        return cls.query.filter_by(answer_id=answer_id).first()
+        """
         result = cls.query_db(cls, "SELECT * FROM answers WHERE answer_id=?", (answer_id,))
 
         if result:
@@ -58,3 +67,4 @@ class AnswerModel(database.Model):
             answer = None
         
         return answer
+        """

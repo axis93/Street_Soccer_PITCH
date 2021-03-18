@@ -9,6 +9,10 @@ class Answer(Resource):
         required=True,
         help='An error occurred - \'answer_id\' was empty'
     )
+    parser.add_argument('quiz_id', type=int)
+    parser.add_argument('body', type=str)
+    parser.add_argument('is_correct', type=bool)
+    parser.add_argument('path_to_attachment', type=str)
     parser.add_argument('is_selected', type=bool)
 
     def get(self):
@@ -25,19 +29,34 @@ class Answer(Resource):
 
     def put(self):
         request_data = Answer.parser.parse_args()
-        
-        if request_data['is_selected'] == None:
-            return {'message': 'An error occurred - \'is_selected\' was empty'}
+        answer = AnswerModel.find_by_id(request_data['answer_id'])
 
         try:
-            if not AnswerModel.find_by_id(request_data['answer_id']):
-                return {'message': 'Answer with ID {} doesn\'t exist in the database'}.format(request_data['answer_id']), 404
+            if not answer:
+                answer = AnswerModel(**request_data)
+            else:
+                answer.answer_id = request_data['answer_id']
+                answer.quiz_id = request_data['quiz_id']
+                answer.body = request_data['body']
+                answer.is_correct = request_data['is_correct']
+                answer.path_to_attachment = request_data['path_to_attachment']
+                answer.is_selected = request_data['is_selected']
         except:
             return {'message': 'An error occurred while reading the answer ID from the database'}, 500
-
-        # there is, currently, only the option to update the item in the database: all test data is inserted prior to the app starting and we have no need to insert any data during runtime yet
+        
         try:
-            AnswerModel.update_db(self, "UPDATE answers SET is_selected=? WHERE answer_id=?", (request_data['is_selected'], request_data['answer_id']))
+            answer.save_to_database()
+            return answer.json()
         except:
             return {'message': 'An error occurred while updating the answer in the database'}, 500
+
+    def delete(self):
+        request_data = Answer.parser.parse_args()
+        answer = AnswerModel.find_by_id(request_data['answer_id'])
+
+        if answer:
+            answer.delete_from_database()
+
+        return {'message': 'Answer with ID {} deleted.'.format(request_data['answer_id'])}, 200
+
 
