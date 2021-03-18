@@ -109,7 +109,19 @@ requestHandlers = {
                         maxProgress = maxProgress + 1;
                     }
 
-                    var topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
+                    var topicItemLevel;
+
+                    // If the topic is unlocked and the test is unlocked display the test unlocked
+                    if (topic.is_unlocked == 1 && topic.tests[j].is_unlocked == 1) {
+                        topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
+                    }
+                    else {
+                        topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", parent: topicItemLevels});
+                        topicItemLevel.setAttribute('disabled', true);
+                        var lockIcon = elemUtils.createElement({type: 'span', className: 'material-icons', innerHTML: 'lock', parent: topicItemLevel});
+                        lockIcon.style = 'font-size: 18px;';
+
+                    }
                     
                     //attributes for the button
                     topicItemLevel.setAttribute('id', String('test-button-' + topic.tests[j].test_id));
