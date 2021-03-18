@@ -538,7 +538,7 @@ elemUtils = {
 
     updateProgressBar: (maxProgress, currentProgress) => {
         const percent = Math.round(currentProgress/(maxProgress - quiz.infoPagesCount) * 100);
-        console.log(percent);
+        
         $('#progress-bar-content').css({
             'width': `${percent}%`
         });
