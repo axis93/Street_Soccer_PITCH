@@ -85,7 +85,6 @@ api.add_resource(FormativeAssessment, '/formativeAssessments')
 api.add_resource(Test, '/tests')
 api.add_resource(Quiz, '/quizzes')
 api.add_resource(Answer, '/answers')
-api.add_resource(User, '/users/<string:user_id>')
 
 """
 use Ctrl+F5 to clear the cache and refresh
