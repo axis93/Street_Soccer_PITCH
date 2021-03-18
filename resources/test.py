@@ -39,18 +39,39 @@ class Test(Resource):
         try:
             if not test:
                 test = TestModel(**request_data)
-            else:
-                test.test_id = request_data['test_id']
-                test.topic_id = request_data['topic_id']
-                test.is_unlocked = request_data['is_unlocked']
-                test.max_credit = request_data['max_credit']
-                test.order_num = request_data['order_num']
-                test.gained_credit = request_data['gained_credit']
-                test.pass_credit = request_data['pass_credit']
-                test.time_limit = request_data['time_limit']
-                test.description = request_data['description']
-                test.is_retakeable = request_data['is_retakeable']
-                test.is_official = request_data['is_official']
+            else: # if 'test' is defined, this means there's an existing record under this ID, so update it with the values we have
+                if request_data['test_id']:
+                    test.test_id = request_data['test_id']
+                                
+                if request_data['topic_id']:
+                    test.topic_id = request_data['topic_id']
+                                
+                if request_data['is_unlocked']:
+                    test.is_unlocked = request_data['is_unlocked']
+                                
+                if request_data['max_credit']:
+                    test.max_credit = request_data['max_credit']
+                                
+                if request_data['order_num']:
+                    test.order_num = request_data['order_num']
+                                
+                if request_data['gained_credit']:
+                    test.gained_credit = request_data['gained_credit']
+                                
+                if request_data['pass_credit']:
+                    test.pass_credit = request_data['pass_credit']
+                                
+                if request_data['time_limit']:
+                    test.time_limit = request_data['time_limit']
+                                
+                if request_data['description']:
+                    test.description = request_data['description']
+                                
+                if request_data['is_retakeable']:
+                    test.is_retakeable = request_data['is_retakeable']
+                                
+                if request_data['is_official']:
+                    test.is_official = request_data['is_official']
         except:
             return {'message': 'An error occurred while reading the test ID from the database'}, 500
 

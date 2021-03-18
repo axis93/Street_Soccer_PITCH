@@ -34,13 +34,24 @@ class Answer(Resource):
         try:
             if not answer:
                 answer = AnswerModel(**request_data)
-            else:
-                answer.answer_id = request_data['answer_id']
-                answer.quiz_id = request_data['quiz_id']
-                answer.body = request_data['body']
-                answer.is_correct = request_data['is_correct']
-                answer.path_to_attachment = request_data['path_to_attachment']
-                answer.is_selected = request_data['is_selected']
+            else: # if 'answer' is defined, this means there's an existing record under this ID, so update it with the values we have
+                if request_data['answer_id']:
+                    answer.answer_id = request_data['answer_id']
+
+                if request_data['quiz_id']:
+                    answer.quiz_id = request_data['quiz_id']
+
+                if request_data['body']:
+                    answer.body = request_data['body']
+
+                if request_data['is_correct']:
+                    answer.is_correct = request_data['is_correct']
+
+                if request_data['path_to_attachment']:
+                    answer.path_to_attachment = request_data['path_to_attachment']
+
+                if request_data['is_selected']:
+                    answer.is_selected = request_data['is_selected']
         except:
             return {'message': 'An error occurred while reading the answer ID from the database'}, 500
         
