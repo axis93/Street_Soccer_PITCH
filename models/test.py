@@ -5,7 +5,7 @@ class TestModel(database.Model):
     __tablename__ = 'tests'
 
     test_id = database.Column(database.Integer, primary_key=True, nullable=False)
-    topic_id = database.Column(database.Integer, database.ForeignKey('topics.topics_id'), nullable=False)
+    topic_id = database.Column(database.Integer, database.ForeignKey('topics.topic_id'), nullable=False)
     is_unlocked = database.Column(database.Boolean)
     max_credit = database.Column(database.Integer, nullable=False)
     order_num = database.Column(database.Integer, nullable=False)
