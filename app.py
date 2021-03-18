@@ -7,12 +7,12 @@ from resources.formativeAssessment import FormativeAssessment
 from resources.test import Test
 from resources.quiz import Quiz
 from resources.answer import Answer
-from resources.user import User
 import sqlite3
 import os
 import json
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
 jsglue = JSGlue(app)
 
