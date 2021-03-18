@@ -35,11 +35,18 @@ class Topic(Resource):
         try:
             if not topic:
                 topic = Topic(**request_data)
-            else:
-                topic.topic_id = request_data['topic_id']
-                topic.is_unlocked = request_data['is_unlocked']
-                topic.name = request_data['name']
-                topic.needed_credit = request_data['needed_credit']
+            else: # if 'topic' is defined, this means there's an existing record under this ID, so update it with the values we have
+                if request_data['topic_id']:
+                    topic.topic_id = request_data['topic_id']
+                                
+                if request_data['is_unlocked']:
+                    topic.is_unlocked = request_data['is_unlocked']
+                                
+                if request_data['name']:
+                    topic.name = request_data['name']
+                                
+                if request_data['needed_credit']:
+                    topic.needed_credit = request_data['needed_credit']
         except:
             return {'message': 'An error occurred while reading the topic ID from the database'}, 500
 
