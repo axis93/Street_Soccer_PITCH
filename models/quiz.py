@@ -5,7 +5,7 @@ class QuizModel(database.Model):
     __tablename__ = 'quizzes'
 
     quiz_id = database.Column(database.Integer, primary_key=True, nullable=False)
-    test_id = database.Column(database.Integer, nullable=False)
+    test_id = database.Column(database.Integer, database.ForeignKey('tests.test_id'), nullable=False)
     order_num = database.Column(database.Integer, nullable=False)
     credit_value = database.Column(database.Integer, nullable=False)
     gained_credit = database.Column(database.Integer)
@@ -14,6 +14,9 @@ class QuizModel(database.Model):
     path_to_attachment = database.Column(database.String)
     title = database.Column(database.String(100))
     instructions = database.Column(database.String)
+
+    test = database.relationship('TestModel')
+    answers = database.relationship('AnswerModel', lazy='dynamic')
 
     def __init__(self, quiz_id, test_id, order_num, credit_value, gained_credit, quiz_type, text_body, path_to_attachment, title, instructions):
         self.quiz_id = quiz_id
@@ -39,7 +42,7 @@ class QuizModel(database.Model):
             'path_to_attachment': self.path_to_attachment,
             'title': self.title,
             'instructions': self.instructions,
-            'answers': [a.json() for a in AnswerModel.get_all_for_quiz(self.quiz_id)]
+            'answers': [a.json() for a in self.answers.all()]
         }
 
     def save_to_database(self):

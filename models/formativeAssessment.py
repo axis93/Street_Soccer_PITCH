@@ -4,7 +4,7 @@ class FormativeAssessmentModel(database.Model):
     __tablename__ = 'formativeAssessments'
 
     fa_id = database.Column(database.Integer, primary_key=True, nullable=False)
-    topic_id = database.Column(database.Integer)
+    topic_id = database.Column(database.Integer, database.ForeignKey('topics.topic_id'))
     is_unlocked = database.Column(database.Boolean, nullable=False)
     order_num = database.Column(database.Integer, nullable=False)
     gained_credit = database.Column(database.Integer)
@@ -16,6 +16,8 @@ class FormativeAssessmentModel(database.Model):
     deadline = database.Column(database.String)
     reviewer_comment = database.Column(database.String)
     is_marked = database.Column(database.Boolean)
+
+    topic = database.relationship('TopicModel')
 
     def __init__(self, fa_id, topic_id, is_unlocked, order_num, gained_credit, answer, pass_credit, instructions, title, path_to_attachment, deadline, reviewer_comment, is_marked):
         self.fa_id = fa_id

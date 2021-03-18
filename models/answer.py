@@ -4,11 +4,13 @@ class AnswerModel(database.Model):
     __tablename__ = 'answers'
 
     answer_id = database.Column(database.Integer, primary_key=True, nullable=False)
-    quiz_id = database.Column(database.Integer, nullable=False)
+    quiz_id = database.Column(database.Integer, database.ForeignKey('quizzes.quiz_id'), nullable=False)
     body = database.Column(database.String)
     is_correct = database.Column(database.Boolean)
     path_to_attachment = database.Column(database.String)
     is_selected = database.Column(database.Boolean)
+
+    quiz = database.relationship('QuizModel')
 
     def __init__(self, answer_id, quiz_id, body, is_correct, path_to_attachment, is_selected):
         self.answer_id = answer_id
