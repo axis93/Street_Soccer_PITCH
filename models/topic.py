@@ -1,8 +1,14 @@
 import sqlite3
-from models.test import TestModel
-from models.formativeAssessment import FormativeAssessmentModel
+from database import database
 
-class TopicModel:
+class TopicModel(database.Model):
+    __tablename__ = 'topics'
+
+    topic_id = database.Column(database.Integer, primary_key=True)
+    is_unlocked = database.Column(database.Boolean)
+    name = database.Column(database.String(50))
+    needed_credit = database.Column(database.Integer)
+
     def __init__(self, topic_id, is_unlocked, name, needed_credit):
         self.topic_id = topic_id
         self.is_unlocked = is_unlocked

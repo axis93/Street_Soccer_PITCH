@@ -1,6 +1,16 @@
 import sqlite3
+from database import database
 
-class AnswerModel:
+class AnswerModel(database.Model):
+    __tablename__ = 'answers'
+
+    answer_id = database.Column(database.Integer, primary_key=True)
+    quiz_id = database.Column(database.Integer)
+    body = database.Column(database.String)
+    is_correct = database.Column(database.Boolean)
+    path_to_attachment = database.Column(database.String)
+    is_selected = database.Column(database.Boolean)
+
     def __init__(self, answer_id, quiz_id, body, is_correct, path_to_attachment, is_selected):
         self.answer_id = answer_id
         self.quiz_id = quiz_id

@@ -1,6 +1,23 @@
 import sqlite3
+from database import database
 
-class FormativeAssessmentModel:
+class FormativeAssessmentModel(database.Model):
+    __tablename__ = 'formativeAssessments'
+
+    fa_id = database.Column(database.Integer, primary_key=True)
+    topic_id = database.Column(database.Integer)
+    is_unlocked = database.Column(database.Boolean)
+    order_num = database.Column(database.Integer)
+    gained_credit = database.Column(database.Integer)
+    answer = database.Column(database.String)
+    pass_credit = database.Column(database.Integer)
+    instructions = database.Column(database.String)
+    title = database.Column(database.String(100))
+    path_to_attachment = database.Column(database.String)
+    deadline = database.Column(database.String)
+    reviewer_comment = database.Column(database.String)
+    is_marked = database.Column(database.Boolean)
+
     def __init__(self, fa_id, topic_id, is_unlocked, order_num, gained_credit, answer, pass_credit, instructions, title, path_to_attachment, deadline, reviewer_comment, is_marked):
         self.fa_id = fa_id
         self.topic_id = topic_id

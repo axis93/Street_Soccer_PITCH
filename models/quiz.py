@@ -1,7 +1,20 @@
 import sqlite3
-from models.answer import AnswerModel
+from database import database
 
-class QuizModel:
+class QuizModel(database.Model):
+    __tablename__ = 'quizzes'
+
+    quiz_id = database.Column(database.Integer, primary_key=True)
+    test_id = database.Column(database.Integer)
+    order_num = database.Column(database.Integer)
+    credit_value = database.Column(database.Integer)
+    gained_credit = database.Column(database.Integer)
+    quiz_type = database.Column(database.String)
+    text_body = database.Column(database.String)
+    path_to_attachment = database.Column(database.String)
+    title = database.Column(database.String(100))
+    instructions = database.Column(database.String)
+
     def __init__(self, quiz_id, test_id, order_num, credit_value, gained_credit, quiz_type, text_body, path_to_attachment, title, instructions):
         self.quiz_id = quiz_id
         self.test_id = test_id

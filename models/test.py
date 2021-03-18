@@ -1,8 +1,21 @@
 import sqlite3
-from models.quiz import QuizModel
+from database import database
 
+class TestModel(database.Model):
+    __tablename__ = 'tests'
 
-class TestModel:
+    test_id = database.Column(database.Integer, primary_key=True)
+    topic_id = database.Column(database.Integer)
+    is_unlocked = database.Column(database.Boolean)
+    max_credit = database.Column(database.Integer)
+    order_num = database.Column(database.Integer)
+    gained_credit = database.Column(database.Integer)
+    pass_credit = database.Column(database.Integer)
+    time_limit = database.Column(database.Time)
+    description = database.Column(database.String)
+    is_retakeable = database.Column(database.Boolean)
+    is_official = database.Column(database.Boolean)
+
     def __init__(self, test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, time_limit, description, is_retakeable, is_official):
         self.test_id = test_id
         self.topic_id = topic_id
