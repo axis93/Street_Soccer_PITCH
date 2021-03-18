@@ -169,7 +169,3 @@ insert_queries = ( # these are queries used only for inserting test data, this s
         # Test 2 - locked and empty
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (32, 9, 0, 70, 2, 0, 35, 'I am second but locked.', 1, 1);"
 )
-
-if __name__ == "__main__":
-    for query in insert_queries:
-        database.session.execute(query)
