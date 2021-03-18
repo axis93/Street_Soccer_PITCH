@@ -11,7 +11,7 @@ class TopicModel(database.Model):
     needed_credit = database.Column(database.Integer)
 
     tests = database.relationship('TestModel', lazy='dynamic')
-    formativeAssessments = database.relationship('FormativeAssessmentModel')
+    formativeAssessments = database.relationship('FormativeAssessmentModel', lazy='dynamic')
 
 
     def __init__(self, topic_id, is_unlocked, name, needed_credit):
@@ -30,7 +30,7 @@ class TopicModel(database.Model):
             'formative_assessments': [fa.json() for fa in self.formativeAssessments.all()]
         }
 
-    def save_to_database(self, query, args=None):
+    def save_to_database(self):
         database.session.add(self)
         database.session.commit()
 
