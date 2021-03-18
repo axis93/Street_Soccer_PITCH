@@ -34,7 +34,7 @@ class QuizModel(database.Model):
             'order_num': self.order_num,
             'credit_value': self.credit_value,
             'gained_credit': self.gained_credit,
-            'type': self.type,
+            'quiz_type': self.quiz_type,
             'text_body': self.text_body,
             'path_to_attachment': self.path_to_attachment,
             'title': self.title,
