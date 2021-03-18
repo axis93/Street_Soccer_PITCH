@@ -80,8 +80,10 @@ requestHandlers = {
         var gainedProgress = 0;
 
         if(data != null) {
+            console.log(data);
             for(let i = 0; i < data.topics.length; i++) {
                 const topic = data.topics[i];
+                var topicsCredit = 0;
 
                 //get the required/needed credit from the topic (if the topic is unlocked)
                 neededCredits = topic.is_unlocked == 1 ? neededCredits + Number(topic.needed_credit) : neededCredits;
@@ -109,20 +111,29 @@ requestHandlers = {
                         maxProgress = maxProgress + 1;
                     }
 
-                    var topicItemLevel;
+                    //calculate the credit for the topic
+                    topicsCredit = topicsCredit + topic.tests[j].gained_credit;
 
-                    // If the topic is unlocked and the test is unlocked display the test unlocked
+                    //the test button
+                    var topicItemLevel;
+                    //if the topic is unlocked and the test is unlocked display the test unlocked
                     if (topic.is_unlocked == 1 && topic.tests[j].is_unlocked == 1) {
-                        topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
+                        //if the test was completed successfully show a tick
+                        if (topic.tests[j].gained_credit >= topic.tests[j].pass_credit)
+                        {
+                            topicItemLevel = elemUtils.createElement({type: 'button', className: "success-test-icon level-button material-icons", innerHTML: 'done_outline', parent: topicItemLevels});
+                        }
+                        else {
+                            topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
+                        }
                     }
                     else {
-                        topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", parent: topicItemLevels});
+                        topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button material-icons", innerHTML: 'lock', parent: topicItemLevels});
                         topicItemLevel.setAttribute('disabled', true);
-                        var lockIcon = elemUtils.createElement({type: 'span', className: 'material-icons', innerHTML: 'lock', parent: topicItemLevel});
-                        lockIcon.style = 'font-size: 18px;';
+                        topicItemLevel.style = 'font-size: 18px;';
 
                     }
-                    
+
                     //attributes for the button
                     topicItemLevel.setAttribute('id', String('test-button-' + topic.tests[j].test_id));
                     topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id); //store the ID of the test in which this button relates to
@@ -146,10 +157,14 @@ requestHandlers = {
                         storageUtils.storeSessionValue(storageUtils.testID, event.target.getAttribute('data-test_id')); //get the ID and store it in the session so it's carried over to 'quiz-page'
                         document.getElementById(String('test-button-' + topic.tests[j].test_id)).style = "background-color: var(--darker);";
                         document.getElementById("side-panel").style.visibility = "visible";
-                        
                         //send data to the side panel
                         elemUtils.displaySidePanel(sidePanelData[event.target.getAttribute('data-test_id')-1]);
                     });
+                }
+                //if user's gained credit is over the needed credit for the topic display a tick
+                if (topicsCredit > topic.needed_credit) {
+                    var successBadge = elemUtils.createElement({type: 'span', className: "level-button material-icons", innerHTML: 'verified', parent: topicItemLevels});
+                    successBadge.style = 'color: var(--correctGreen);';
                 }
             }
             //set progress made

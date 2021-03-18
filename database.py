@@ -54,10 +54,10 @@ insert_queries = ( # these are queries used only for inserting test data, this s
                 "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (26, 10, 'Find the most gifted children withing the Slum Soccer and train them to join Slum Soccer Professional Children League.', 1, 0);",
 
         # Test 3 - empty an locked
-        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (3, 1, 1, 50, 3, 0, 25, 'This test might looked locked as of now. It is because it is locked and you cannot access it right now.', 1, 1);",
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (3, 1, 0, 50, 3, 0, 25, 'This test might looked locked as of now. It is because it is locked and you cannot access it right now.', 1, 1);",
      
         # Test 4 - empty an locked
-        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (4, 1, 1, 50, 4, 0, 25, 'Can t you believe this? This is locked too. What a nightmare... Maybe you should work harder to unlock it. Or maybe this is just an empty test to show how an unlocked test looks like, since it s quite difficult to create a new test.', 0, 1);",
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (4, 1, 0, 50, 4, 0, 25, 'Can t you believe this? This is locked too. What a nightmare... Maybe you should work harder to unlock it. Or maybe this is just an empty test to show how an unlocked test looks like, since it s quite difficult to create a new test.', 0, 1);",
   
     # Topic 2 - Another Topic
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (2, 1, 'Another Topic', 100);",

@@ -539,6 +539,11 @@ body {
     align-items: center;
 }
 
+.success-test-icon {
+    font-size: 18px !important;
+    color: var(--correctGreen);
+}
+
 .title {
     font-size: 30px;
     font-weight: bold;
