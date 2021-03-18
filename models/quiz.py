@@ -1,4 +1,3 @@
-from models.answer import AnswerModel
 from database import database
 
 class QuizModel(database.Model):

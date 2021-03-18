@@ -1,5 +1,3 @@
-from models.formativeAssessment import FormativeAssessmentModel
-from models.test import TestModel
 from database import database
 
 class TopicModel(database.Model):

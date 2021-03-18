@@ -1,4 +1,3 @@
-from models.quiz import QuizModel
 from database import database
 
 class TestModel(database.Model):

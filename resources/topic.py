@@ -1,6 +1,5 @@
 from flask_restful import Resource, reqparse
 from models.topic import TopicModel
-import json
 
 class Topic(Resource):
     parser = reqparse.RequestParser()
