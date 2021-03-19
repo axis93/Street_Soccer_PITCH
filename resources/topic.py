@@ -16,17 +16,17 @@ class Topic(Resource):
     def get(self):
         request_data = Topic.parser.parse_args()
 
-        try:
-            if request_data['topic_id']:
-                topic = TopicModel.find_by_id(request_data['topic_id'])
-                if topic:
-                    return topic.json()
-                else:
-                    return {'message': 'Topic with the ID {} not found'.format(request_data['topic_id'])}, 404
+        #try:
+        if request_data['topic_id']:
+            topic = TopicModel.find_by_id(request_data['topic_id'])
+            if topic:
+                return topic.json()
             else:
-                return {'topics': [t.json() for t in TopicModel.get_topics()]}
-        except:
-            return {'message': 'An error occurred while reading the topic ID from the database'}, 500
+                return {'message': 'Topic with the ID {} not found'.format(request_data['topic_id'])}, 404
+        else:
+            return {'topics': [t.json() for t in TopicModel.get_all()]}
+        #except:
+        #    return {'message': 'An error occurred while reading the topic ID from the database'}, 500
 
     def put(self):
         request_data = Topic.parser.parse_args()
@@ -38,13 +38,13 @@ class Topic(Resource):
             else: # if 'topic' is defined, this means there's an existing record under this ID, so update it with the values we have
                 if request_data['topic_id']:
                     topic.topic_id = request_data['topic_id']
-                                
+                
                 if request_data['is_unlocked']:
                     topic.is_unlocked = request_data['is_unlocked']
-                                
+                
                 if request_data['name']:
                     topic.name = request_data['name']
-                                
+                
                 if request_data['needed_credit']:
                     topic.needed_credit = request_data['needed_credit']
         except:
