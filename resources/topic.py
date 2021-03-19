@@ -16,17 +16,17 @@ class Topic(Resource):
     def get(self):
         request_data = Topic.parser.parse_args()
 
-        #try:
-        if request_data['topic_id']:
-            topic = TopicModel.find_by_id(request_data['topic_id'])
-            if topic:
-                return topic.json()
+        try:
+            if request_data['topic_id']:
+                topic = TopicModel.find_by_id(request_data['topic_id'])
+                if topic:
+                    return topic.json()
+                else:
+                    return {'message': 'Topic with the ID {} not found'.format(request_data['topic_id'])}, 404
             else:
-                return {'message': 'Topic with the ID {} not found'.format(request_data['topic_id'])}, 404
-        else:
-            return {'topics': [t.json() for t in TopicModel.get_all()]}
-        #except:
-        #    return {'message': 'An error occurred while reading the topic ID from the database'}, 500
+                return {'topics': [t.json() for t in TopicModel.get_all()]}
+        except:
+            return {'message': 'An error occurred while reading the topic ID from the database'}, 500
 
     def put(self):
         request_data = Topic.parser.parse_args()
