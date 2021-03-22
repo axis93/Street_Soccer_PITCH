@@ -39,34 +39,34 @@ class Quiz(Resource):
             if not quiz:
                 quiz = QuizModel(**request_data)
             else: # if 'quiz' is defined, this means there's an existing record under this ID, so update it with the values we have
-                if request_data['quiz_id']:
+                if request_data['quiz_id'] != None:
                     quiz.quiz_id = request_data['quiz_id']
-                                
-                if request_data['test_id']:
+                
+                if request_data['test_id'] != None:
                     quiz.test_id = request_data['test_id']
-                                
-                if request_data['order_num']:
+                
+                if request_data['order_num'] != None:
                     quiz.order_num = request_data['order_num']
-                                
-                if request_data['credit_value']:
+                
+                if request_data['credit_value'] != None:
                     quiz.credit_value = request_data['credit_value']
-                                
-                if request_data['gained_credit']:
+                
+                if request_data['gained_credit'] != None:
                     quiz.gained_credit = request_data['gained_credit']
-                                
-                if request_data['quiz_type']:
+                
+                if request_data['quiz_type'] != None:
                     quiz.quiz_type = request_data['quiz_type']
-                                
-                if request_data['text_body']:
+                
+                if request_data['text_body'] != None:
                     quiz.text_body = request_data['text_body']
-                                
-                if request_data['path_to_attachment']:
+                
+                if request_data['path_to_attachment'] != None:
                     quiz.path_to_attachment = request_data['path_to_attachment']
-                                
-                if request_data['title']:
+                
+                if request_data['title'] != None:
                     quiz.title = request_data['title']
-                                
-                if request_data['instructions']:
+                
+                if request_data['instructions'] != None:
                     quiz.instructions = request_data['instructions']
         except:
             return {'message': 'An error occurred while reading the quiz ID from the database'}, 500

@@ -40,37 +40,37 @@ class Test(Resource):
             if not test:
                 test = TestModel(**request_data)
             else: # if 'test' is defined, this means there's an existing record under this ID, so update it with the values we have
-                if request_data['test_id']:
+                if request_data['test_id'] != None:
                     test.test_id = request_data['test_id']
-                                
-                if request_data['topic_id']:
+                
+                if request_data['topic_id'] != None:
                     test.topic_id = request_data['topic_id']
-                                
-                if request_data['is_unlocked']:
+                
+                if request_data['is_unlocked'] != None:
                     test.is_unlocked = request_data['is_unlocked']
-                                
-                if request_data['max_credit']:
+                
+                if request_data['max_credit'] != None:
                     test.max_credit = request_data['max_credit']
-                                
-                if request_data['order_num']:
+                
+                if request_data['order_num'] != None:
                     test.order_num = request_data['order_num']
-                                
-                if request_data['gained_credit']:
+                
+                if request_data['gained_credit'] != None:
                     test.gained_credit = request_data['gained_credit']
-                                
-                if request_data['pass_credit']:
+                
+                if request_data['pass_credit'] != None:
                     test.pass_credit = request_data['pass_credit']
-                                
-                if request_data['time_limit']:
+                
+                if request_data['time_limit'] != None:
                     test.time_limit = request_data['time_limit']
-                                
-                if request_data['description']:
+                
+                if request_data['description'] != None:
                     test.description = request_data['description']
-                                
-                if request_data['is_retakeable']:
+                
+                if request_data['is_retakeable'] != None:
                     test.is_retakeable = request_data['is_retakeable']
-                                
-                if request_data['is_official']:
+                
+                if request_data['is_official'] != None:
                     test.is_official = request_data['is_official']
         except:
             return {'message': 'An error occurred while reading the test ID from the database'}, 500

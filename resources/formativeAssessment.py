@@ -42,43 +42,43 @@ class FormativeAssessment(Resource):
             if not formativeAssessment:
                 formativeAssessment = FormativeAssessmentModel(**request_data)
             else: # if 'formativeAssessment' is defined, this means there's an existing record under this ID, so update it with the values we have
-                if request_data['fa_id']:
+                if request_data['fa_id'] != None:
                     formativeAssessment.fa_id = request_data['fa_id']
 
-                if request_data['topic_id']:
+                if request_data['topic_id'] != None:
                     formativeAssessment.topic_id = request_data['topic_id']
                 
-                if request_data['is_unlocked']:
+                if request_data['is_unlocked'] != None:
                     formativeAssessment.is_unlocked = request_data['is_unlocked']
                 
-                if request_data['order_num']:
+                if request_data['order_num'] != None:
                     formativeAssessment.order_num = request_data['order_num']
                 
-                if request_data['gained_credit']:
+                if request_data['gained_credit'] != None:
                     formativeAssessment.gained_credit = request_data['gained_credit']
                 
-                if request_data['answer']:
+                if request_data['answer'] != None:
                     formativeAssessment.answer = request_data['answer']
                 
-                if request_data['pass_credit']:
+                if request_data['pass_credit'] != None:
                     formativeAssessment.pass_credit = request_data['pass_credit']
                 
-                if request_data['instructions']:
+                if request_data['instructions'] != None:
                     formativeAssessment.instructions = request_data['instructions']
                 
-                if request_data['title']:
+                if request_data['title'] != None:
                     formativeAssessment.title = request_data['title']
                 
-                if request_data['path_to_attachment']:
+                if request_data['path_to_attachment'] != None:
                     formativeAssessment.path_to_attachment = request_data['path_to_attachment']
                                 
-                if request_data['deadline']:
+                if request_data['deadline'] != None:
                     formativeAssessment.deadline = request_data['deadline']
                                 
-                if request_data['reviewer_comment']:
+                if request_data['reviewer_comment'] != None:
                     formativeAssessment.reviewer_comment = request_data['reviewer_comment']
                                 
-                if request_data['path_to_attachment']:
+                if request_data['path_to_attachment'] != None:
                     formativeAssessment.is_marked = request_data['is_marked']
         except:
             return {'message': 'An error occurred while reading the formative assessment ID from the database'}, 500

@@ -36,16 +36,16 @@ class Topic(Resource):
             if not topic:
                 topic = Topic(**request_data)
             else: # if 'topic' is defined, this means there's an existing record under this ID, so update it with the values we have
-                if request_data['topic_id']:
+                if request_data['topic_id'] != None:
                     topic.topic_id = request_data['topic_id']
                 
-                if request_data['is_unlocked']:
+                if request_data['is_unlocked'] != None:
                     topic.is_unlocked = request_data['is_unlocked']
                 
-                if request_data['name']:
+                if request_data['name'] != None:
                     topic.name = request_data['name']
                 
-                if request_data['needed_credit']:
+                if request_data['needed_credit'] != None:
                     topic.needed_credit = request_data['needed_credit']
         except:
             return {'message': 'An error occurred while reading the topic ID from the database'}, 500
