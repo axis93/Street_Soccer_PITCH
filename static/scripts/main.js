@@ -575,7 +575,7 @@ elemUtils = {
         const nav = document.getElementById('quizzes-navigation');
 
         if(nav.children[currentChild] != null)
-            nav.children[currentChild].style = "color: #00FF00;";
+            nav.children[currentChild].style = "background-color: var(--darkest);";
 
         if(nav.children[previousChild] != null)
             nav.children[previousChild].style = "color: #FFFFFF;";
@@ -585,8 +585,8 @@ elemUtils = {
         const nav = document.getElementById('quizzes-navigation');
 
         nav.children[child].innerHTML = '';
-        var img = elemUtils.createElement({type: 'img', className: 'quiz-nav-info-btn', parent: nav.children[child]});
-        img.src = Flask.url_for('static', {'filename': 'icons/close.svg'});
+        elemUtils.createElement({type: 'span', className: 'material-icons quiz-nav-info-btn', innerHTML: 'close', parent: nav.children[child]});
+        nav.children[child].setAttribute('disabled', true);
     },
 
     updateProgressBar: (maxProgress, currentProgress) => {
