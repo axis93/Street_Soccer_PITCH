@@ -1,6 +1,24 @@
-import sqlite3
+from database import database
 
-class FormativeAssessmentModel:
+class FormativeAssessmentModel(database.Model):
+    __tablename__ = 'formativeAssessments'
+
+    fa_id = database.Column(database.Integer, primary_key=True, nullable=False)
+    topic_id = database.Column(database.Integer, database.ForeignKey('topics.topic_id'))
+    is_unlocked = database.Column(database.Boolean, nullable=False)
+    order_num = database.Column(database.Integer, nullable=False)
+    gained_credit = database.Column(database.Integer)
+    answer = database.Column(database.String)
+    pass_credit = database.Column(database.Integer)
+    instructions = database.Column(database.String)
+    title = database.Column(database.String(100), nullable=False)
+    path_to_attachment = database.Column(database.String)
+    deadline = database.Column(database.String)
+    reviewer_comment = database.Column(database.String)
+    is_marked = database.Column(database.Boolean)
+
+    topic = database.relationship('TopicModel')
+
     def __init__(self, fa_id, topic_id, is_unlocked, order_num, gained_credit, answer, pass_credit, instructions, title, path_to_attachment, deadline, reviewer_comment, is_marked):
         self.fa_id = fa_id
         self.topic_id = topic_id
@@ -33,32 +51,22 @@ class FormativeAssessmentModel:
             'is_marked': self.is_marked
         }
 
-    def query_db(self, query, args):
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
+    def save_to_database(self):
+        database.session.add(self)
+        database.session.commit()
 
-        result = cursor.execute(query, args).fetchall()
-
-        connection.close()
-
-        return result
-
-    def update_db(self, query, args):
-        connection = sqlite3.connect('database.db')
-        cursor = connection.cursor()
-
-        cursor.execute(query, args)
-
-        connection.commit()
-        connection.close()
+    def delete_from_database(self, query, args):
+        database.session.delete(self)
+        database.session.commit()
 
     @classmethod
     def find_by_id(cls, fa_id):
-        result = cls.query_db(cls, "SELECT * FROM formativeAssessments WHERE fa_id=?", (fa_id,))
+        return cls.query.filter_by(fa_id=fa_id).first()
 
-        if result:
-            assessment = cls(*result[0])
-        else:
-            assessment = None
-        
-        return assessment
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+
+    @classmethod
+    def get_all_for_topic(cls, topic_id):
+        return cls.query.filter_by(topic_id=topic_id).all()

@@ -9,7 +9,15 @@ class Quiz(Resource):
         required=True,
         help='An error occurred - \'quiz_id\' was empty'
     )
+    parser.add_argument('test_id', type=int)
+    parser.add_argument('order_num', type=int)
+    parser.add_argument('credit_value', type=int)
     parser.add_argument('gained_credit', type=int)
+    parser.add_argument('quiz_type', type=str)
+    parser.add_argument('text_body', type=str)
+    parser.add_argument('path_to_attachment', type=str)
+    parser.add_argument('title', type=str)
+    parser.add_argument('instructions', type=str)
 
     def get(self):
         request_data = Quiz.parser.parse_args()
@@ -25,18 +33,55 @@ class Quiz(Resource):
     
     def put(self):
         request_data = Quiz.parser.parse_args()
-        
-        if request_data['gained_credit'] == None:
-            return {'message': 'An error occurred - \'gained_credit\' was empty'}
+        quiz = QuizModel.find_by_id(request_data['quiz_id'])
 
         try:
-            if not QuizModel.find_by_id(request_data['quiz_id']):
-                return {'message': 'Quiz with ID {} doesn\'t exist in the database'}.format(request_data['quiz_id']), 404
+            if not quiz:
+                quiz = QuizModel(**request_data)
+            else: # if 'quiz' is defined, this means there's an existing record under this ID, so update it with the values we have
+                if request_data['quiz_id']:
+                    quiz.quiz_id = request_data['quiz_id']
+                                
+                if request_data['test_id']:
+                    quiz.test_id = request_data['test_id']
+                                
+                if request_data['order_num']:
+                    quiz.order_num = request_data['order_num']
+                                
+                if request_data['credit_value']:
+                    quiz.credit_value = request_data['credit_value']
+                                
+                if request_data['gained_credit']:
+                    quiz.gained_credit = request_data['gained_credit']
+                                
+                if request_data['quiz_type']:
+                    quiz.quiz_type = request_data['quiz_type']
+                                
+                if request_data['text_body']:
+                    quiz.text_body = request_data['text_body']
+                                
+                if request_data['path_to_attachment']:
+                    quiz.path_to_attachment = request_data['path_to_attachment']
+                                
+                if request_data['title']:
+                    quiz.title = request_data['title']
+                                
+                if request_data['instructions']:
+                    quiz.instructions = request_data['instructions']
         except:
             return {'message': 'An error occurred while reading the quiz ID from the database'}, 500
 
-        # there is, currently, only the option to update the item in the database: all test data is inserted prior to the app starting and we have no need to insert any data during runtime yet
         try:
-            QuizModel.update_db(self, "UPDATE quizzes SET gained_credit=? WHERE quiz_id=?", (request_data['gained_credit'], request_data['quiz_id']))
+            quiz.save_to_database()
+            return quiz.json()
         except:
             return {'message': 'An error occurred while updating the quiz in the database'}, 500
+    
+    def delete(self):
+        request_data = QuizModel.parser.parse_args()
+        quiz = QuizModel.find_by_id(request_data['quiz_id'])
+
+        if quiz:
+            quiz.delete_from_database()
+
+        return {'message': 'Quiz with ID {} deleted.'.format(request_data['quiz_id'])}, 200

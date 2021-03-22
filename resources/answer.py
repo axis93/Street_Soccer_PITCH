@@ -9,35 +9,65 @@ class Answer(Resource):
         required=True,
         help='An error occurred - \'answer_id\' was empty'
     )
+    parser.add_argument('quiz_id', type=int)
+    parser.add_argument('body', type=str)
+    parser.add_argument('is_correct', type=bool)
+    parser.add_argument('path_to_attachment', type=str)
     parser.add_argument('is_selected', type=bool)
 
     def get(self):
         request_data = Answer.parser.parse_args()
 
         try:
-            topic = AnswerModel.find_by_id(request_data['answer_id'])
+            answer = AnswerModel.find_by_id(request_data['answer_id'])
         except:
             return {'message': 'An error occurred while reading the answer ID from the database'}, 500
         
-        if topic:
-            return topic.json()
+        if answer:
+            return answer.json()
         return {'message': 'Answer with the ID {} not found'.format(request_data['answer_id'])}, 404
 
     def put(self):
         request_data = Answer.parser.parse_args()
-        
-        if request_data['is_selected'] == None:
-            return {'message': 'An error occurred - \'is_selected\' was empty'}
+        answer = AnswerModel.find_by_id(request_data['answer_id'])
 
         try:
-            if not AnswerModel.find_by_id(request_data['answer_id']):
-                return {'message': 'Answer with ID {} doesn\'t exist in the database'}.format(request_data['answer_id']), 404
+            if not answer:
+                answer = AnswerModel(**request_data)
+            else: # if 'answer' is defined, this means there's an existing record under this ID, so update it with the values we have
+                if request_data['answer_id']:
+                    answer.answer_id = request_data['answer_id']
+
+                if request_data['quiz_id']:
+                    answer.quiz_id = request_data['quiz_id']
+
+                if request_data['body']:
+                    answer.body = request_data['body']
+
+                if request_data['is_correct']:
+                    answer.is_correct = request_data['is_correct']
+
+                if request_data['path_to_attachment']:
+                    answer.path_to_attachment = request_data['path_to_attachment']
+
+                if request_data['is_selected']:
+                    answer.is_selected = request_data['is_selected']
         except:
             return {'message': 'An error occurred while reading the answer ID from the database'}, 500
-
-        # there is, currently, only the option to update the item in the database: all test data is inserted prior to the app starting and we have no need to insert any data during runtime yet
+        
         try:
-            AnswerModel.update_db(self, "UPDATE answers SET is_selected=? WHERE answer_id=?", (request_data['is_selected'], request_data['answer_id']))
+            answer.save_to_database()
+            return answer.json()
         except:
             return {'message': 'An error occurred while updating the answer in the database'}, 500
+
+    def delete(self):
+        request_data = Answer.parser.parse_args()
+        answer = AnswerModel.find_by_id(request_data['answer_id'])
+
+        if answer:
+            answer.delete_from_database()
+
+        return {'message': 'Answer with ID {} deleted.'.format(request_data['answer_id'])}, 200
+
 
