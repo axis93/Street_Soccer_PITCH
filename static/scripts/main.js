@@ -120,16 +120,19 @@ requestHandlers = {
                         //if the test was completed successfully show a tick
                         if (topic.tests[j].gained_credit >= topic.tests[j].pass_credit)
                         {
-                            topicItemLevel = elemUtils.createElement({type: 'button', className: "success-test-icon level-button material-icons", innerHTML: 'done_outline', parent: topicItemLevels});
+                            topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button small-icon-button-padding", parent: topicItemLevels});
+                            elemUtils.createElement({type: 'span', className: "material-icons success-test-icon small-icon-button", innerHTML: 'done_outline', parent: topicItemLevel});
                         }
                         else {
                             topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
                         }
                     }
-                    else {
-                        topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button material-icons", innerHTML: 'lock', parent: topicItemLevels});
+                    else {                        
+                        topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button small-icon-button-padding", parent: topicItemLevels});
+                        var lockIcon = elemUtils.createElement({type: 'span', className: "material-icons small-icon-button", innerHTML: 'lock', parent: topicItemLevel});
+                        
                         topicItemLevel.setAttribute('disabled', true);
-                        topicItemLevel.style = 'font-size: 18px;';
+                        lockIcon.style = 'font-size: 18px;';
 
                     }
 

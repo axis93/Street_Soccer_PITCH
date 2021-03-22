@@ -514,7 +514,6 @@ body {
 }
 
 /*-----------------------------------------------tests-menu--------------------------------------------------*/
-
 .level-button {
     margin-right: 1vw;
     border-radius: 25px;
@@ -525,6 +524,15 @@ body {
     height: 30px;
     min-width: 30px;
     cursor: pointer;
+}
+
+.small-icon-button-padding {
+    padding-top: 10px;
+}
+
+.small-icon-button {
+    position: absolute;
+    transform: translate(-50%, -65%);
 }
 
 .stats-box {
