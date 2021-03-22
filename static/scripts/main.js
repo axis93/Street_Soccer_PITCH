@@ -121,7 +121,8 @@ requestHandlers = {
                         if (topic.tests[j].gained_credit >= topic.tests[j].pass_credit)
                         {
                             topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button small-icon-button-padding", parent: topicItemLevels});
-                            elemUtils.createElement({type: 'span', className: "material-icons success-test-icon small-icon-button", innerHTML: 'done_outline', parent: topicItemLevel});
+                            var lockIcon = elemUtils.createElement({type: 'span', className: "material-icons success-test-icon small-icon-button", innerHTML: 'done_outline', parent: topicItemLevel});
+                            lockIcon.setAttribute('data-test_id', topic.tests[j].test_id); 
                         }
                         else {
                             topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
