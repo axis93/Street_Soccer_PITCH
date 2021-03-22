@@ -453,10 +453,6 @@ quiz = {
                 document.getElementById('quiz-img').parentElement.style.display = "none"; //also, hide it's container so it's not occupying space on the page
             }
 
-            if(question.path_to_attachment== null) {
-
-            }
-
             const answersSection = document.getElementById('quiz-radio-section');
             while(answersSection.hasChildNodes()) //remove all the answers from the answers section
                 answersSection.removeChild(answersSection.firstChild);
