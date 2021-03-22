@@ -514,7 +514,6 @@ body {
 }
 
 /*-----------------------------------------------tests-menu--------------------------------------------------*/
-
 .level-button {
     margin-right: 1vw;
     border-radius: 25px;
@@ -527,6 +526,15 @@ body {
     cursor: pointer;
 }
 
+.small-icon-button-padding {
+    padding-top: 10px;
+}
+
+.small-icon-button {
+    position: absolute;
+    transform: translate(-50%, -70%);
+}
+
 .stats-box {
     border-radius: 25px;
     background-color: var(--darker);
@@ -537,6 +545,11 @@ body {
     display: flex;
     margin: auto;
     align-items: center;
+}
+
+.success-test-icon {
+    font-size: 18px !important;
+    color: var(--correctGreen);
 }
 
 .title {
@@ -562,7 +575,6 @@ body {
 }
 
 .topic-item {
-    /* margin-bottom: 1rem; */
     flex-direction: row wrap;
     display: flex;
     align-self: center;

@@ -72,10 +72,20 @@ requestHandlers = {
     listTopics: (data) => {
         //data for the side panel
         var sidePanelData = [];
+        //the credits value of the unlocked topics
+        var neededCredits = 0;
+        var gainedCredits = 0;
+        //the progress of the successfully completed tests in the unlocked topics
+        var maxProgress = 0;
+        var gainedProgress = 0;
 
         if(data != null) {
             for(let i = 0; i < data.topics.length; i++) {
                 const topic = data.topics[i];
+                var topicsCredit = 0;
+
+                //get the required/needed credit from the topic (if the topic is unlocked)
+                neededCredits = topic.is_unlocked == 1 ? neededCredits + Number(topic.needed_credit) : neededCredits;
 
                 //this topic's container in the menu
                 var topicItem = elemUtils.createElement({type: 'div', className: "topic-item", parent: document.getElementById('topics-menu')})
@@ -91,8 +101,41 @@ requestHandlers = {
 
                 //for every test in this topic, add a button to the button container for it
                 for(let j = 0; j < topic.tests.length; j++) {
-                    var topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
-                    
+                    // if the topic is unlocked count gained credits and the progress made
+                    if (topic.is_unlocked == 1) {
+                        gainedCredits = gainedCredits + topic.tests[j].gained_credit;
+
+                        gainedProgress = topic.tests[j].gained_credit >= topic.tests[j].pass_credit ? 
+                            gainedProgress + 1 : gainedProgress;
+                        maxProgress = maxProgress + 1;
+                    }
+
+                    //calculate the credit for the topic
+                    topicsCredit = topicsCredit + topic.tests[j].gained_credit;
+
+                    //the test button
+                    var topicItemLevel;
+                    //if the topic is unlocked and the test is unlocked display the test unlocked
+                    if (topic.is_unlocked == 1 && topic.tests[j].is_unlocked == 1) {
+                        //if the test was completed successfully show a tick
+                        if (topic.tests[j].gained_credit >= topic.tests[j].pass_credit)
+                        {
+                            topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button small-icon-button-padding", parent: topicItemLevels});
+                            elemUtils.createElement({type: 'span', className: "material-icons success-test-icon small-icon-button", innerHTML: 'done_outline', parent: topicItemLevel});
+                        }
+                        else {
+                            topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: j + 1, parent: topicItemLevels});
+                        }
+                    }
+                    else {                        
+                        topicItemLevel = elemUtils.createElement({type: 'button', className: "level-button small-icon-button-padding", parent: topicItemLevels});
+                        var lockIcon = elemUtils.createElement({type: 'span', className: "material-icons small-icon-button", innerHTML: 'lock', parent: topicItemLevel});
+                        
+                        topicItemLevel.setAttribute('disabled', true);
+                        lockIcon.style = 'font-size: 18px;';
+
+                    }
+
                     //attributes for the button
                     topicItemLevel.setAttribute('id', String('test-button-' + topic.tests[j].test_id));
                     topicItemLevel.setAttribute('data-test_id', topic.tests[j].test_id); //store the ID of the test in which this button relates to
@@ -116,12 +159,21 @@ requestHandlers = {
                         storageUtils.storeSessionValue(storageUtils.testID, event.target.getAttribute('data-test_id')); //get the ID and store it in the session so it's carried over to 'quiz-page'
                         document.getElementById(String('test-button-' + topic.tests[j].test_id)).style = "background-color: var(--darker);";
                         document.getElementById("side-panel").style.visibility = "visible";
-                        
                         //send data to the side panel
                         elemUtils.displaySidePanel(sidePanelData[event.target.getAttribute('data-test_id')-1]);
                     });
                 }
+                //if user's gained credit is over the needed credit for the topic display a tick
+                if (topicsCredit > topic.needed_credit) {
+                    var successBadge = elemUtils.createElement({type: 'span', className: "level-button material-icons", innerHTML: 'verified', parent: topicItemLevels});
+                    successBadge.style = 'color: var(--correctGreen);';
+                }
             }
+            //set progress made
+            var progressPerc = gainedProgress / maxProgress * 100;
+            document.getElementById('tests-menu-progress').innerHTML = String(progressPerc + '%');
+            //set credits gained
+            document.getElementById('tests-menu-credits').innerHTML = String(gainedCredits + '/' + neededCredits);
         }
     },
 
