@@ -234,7 +234,7 @@ requestHandlers = {
     recordUserAnswers: (data) => {
         var selectedIDs = [];
         var gainedCredits = 0;
-
+        
         quiz.selectedAnswers.forEach((answerRecord) => { //create a list of the IDs of answers that the user selected
             selectedIDs.push(answerRecord.answer_id);
         })
@@ -404,6 +404,7 @@ quiz = {
                 for(let j = 0; j < quiz.selectedAnswers.length; j++) { //check if we already have a recorded answer for the previous question; if we do, update it
                     if(quiz.selectedAnswers[j].question === quiz.previousQuestion) {
                         quiz.selectedAnswers[j].answer = i;
+                        quiz.selectedAnswers[j].answer_id = parseInt(radioButtons[i].value);
                         return;
                     }
                 }
