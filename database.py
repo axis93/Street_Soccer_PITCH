@@ -93,8 +93,27 @@ insert_queries = ( # these are queries used only for inserting test data, this s
                 "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (39, 17, 'No', 1, 0);",
                 "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (40, 17, 'Yes', 0, 0);",
  
-        # Test 2 - locked and empty
-        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (6, 2, 0, 20, 2, 0, 10, 'Very interesting test you shall never see.', 1, 1);",
+        # Test 2
+        "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (6, 2, 1, 20, 2, 0, 10, 'Koalas.. just koalas', 1, 1);",
+        
+            # Quiz 1 - Info page
+            "INSERT INTO quizzes (quiz_id, test_id, order_num, credit_value, gained_credit, quiz_type, path_to_attachment, text_body, title, instructions) VALUES(18, 6, 1, 0, 0, 'info', 'https://www.youtube.com/embed/oI3ADcDH0Uc', 'This is a video about koalas, watch it.', 'Koalas', 'Watch it carefully and as many times as you want. However when you leave this page you cannot return. VIDEO SOURCE: https://www.youtube.com/watch?v=oI3ADcDH0Uc');",
+            # Quiz 2
+            "INSERT INTO quizzes (quiz_id, test_id, order_num, credit_value, gained_credit, quiz_type, text_body, title, instructions) VALUES(19, 6, 2, 10, 0, 'multiple_choice', 'How many species of Eucalypt do koalas prefer?', 'Question 1', 'Only one of them answers is correct. Select your answer and when you feel ready click continue.');",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (41, 19, '3', 0, 0);",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (42, 19, '30', 1, 0);",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (43, 19, '65', 0, 0);",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (44, 19, '6', 0, 0);",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (45, 19, '650', 0, 0);",
+
+            # Quiz 2
+            "INSERT INTO quizzes (quiz_id, test_id, order_num, credit_value, gained_credit, path_to_attachment, quiz_type, text_body, title, instructions) VALUES(20, 6, 3, 10, 0, 'https://www.youtube.com/embed/NnRcxHreJFM', 'multiple_choice', 'How many hours a day do koalas sleep?', 'Question 2', 'Only one of them answers is correct. Select your answer and when you feel ready click continue. VIDEO SOURCE: https://www.youtube.com/watch?v=NnRcxHreJFM');",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (46, 20, 'They can sleep for days.', 0, 0);",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (47, 20, 'Around 12 hours a day', 0, 0);",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (48, 20, 'Up to 20 hours a day.', 0, 0);",
+                "INSERT INTO answers (answer_id, quiz_id, body, is_correct, is_selected) VALUES (49, 20, 'Up to 22 hours a day.', 1, 0);",
+ 
+        
         # Test 3 - locked and empty
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (7, 2, 0, 20, 3, 0, 10, 'Just another empty test that you cannot see being empty.', 1, 1);",
         # Test 4 - locked and empty

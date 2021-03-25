@@ -714,6 +714,11 @@ body {
     width: 100%;
 }
 
+.quiz-vid {
+    width: 100%;
+    min-height: 40vw
+}
+
 #quiz-img {
     width: 100%;
     max-width: 500px;
@@ -722,7 +727,7 @@ body {
 .quiz-nav-info-btn {
     position: absolute;
     transform: translate(-50%, -50%);
-    filter: invert(.5) sepia(5) saturate(100); /* applies a red filter to the vector - it's loaded in an 'img' tag so 'fill' doesn't work */
+    color: var(--wrongRed)
 }
 
 #quiz-progress-container {
@@ -747,14 +752,6 @@ body {
     background-color: var(--accent);
 }
 
-.quizzes-navigation {
-
-}
-
-.quizzes-navigation-btn {
-
-}
-
 .answer{
     background-color: none;
 }
@@ -770,8 +767,4 @@ body {
     background-color: var(--darker);
     border-radius: 25px;
     padding: 2vw;
-}
-
-.results-icon-space {
-
 }

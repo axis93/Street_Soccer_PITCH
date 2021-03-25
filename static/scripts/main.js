@@ -184,7 +184,7 @@ requestHandlers = {
 
         const navbar = document.getElementById('quizzes-navigation');
         for(let i = 0; i < quiz.length; i++) { //for each question in the quiz, create a button for each of them which we can use to navigate to a specific question 
-            var navButton = elemUtils.createElement({type: 'button', className: "level-button quizzes-navigation-btn", innerHTML: i + 1, parent: navbar});
+            var navButton = elemUtils.createElement({type: 'button', className: "level-button", innerHTML: i + 1, parent: navbar});
 
             navButton.setAttribute('data-quiz_id', i + 1); //give this button an attribute which stores the ID of the question it should take the user to
             navButton.addEventListener("click", (event) => {
@@ -416,13 +416,41 @@ quiz = {
             document.getElementById('quiz-text').innerHTML = question.text_body;
 
             var attachment = document.getElementById('quiz-img');
+            var visualName; // the placeholder for the split name of the attachment - to know if it's a vid or img
+
+            //if there is a attachment and if it's a video assign attachment to it
+            if (question.path_to_attachment != null) {
+                visualName = question.path_to_attachment.split('//');
+                attachment = visualName[0] == 'https:' ? document.getElementById('quiz-vid') : attachment;
+            }
+            
             if(question.path_to_attachment != null) {
-                attachment.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
-                attachment.parentElement.style.display = "block";
+                if(visualName[0] == 'https:') {
+                    // assign the vid element
+                    attachment.src = question.path_to_attachment;
+                    attachment.parentElement.style.display = "block";
+                    attachment.style = "";
+                    // reset the img element
+                    document.getElementById('quiz-img').style.display = "none";
+                    document.getElementById('quiz-img').src = "";
+                }
+                else {
+                    // assign the img element
+                    attachment.src = Flask.url_for('static', {'filename': `images/quiz/${question.path_to_attachment}`});
+                    attachment.parentElement.style.display = "block";
+                    attachment.style = "";
+                    // reset the vid element
+                    document.getElementById('quiz-vid').style.display = "none";
+                    document.getElementById('quiz-vid').src = "";
+                }
             }
             else if(attachment != null) {
-                attachment.src = ""; //delete the image if it is not needed
-                attachment.parentElement.style.display = "none"; //also, hide it's container so it's not occupying space on the page
+                //clean all elements
+                document.getElementById('quiz-vid').src = "";
+                document.getElementById('quiz-vid').style.display = "none";
+                document.getElementById('quiz-img').src = ""; //delete the image if it is not needed
+                document.getElementById('quiz-img').style.display = "none";
+                document.getElementById('quiz-img').parentElement.style.display = "none"; //also, hide it's container so it's not occupying space on the page
             }
 
             const answersSection = document.getElementById('quiz-radio-section');
@@ -575,7 +603,7 @@ elemUtils = {
         const nav = document.getElementById('quizzes-navigation');
 
         if(nav.children[currentChild] != null)
-            nav.children[currentChild].style = "color: #00FF00;";
+            nav.children[currentChild].style = "background-color: var(--darkest);";
 
         if(nav.children[previousChild] != null)
             nav.children[previousChild].style = "color: #FFFFFF;";
@@ -585,8 +613,8 @@ elemUtils = {
         const nav = document.getElementById('quizzes-navigation');
 
         nav.children[child].innerHTML = '';
-        var img = elemUtils.createElement({type: 'img', className: 'quiz-nav-info-btn', parent: nav.children[child]});
-        img.src = Flask.url_for('static', {'filename': 'icons/close.svg'});
+        elemUtils.createElement({type: 'span', className: 'material-icons quiz-nav-info-btn', innerHTML: 'close', parent: nav.children[child]});
+        nav.children[child].setAttribute('disabled', true);
     },
 
     updateProgressBar: (maxProgress, currentProgress) => {
