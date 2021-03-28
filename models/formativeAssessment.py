@@ -6,6 +6,7 @@ class FormativeAssessmentModel(database.Model):
     fa_id = database.Column(database.Integer, primary_key=True, nullable=False)
     topic_id = database.Column(database.Integer, database.ForeignKey('topics.topic_id'))
     is_unlocked = database.Column(database.Boolean, nullable=False)
+    max_credit = database.Column(database.Integer)
     order_num = database.Column(database.Integer, nullable=False)
     gained_credit = database.Column(database.Integer)
     answer = database.Column(database.String)
