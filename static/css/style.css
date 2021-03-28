@@ -514,6 +514,18 @@ body {
 }
 
 /*-----------------------------------------------tests-menu--------------------------------------------------*/
+.fa-button {
+    margin-right: 1vw;
+    border-radius: 25px;
+    background-color: var(--light);
+    color: var(--darkest);
+    font-weight: bolder;
+    width: fit-content;
+    height: 30px;
+    min-width: 30px;
+    cursor: pointer;
+}
+
 .level-button {
     margin-right: 1vw;
     border-radius: 25px;
@@ -545,6 +557,10 @@ body {
     display: flex;
     margin: auto;
     align-items: center;
+}
+
+.success-fa-icon {
+    font-size: 18px !important;
 }
 
 .success-test-icon {
