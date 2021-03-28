@@ -11,6 +11,7 @@ class FormativeAssessment(Resource):
     )
     parser.add_argument('topic_id', type=int)
     parser.add_argument('is_unlocked', type=bool)
+    parser.add_argument('max_credit', type=int)
     parser.add_argument('order_num', type=int)
     parser.add_argument('gained_credit', type=int)
     parser.add_argument('answer', type=str)
@@ -51,6 +52,9 @@ class FormativeAssessment(Resource):
                 if request_data['is_unlocked'] != None:
                     formativeAssessment.is_unlocked = request_data['is_unlocked']
                 
+                if request_data['max_credit'] != None:
+                    formativeAssessment.max_credit = request_data['max_credit']
+                
                 if request_data['order_num'] != None:
                     formativeAssessment.order_num = request_data['order_num']
                 
@@ -78,7 +82,7 @@ class FormativeAssessment(Resource):
                 if request_data['reviewer_comment'] != None:
                     formativeAssessment.reviewer_comment = request_data['reviewer_comment']
                                 
-                if request_data['path_to_attachment'] != None:
+                if request_data['is_marked'] != None:
                     formativeAssessment.is_marked = request_data['is_marked']
         except:
             return {'message': 'An error occurred while reading the formative assessment ID from the database'}, 500

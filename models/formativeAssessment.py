@@ -19,10 +19,11 @@ class FormativeAssessmentModel(database.Model):
 
     topic = database.relationship('TopicModel')
 
-    def __init__(self, fa_id, topic_id, is_unlocked, order_num, gained_credit, answer, pass_credit, instructions, title, path_to_attachment, deadline, reviewer_comment, is_marked):
+    def __init__(self, fa_id, topic_id, is_unlocked, order_num, max_credit, gained_credit, answer, pass_credit, instructions, title, path_to_attachment, deadline, reviewer_comment, is_marked):
         self.fa_id = fa_id
         self.topic_id = topic_id
         self.is_unlocked = is_unlocked
+        self.max_credit = max_credit
         self.order_num = order_num
         self.gained_credit = gained_credit
         self.answer = answer
@@ -39,6 +40,7 @@ class FormativeAssessmentModel(database.Model):
             'fa_id': self.fa_id,
             'topic_id': self.topic_id,
             'is_unlocked': self.is_unlocked,
+            'max_credit': self.max_credit,
             'order_num': self.order_num,
             'gained_credit': self.gained_credit,
             'answer': self.answer,
