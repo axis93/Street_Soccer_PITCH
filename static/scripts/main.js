@@ -221,7 +221,7 @@ requestHandlers = {
                 
                 }
                 //if user's gained credit is over the needed credit for the topic display a tick
-                if (topicsCredit < topic.needed_credit) {
+                if (topicsCredit >= topic.needed_credit) {
                     var successBadge = elemUtils.createElement({type: 'span', className: "level-button material-icons", innerHTML: 'verified', parent: topicItemLevels});
                     successBadge.style = 'color: var(--correctGreen);';
                 }
