@@ -58,6 +58,10 @@ def testtest():
 def testmenu():
 	return render_template('tests-menu.html')
 
+@app.route('/formative-assessment')
+def formativeAssessment():
+	return render_template('formative-assessment.html')
+
 api.add_resource(Topic, '/topics')
 api.add_resource(FormativeAssessment, '/formativeAssessments')
 api.add_resource(Test, '/tests')
