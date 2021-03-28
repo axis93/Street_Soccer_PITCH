@@ -98,9 +98,27 @@ requestHandlers = {
 
                 //the container, in this topic's container, which contains the buttons
                 var topicItemLevels = elemUtils.createElement({type: 'div', className: "topic-levels", parent: topicItem});
-
+                
                 //for every test in this topic, add a button to the button container for it
                 for(let j = 0; j < topic.tests.length; j++) {
+                    //var that holds the index (j) if there is a newly unlocked test - to be displayed as unlocked
+                    var newUnlockedTest = null;
+                    // unlock a locked test if the previous test was passed
+                    if (topic.is_unlocked == 1 && j != 0 && topic.tests[j].is_unlocked == 0) { //the first test shoul be always unlocked before hand
+                        if (topic.tests[j-1].gained_credit >=topic.tests[j-1].pass_credit) {
+                            request.ajax({
+                                endpoint: 'tests',
+                                method: 'PUT',
+                                data: {
+                                    test_id: topic.tests[j].test_id,
+                                    is_unlocked: 1
+                                },
+                                handler: console.log
+                            });
+                            newUnlockedTest = j;
+                        }
+                    }
+
                     // if the topic is unlocked count gained credits and the progress made
                     if (topic.is_unlocked == 1) {
                         gainedCredits = gainedCredits + topic.tests[j].gained_credit;
@@ -116,7 +134,7 @@ requestHandlers = {
                     //the test button
                     var topicItemLevel;
                     //if the topic is unlocked and the test is unlocked display the test unlocked
-                    if (topic.is_unlocked == 1 && topic.tests[j].is_unlocked == 1) {
+                    if (topic.is_unlocked == 1 && topic.tests[j].is_unlocked == 1 || newUnlockedTest==j) {
                         //if the test was completed successfully show a tick
                         if (topic.tests[j].gained_credit >= topic.tests[j].pass_credit)
                         {
@@ -216,7 +234,7 @@ requestHandlers = {
     recordUserAnswers: (data) => {
         var selectedIDs = [];
         var gainedCredits = 0;
-
+        
         quiz.selectedAnswers.forEach((answerRecord) => { //create a list of the IDs of answers that the user selected
             selectedIDs.push(answerRecord.answer_id);
         })
@@ -386,6 +404,7 @@ quiz = {
                 for(let j = 0; j < quiz.selectedAnswers.length; j++) { //check if we already have a recorded answer for the previous question; if we do, update it
                     if(quiz.selectedAnswers[j].question === quiz.previousQuestion) {
                         quiz.selectedAnswers[j].answer = i;
+                        quiz.selectedAnswers[j].answer_id = parseInt(radioButtons[i].value);
                         return;
                     }
                 }
