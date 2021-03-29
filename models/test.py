@@ -62,7 +62,7 @@ class TestModel(database.Model):
             answer = q.get_correct_answer()
 
             if answer:
-                answer = answer.json(getCorrectAnswers=True)
+                answer = answer.answer_id
                 
             correctAnswers.append(answer)
 
