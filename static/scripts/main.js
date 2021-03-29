@@ -152,7 +152,6 @@ requestHandlers = {
                         
                         topicItemLevel.setAttribute('disabled', true);
                         lockIcon.style = 'font-size: 18px;';
-
                     }
 
                     //attributes for the button
@@ -182,14 +181,71 @@ requestHandlers = {
                         elemUtils.displaySidePanel(sidePanelData[event.target.getAttribute('data-test_id')-1]);
                     });
                 }
+                //list the formative assessments for the topic
+                for(let k = 0; k < topic.formative_assessments.length; k++) {
+                    // if the topic is unlocked count gained credits and the progress made
+                    if (topic.is_unlocked == 1) {
+                        gainedCredits = gainedCredits + topic.formative_assessments[k].gained_credit;
+
+                        gainedProgress = topic.formative_assessments[k].gained_credit >= topic.formative_assessments[k].pass_credit ? 
+                            gainedProgress + 1 : gainedProgress;
+                        maxProgress = maxProgress + 1;
+                    }
+
+                    //calculate the credit for the topic
+                    topicsCredit = topicsCredit + topic.formative_assessments[k].gained_credit;
+
+                    var fa_button;
+                    //if the topic is unlocked and the fa is unlocked display the fa unlocked
+                    if (topic.is_unlocked == 1 && topic.formative_assessments[k].is_unlocked == 1) {
+                        //if the fa was completed successfully show a tick
+                        if (topic.formative_assessments[k].is_marked && topic.formative_assessments[k].gained_credit >= topic.formative_assessments[k].pass_credit)
+                        {
+                            fa_button = elemUtils.createElement({type: 'button', className: "fa-button small-icon-button-padding", parent: topicItemLevels});
+                            var lockIcon = elemUtils.createElement({type: 'span', className: "material-icons success-fa-icon small-icon-button", innerHTML: 'done_outline', parent: fa_button});
+                            lockIcon.setAttribute('data-fa_id', topic.formative_assessments[k].fa_id);
+                        }
+                        //if the fa is failed show cross
+                        else if (topic.formative_assessments[k].is_marked && topic.formative_assessments[k].gained_credit < topic.formative_assessments[k].pass_credit) {
+                            fa_button = elemUtils.createElement({type: 'button', className: "fa-button small-icon-button-padding", parent: topicItemLevels});
+                            var lockIcon = elemUtils.createElement({type: 'span', className: "material-icons success-fa-icon small-icon-button", innerHTML: 'close', parent: fa_button});
+                            lockIcon.setAttribute('data-fa_id', topic.formative_assessments[k].fa_id);
+                        }
+                        //if the fa has an answer show hourglass
+                        else if (topic.formative_assessments[k].answer != '') {
+                            fa_button = elemUtils.createElement({type: 'button', className: "fa-button small-icon-button-padding", parent: topicItemLevels});
+                            var lockIcon = elemUtils.createElement({type: 'span', className: "material-icons success-fa-icon small-icon-button", innerHTML: 'hourglass_full', parent: fa_button});
+                            lockIcon.setAttribute('data-fa_id', topic.formative_assessments[k].fa_id);
+                        }
+                        else {
+                            fa_button = elemUtils.createElement({type: 'button', className: "fa-button", innerHTML: k + 1, parent: topicItemLevels});
+                        }
+                    }
+                    else {                        
+                        fa_button = elemUtils.createElement({type: 'button', className: "fa-button small-icon-button-padding", parent: topicItemLevels});
+                        var lockIcon = elemUtils.createElement({type: 'span', className: "material-icons small-icon-button", innerHTML: 'lock', parent: fa_button});
+                        
+                        fa_button.setAttribute('disabled', true);
+                        lockIcon.style = 'font-size: 18px;';
+                    }
+                    //set the attribute
+                    fa_button.setAttribute('data-fa_id', topic.formative_assessments[k].fa_id);
+                
+                    //when the button is clicked
+                    fa_button.addEventListener("click", (event) => {
+                        storageUtils.storeSessionValue(storageUtils.faID, event.target.getAttribute('data-fa_id'));
+                        window.location.href = Flask.url_for('formativeAssessment')
+                    });
+                
+                }
                 //if user's gained credit is over the needed credit for the topic display a tick
-                if (topicsCredit > topic.needed_credit) {
+                if (topicsCredit >= topic.needed_credit) {
                     var successBadge = elemUtils.createElement({type: 'span', className: "level-button material-icons", innerHTML: 'verified', parent: topicItemLevels});
                     successBadge.style = 'color: var(--correctGreen);';
                 }
             }
             //set progress made
-            var progressPerc = gainedProgress / maxProgress * 100;
+            var progressPerc = Math.round(gainedProgress / maxProgress * 100);
             document.getElementById('tests-menu-progress').innerHTML = String(progressPerc + '%');
             //set credits gained
             document.getElementById('tests-menu-credits').innerHTML = String(gainedCredits + '/' + neededCredits);
@@ -650,6 +706,7 @@ storageUtils = { //only session storage is implemented here as we do not have a 
     //key words which identify data that will be placed in storage
     testID: "test_id",
     testDataID: "test_data",
+    faID: "fa_id",
 
     isObject: (obj) => { //credit - https://attacomsian.com/blog/javascript-check-variable-is-object
         return Object.prototype.toString.call(obj) === '[object Object]';

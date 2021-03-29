@@ -60,7 +60,7 @@ insert_queries = ( # these are queries used only for inserting test data, this s
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (4, 1, 0, 50, 4, 0, 25, 'Can t you believe this? This is locked too. What a nightmare... Maybe you should work harder to unlock it. Or maybe this is just an empty test to show how an unlocked test looks like, since it s quite difficult to create a new test.', 0, 1);",
   
     # Topic 2 - Another Topic
-    "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (2, 1, 'Another Topic', 100);",
+    "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (2, 1, 'Another Topic', 120);",
 
         # Test 1
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (5, 2, 1, 50, 1, 0, 25, 'This is a practice test teaching you about colours. IT s not official so you can take it as often as you wish.', 1, 0);",
@@ -123,6 +123,14 @@ insert_queries = ( # these are queries used only for inserting test data, this s
         # Test 6 - locked and empty
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (10, 2, 0, 20, 6, 0, 10, 'Empty, lonely just incomplete...', 1, 0);",
 
+        # FA 1 - not started
+        "INSERT INTO formativeAssessments (fa_id, topic_id, order_num, is_unlocked, max_credit, pass_credit, gained_credit, title, instructions, answer, path_to_attachment, deadline, reviewer_comment, is_marked) VALUES (1, 2, 1, 1, 40, 20, 0, 'Compare the life of koalas in captivity and in wilderness', 'Write an essay of 2000 words comparing the life of koalas in captivity and in wilderness. You can gain maximum of 40 credits. For passing the module you need 20 credits. IMG SOURCE: https://en.wikipedia.org/wiki/Koala', '', 'koala.png', '1/6/2021', '', 0);",
+        # FA 2 - answered
+        "INSERT INTO formativeAssessments (fa_id, topic_id, order_num, is_unlocked, max_credit, pass_credit, gained_credit, title, instructions, answer, deadline, reviewer_comment, is_marked) VALUES (2, 2, 2, 1, 20, 10, 0, 'Colours through the eye', 'Write an essay of 1500 words about the colour perception through a human eye. You can gain maximum of 20 credits. For passing the module you need 10 credits.', 'my_colour_essay.docx', '20/4/2021', '', 0);",
+        # FA 3 - reviewed
+        "INSERT INTO formativeAssessments (fa_id, topic_id, order_num, is_unlocked, max_credit, pass_credit, gained_credit, title, instructions, answer, path_to_attachment, deadline, reviewer_comment, is_marked) VALUES (3, 2, 3, 1, 30, 15, 16, 'Self reflection', 'Write a self reflection about your progress and improvements during this topic. It can be maximum 1000 words. You can gain maximum of 30 credits. For passing the module you need 15 credits. VIDEO SOURCE: https://www.youtube.com/watch?v=avHRLqVPYwg', 'self_reflection.docx', 'https://www.youtube.com/embed/avHRLqVPYwg', '1/3/2021', 'Good job. But there is a lack of detail in the progress section. Be more specific about how you have improved.', 1);",
+
+
     # Topic 3 - Yet One More Topic Here
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (3, 0, 'Yet One More Topic Here', 250);",
         # Test 1 - locked and empty
@@ -142,6 +150,12 @@ insert_queries = ( # these are queries used only for inserting test data, this s
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (16, 4, 0, 50, 1, 0, 25, 'Nothin..', 1, 0);",
         # Test 2 - locked and empty
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (17, 4, 0, 50, 2, 0, 25, 'Empty', 1, 1);",
+
+        # FA 1
+        "INSERT INTO formativeAssessments (fa_id, topic_id, order_num, is_unlocked, max_credit, pass_credit, gained_credit, title, instructions, answer, deadline, reviewer_comment, is_marked) VALUES (4, 4, 1, 1, 20, 10, 0, 'Some title', 'Write an essay of 2000 words. You can gain maximum of 40 credits. For passing the module you need 20 credits.', '', '5/6/2021', '', 0);",
+        # FA 2
+        "INSERT INTO formativeAssessments (fa_id, topic_id, order_num, is_unlocked, max_credit, pass_credit, gained_credit, title, instructions, answer, deadline, reviewer_comment, is_marked) VALUES (5, 4, 2, 1, 20, 10, 0, 'Some title 2', 'Write an essay of 5000 words. You can gain maximum of 40 credits. For passing the module you need 20 credits.', '', '17/6/2021', '', 0);",
+
 
     # Topic 5 - Topicnic
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (5, 0, 'Topicnic', 12);",
@@ -180,6 +194,10 @@ insert_queries = ( # these are queries used only for inserting test data, this s
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (29, 8, 0, 10, 4, 0, 5, 'Sorry, empty', 0, 0);",
         # Test 5 - locked and empty
         "INSERT INTO tests (test_id, topic_id, is_unlocked, max_credit, order_num, gained_credit, pass_credit, description, is_retakeable, is_official) VALUES (30, 8, 0, 10, 5, 0, 5, 'I am empty', 0, 1);",
+
+        # FA 1
+        "INSERT INTO formativeAssessments (fa_id, topic_id, order_num, is_unlocked, max_credit, pass_credit, gained_credit, title, instructions, answer, deadline, reviewer_comment, is_marked) VALUES (6, 8, 1, 1, 20, 10, 0, 'Some great title', 'Write an essay of 5000 words. You can gain maximum of 40 credits. For passing the module you need 20 credits.', '', '30/6/2021', '', 0);",
+
 
     # Topic 9 - Very old topic
     "INSERT INTO topics (topic_id, is_unlocked, name, needed_credit) VALUES (9, 0, 'Very old topic', 75);",
