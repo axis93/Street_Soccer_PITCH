@@ -55,6 +55,19 @@ class TestModel(database.Model):
         database.session.delete(self)
         database.session.commit()
 
+    def get_correct_answers(self):
+        correctAnswers = []
+
+        for q in self.quizzes.all():
+            answer = q.get_correct_answer()
+
+            if answer:
+                answer = answer.json(getCorrect=True)
+                
+            correctAnswers.append(answer)
+
+        return correctAnswers
+
     @classmethod
     def find_by_id(cls, test_id):
         return cls.query.filter_by(test_id=test_id).first()

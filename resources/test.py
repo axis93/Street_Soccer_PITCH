@@ -89,3 +89,10 @@ class Test(Resource):
             test.delete_from_database()
 
         return {'message': 'Test with ID {} deleted.'.format(request_data['test_id'])}, 200
+
+class TestCorrectAnswers(Resource):
+    def get(self):
+        request_data = Test.parser.parse_args()
+        test = TestModel.find_by_id(request_data['test_id'])
+
+        return {'correctAnswers': test.get_correct_answers()}

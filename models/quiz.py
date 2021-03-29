@@ -52,6 +52,9 @@ class QuizModel(database.Model):
         database.session.delete(self)
         database.session.commit()
 
+    def get_correct_answer(self):
+        return self.answers.filter_by(quiz_id=self.quiz_id, is_correct=True).first()
+
     @classmethod
     def find_by_id(cls, quiz_id):
         return cls.query.filter_by(quiz_id=quiz_id).first()

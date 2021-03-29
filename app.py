@@ -4,7 +4,7 @@ from flask_jsglue import JSGlue
 from database import database, insert_queries
 from resources.topic import Topic
 from resources.formativeAssessment import FormativeAssessment
-from resources.test import Test
+from resources.test import Test, TestCorrectAnswers
 from resources.quiz import Quiz
 from resources.answer import Answer
 import sys
@@ -65,6 +65,7 @@ def formativeAssessment():
 api.add_resource(Topic, '/topics')
 api.add_resource(FormativeAssessment, '/formativeAssessments')
 api.add_resource(Test, '/tests')
+api.add_resource(TestCorrectAnswers, '/tests/correctAnswers')
 api.add_resource(Quiz, '/quizzes')
 api.add_resource(Answer, '/answers')
 
