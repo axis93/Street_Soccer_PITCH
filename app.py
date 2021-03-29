@@ -4,7 +4,7 @@ from flask_jsglue import JSGlue
 from database import database, insert_queries
 from resources.topic import Topic
 from resources.formativeAssessment import FormativeAssessment
-from resources.test import Test
+from resources.test import Test, TestCorrectAnswers
 from resources.quiz import Quiz
 from resources.answer import Answer
 import sys
@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 api = Api(app)
 jsglue = JSGlue(app)
-database.init_app(app) # this should be in the 'if is main' at the bottom of this file so that the database isn't re-initialized if 'app.py' is imported from another file, but that would mean that the database is never initialized if we run the app via Flask instead of Python
+database.init_app(app)
 
 @app.before_first_request
 def create_tables():
@@ -65,9 +65,9 @@ def formativeAssessment():
 api.add_resource(Topic, '/topics')
 api.add_resource(FormativeAssessment, '/formativeAssessments')
 api.add_resource(Test, '/tests')
+api.add_resource(TestCorrectAnswers, '/tests/correctAnswers')
 api.add_resource(Quiz, '/quizzes')
 api.add_resource(Answer, '/answers')
 
 if __name__ == "__main__":
-	
 	app.run(host='127.0.0.1', debug=True)

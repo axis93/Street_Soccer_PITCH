@@ -58,18 +58,10 @@ class FormativeAssessmentModel(database.Model):
         database.session.add(self)
         database.session.commit()
 
-    def delete_from_database(self, query, args):
+    def delete_from_database(self):
         database.session.delete(self)
         database.session.commit()
 
     @classmethod
     def find_by_id(cls, fa_id):
         return cls.query.filter_by(fa_id=fa_id).first()
-
-    @classmethod
-    def get_all(cls):
-        return cls.query.all()
-
-    @classmethod
-    def get_all_for_topic(cls, topic_id):
-        return cls.query.filter_by(topic_id=topic_id).all()

@@ -29,7 +29,7 @@ class QuizModel(database.Model):
         self.title = title
         self.instructions = instructions
     
-    def json(self):
+    def json(self, getCorrectAnswers=False):
         return {
             'quiz_id': self.quiz_id,
             'test_id': self.test_id,
@@ -41,25 +41,20 @@ class QuizModel(database.Model):
             'path_to_attachment': self.path_to_attachment,
             'title': self.title,
             'instructions': self.instructions,
-            'answers': [a.json() for a in self.answers.all()]
+            'answers': [a.json(getCorrectAnswers=getCorrectAnswers) for a in self.answers.all()]
         }
 
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()
 
-    def update_db(self):
+    def delete_from_database(self):
         database.session.delete(self)
         database.session.commit()
+
+    def get_correct_answer(self):
+        return self.answers.filter_by(quiz_id=self.quiz_id, is_correct=True).first()
 
     @classmethod
     def find_by_id(cls, quiz_id):
         return cls.query.filter_by(quiz_id=quiz_id).first()
-
-    @classmethod
-    def get_all(cls):
-        return cls.query.all()
-
-    @classmethod
-    def get_all_for_test(cls, test_id):
-        return cls.query.filter_by(test_id=test_id).all()

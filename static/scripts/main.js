@@ -287,15 +287,16 @@ requestHandlers = {
             throw Error(`There are no questions available for the test with ID ${data.test_id}`);
     },
 
-    recordUserAnswers: (data) => {
+    recordUserAnswersAndEnd: (data) => {
         var selectedIDs = [];
         var gainedCredits = 0;
+        var test = storageUtils.getSessionValue(storageUtils.testDataID);
         
         quiz.selectedAnswers.forEach((answerRecord) => { //create a list of the IDs of answers that the user selected
             selectedIDs.push(answerRecord.answer_id);
         })
 
-        data.quizzes.forEach((question) => { //we need to search through every question to check which answers have been selected - if an answer hasn't been selected, we still need to change it's answer to 'false' in case it's been set to 'true' by a previous attempt of this test
+        test.quizzes.forEach((question) => { //we need to search through every question to check which answers have been selected - if an answer hasn't been selected, we still need to change it's answer to 'false' in case it's been set to 'true' by a previous attempt of this test
             var quizCredits = 0;
             question.answers.forEach((answer) => {
                 var isSelectedID = selectedIDs.includes(answer.answer_id);
@@ -312,7 +313,7 @@ requestHandlers = {
                     });
                 
                 // if the selected answer is correct add its credits to the gained credits total
-                if (isSelectedID && answer.is_correct) {
+                if (isSelectedID && data.correctAnswers.includes(answer.answer_id)) {
                     gainedCredits = gainedCredits + Number(question.credit_value);
                     quizCredits = Number(question.credit_value);
                 }
@@ -334,11 +335,15 @@ requestHandlers = {
             endpoint: 'tests',
             method: 'PUT',
             data: {
-                test_id: data.test_id,
+                test_id: test.test_id,
                 gained_credit: gainedCredits
             },
             handler: console.log //in case there is a bad request, log the details explaining why
         });
+
+        storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
+        setTimeout(() => {window.location.href = Flask.url_for('testresult')}, 800);
+        //window.location.href = Flask.url_for('testresult') //TODO: because user redirection has been moved to after the requests have been made, is it now safe to not use a timeout? After a couple of tests it seems to be safe, but it's not been tested enough
     },
 
     displayResults: (data) => {
@@ -623,9 +628,13 @@ elemUtils = {
                     quiz.previousQuestion = quiz.currentQuestion;
                     quiz.navigateToQuestion({isFinish: true});
 
-                    requestHandlers.recordUserAnswers(storageUtils.getSessionValue(storageUtils.testDataID));
-                    storageUtils.removeSessionValue(storageUtils.testDataID); //delete the quiz data from storage
-                    setTimeout(() => {window.location.href = Flask.url_for('testresult')}, 800);
+                    request.ajax({
+                        endpoint:'/tests',
+                        extension: 'correctAnswers',
+                        method: 'GET',
+                        data: {test_id: storageUtils.getSessionValue(storageUtils.testID)},
+                        handler: requestHandlers.recordUserAnswersAndEnd}
+                    )
                 }
                 else {
                     if(++quiz.currentQuestion > quiz.length) //same as the 'if' statement in 'elemUtils.checkBackButton()', but inverse

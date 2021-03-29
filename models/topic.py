@@ -32,6 +32,10 @@ class TopicModel(database.Model):
         database.session.add(self)
         database.session.commit()
 
+    def delete_from_database(self):
+        database.session.delete(self)
+        database.session.commit()
+
     @classmethod
     def find_by_id(cls, topic_id):
         return cls.query.filter_by(topic_id=topic_id).first()

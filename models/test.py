@@ -31,7 +31,7 @@ class TestModel(database.Model):
         self.is_retakeable = is_retakeable
         self.is_official = is_official
     
-    def json(self):
+    def json(self, getCorrectAnswers=False):
         return {
             'test_id': self.test_id,
             'topic_id': self.topic_id,
@@ -44,7 +44,7 @@ class TestModel(database.Model):
             'description': self.description,
             'is_retakeable': self.is_retakeable,
             'is_official': self.is_official,
-            'quizzes': [q.json() for q in self.quizzes.all()]
+            'quizzes': [q.json(getCorrectAnswers=getCorrectAnswers) for q in self.quizzes.all()]
         }
 
     def save_to_database(self):
@@ -55,14 +55,19 @@ class TestModel(database.Model):
         database.session.delete(self)
         database.session.commit()
 
+    def get_correct_answers(self):
+        correctAnswers = []
+
+        for q in self.quizzes.all():
+            answer = q.get_correct_answer()
+
+            if answer:
+                answer = answer.answer_id
+                
+            correctAnswers.append(answer)
+
+        return correctAnswers
+
     @classmethod
     def find_by_id(cls, test_id):
         return cls.query.filter_by(test_id=test_id).first()
-
-    @classmethod
-    def get_all(cls):
-        return cls.query.all()
-
-    @classmethod
-    def get_all_for_topic(cls, topic_id):
-        return cls.query.filter_by(topic_id=topic_id).all()

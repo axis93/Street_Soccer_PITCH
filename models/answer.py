@@ -20,15 +20,19 @@ class AnswerModel(database.Model):
         self.path_to_attachment = path_to_attachment
         self.is_selected = is_selected
     
-    def json(self):
-        return {
+    def json(self, getCorrectAnswers=False):
+        answerJson = {
             'answer_id': self.answer_id,
             'quiz_id': self.quiz_id,
             'body': self.body,
-            'is_correct': self.is_correct,
             'path_to_attachment': self.path_to_attachment,
             'is_selected': self.is_selected,
         }
+
+        if getCorrectAnswers:
+            answerJson['is_correct'] = self.is_correct
+        
+        return answerJson
 
     def save_to_database(self):
         database.session.add(self)
@@ -41,11 +45,3 @@ class AnswerModel(database.Model):
     @classmethod
     def find_by_id(cls, answer_id):
         return cls.query.filter_by(answer_id=answer_id).first()
-
-    @classmethod
-    def get_all(cls):
-        return cls.query.all()
-
-    @classmethod
-    def get_all_for_quiz(cls, quiz_id):
-        return cls.query.filter_by(quiz_id=quiz_id).all()

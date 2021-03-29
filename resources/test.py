@@ -19,6 +19,7 @@ class Test(Resource):
     parser.add_argument('description', type=str)
     parser.add_argument('is_retakeable', type=bool)
     parser.add_argument('is_official', type=bool)
+    parser.add_argument('get_correct_answers', type=bool)
 
     def get(self):
         request_data = Test.parser.parse_args()
@@ -29,7 +30,7 @@ class Test(Resource):
             return {'message': 'An error occurred while reading the test ID from the database'}, 500
         
         if test:
-            return test.json()
+            return test.json(getCorrectAnswers=request_data['get_correct_answers'])
         return {'message': 'Test with the ID {} not found'.format(request_data['test_id'])}, 404
     
     def put(self):
@@ -38,7 +39,19 @@ class Test(Resource):
         
         try:
             if not test:
-                test = TestModel(**request_data)
+                test = TestModel(
+                    request_data['test_id'],
+                    request_data['topic_id'],
+                    request_data['is_unlocked'],
+                    request_data['max_credit'],
+                    request_data['order_num'],
+                    request_data['gained_credit'],
+                    request_data['pass_credit'],
+                    request_data['time_limit'],
+                    request_data['description'],
+                    request_data['is_retakeable'],
+                    request_data['is_official']
+                )
             else: # if 'test' is defined, this means there's an existing record under this ID, so update it with the values we have
                 if request_data['test_id'] != None:
                     test.test_id = request_data['test_id']
@@ -89,3 +102,10 @@ class Test(Resource):
             test.delete_from_database()
 
         return {'message': 'Test with ID {} deleted.'.format(request_data['test_id'])}, 200
+
+class TestCorrectAnswers(Resource):
+    def get(self):
+        request_data = Test.parser.parse_args()
+        test = TestModel.find_by_id(request_data['test_id'])
+
+        return {'correctAnswers': test.get_correct_answers()}
