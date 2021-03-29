@@ -3,7 +3,7 @@
 {% block content %}
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script>
-		request.ajax({endpoint: 'tests', data: {test_id: storageUtils.getSessionValue(storageUtils.testID)}, handler: requestHandlers.displayResults});
+		request.ajax({endpoint: 'tests', data: {test_id: storageUtils.getSessionValue(storageUtils.testID), get_correct_answers: true}, handler: requestHandlers.displayResults});
 	</script>
 
 	<div class="grid-container container-with-top-pad">
