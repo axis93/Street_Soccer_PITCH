@@ -1,4 +1,41 @@
 {% extends "base.html" %}
 {% block title %}FormativeAssessment{% endblock %}
 {% block content %}
+<script>
+    request.ajax({endpoint: 'formativeAssessments', data: {fa_id: storageUtils.getSessionValue(storageUtils.faID)}, handler: requestHandlers.displayFA});
+</script>
+<div class="grid-container container-with-top-pad">
+    <div class="grid-body-item contents column quiz-body">
+        <br>
+        <div id="fa-title" class="title">Formative Assessment</div>
+        <div id="fa-result" class="title" style="display: ;">Passed</div>
+        <br>
+        <div id="fa-credits" class="column feedback-answers">
+            <div id="fa-credits" class="row">Credits: 0/100</div>
+            <div id="fa-deadline" class="row">Deadline: 9/10/2021</div>
+        </div>
+        <p id="fa-instructions">
+            gwr h[q3gqb rgubug r[qb rg[r gqepr[gqerg rbq]]rt ]]wrtg twueh ugew phegr pqegru9qg erpuhgqe ruqegr 9u9 pqgery89qg 9yqgru9hghefguqeg hqer9y qegy qerg9uqe 9ugh gehq
+        </p>
+        <div class="column quiz-attachment" style="display: none;">
+            <img id="fa-img" src="" style="display: none;"/>
+            <iframe id="fa-vid" class="quiz-vid" style="display: none;" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
+        </div>
+        <div class="fa-submit-field feedback-answers">
+            <button class="fa-btn">Choose File</button>
+            <div id="fa-answer" class="fa-file">new_file_lol_text.txt</div>
+        </div>
+        <br>
+        <div class="fa-comment-section" style="display: none">
+            <div class="row" style="font-size: 25px;">Comment:</div>
+            <p id="fa-comment" class="quiz-text">Good job wgh  prwegyerp gy89gr pqreyg 9 ryey qgrq yerg989q gryeqerg puifehghuqgyr9ygerqy gg rqer gy9erg yqgry-qegr97pqeh rpg9uqygr 9qergu 8q </p>
+        </div>
+        <div class="row">
+            <button class="quiz-btn">Submit</button>
+        </div>
+        <br>
+    </div>
+</div>
 {% endblock %}

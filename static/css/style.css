@@ -784,3 +784,37 @@ body {
     border-radius: 25px;
     padding: 2vw;
 }
+
+/*-----------------------------------------------fa-page--------------------------------------------------*/
+.fa-btn {
+    margin-right: 2vw;
+    margin-left: 2vw;
+    border-radius: 25px;
+    font-size: medium;
+    font-weight: bold;
+    color: var(--darkest);
+    background-color: var(--light);
+}
+
+.fa-comment-section {
+    font-size: 18px;
+    color: var(--darkest);
+    background-color: var(--less-light);
+    border-radius: 25px;
+    padding: 2vw;
+}
+
+.fa-file {
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 16px;
+}
+
+.fa-submit-field {
+    width: 90%;
+    flex-flow: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    display: flex;
+    flex: 1;
+}

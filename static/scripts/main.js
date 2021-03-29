@@ -411,7 +411,11 @@ requestHandlers = {
 		if (data.time_limit!=null) {
 			document.getElementById('test-results-timelimit-left').innerHTML = 'You had ' + data.time_limit + 'mins left';
 		}
-	}
+	},
+    displayFA: (data) => {
+        console.log(data);
+        
+    }
 }
 
 quiz = {
