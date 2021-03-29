@@ -48,18 +48,10 @@ class QuizModel(database.Model):
         database.session.add(self)
         database.session.commit()
 
-    def update_db(self):
+    def delete_from_database(self):
         database.session.delete(self)
         database.session.commit()
 
     @classmethod
     def find_by_id(cls, quiz_id):
         return cls.query.filter_by(quiz_id=quiz_id).first()
-
-    @classmethod
-    def get_all(cls):
-        return cls.query.all()
-
-    @classmethod
-    def get_all_for_test(cls, test_id):
-        return cls.query.filter_by(test_id=test_id).all()
