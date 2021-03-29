@@ -31,7 +31,7 @@ class TestModel(database.Model):
         self.is_retakeable = is_retakeable
         self.is_official = is_official
     
-    def json(self):
+    def json(self, getCorrectAnswers=False):
         return {
             'test_id': self.test_id,
             'topic_id': self.topic_id,
@@ -44,7 +44,7 @@ class TestModel(database.Model):
             'description': self.description,
             'is_retakeable': self.is_retakeable,
             'is_official': self.is_official,
-            'quizzes': [q.json() for q in self.quizzes.all()]
+            'quizzes': [q.json(getCorrectAnswers=getCorrectAnswers) for q in self.quizzes.all()]
         }
 
     def save_to_database(self):
@@ -62,7 +62,7 @@ class TestModel(database.Model):
             answer = q.get_correct_answer()
 
             if answer:
-                answer = answer.json(getCorrect=True)
+                answer = answer.json(getCorrectAnswers=True)
                 
             correctAnswers.append(answer)
 

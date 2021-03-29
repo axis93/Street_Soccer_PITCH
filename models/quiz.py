@@ -29,7 +29,7 @@ class QuizModel(database.Model):
         self.title = title
         self.instructions = instructions
     
-    def json(self):
+    def json(self, getCorrectAnswers=False):
         return {
             'quiz_id': self.quiz_id,
             'test_id': self.test_id,
@@ -41,7 +41,7 @@ class QuizModel(database.Model):
             'path_to_attachment': self.path_to_attachment,
             'title': self.title,
             'instructions': self.instructions,
-            'answers': [a.json() for a in self.answers.all()]
+            'answers': [a.json(getCorrectAnswers=getCorrectAnswers) for a in self.answers.all()]
         }
 
     def save_to_database(self):
