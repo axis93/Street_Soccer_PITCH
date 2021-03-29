@@ -62,6 +62,14 @@ def testmenu():
 def formativeAssessment():
 	return render_template('formative-assessment.html')
 
+@app.route('/forum')
+def forum():
+	return render_template('forum.html')
+
+@app.route('/my-account')
+def myaccount():
+	return render_template('my-account.html')
+
 api.add_resource(Topic, '/topics')
 api.add_resource(FormativeAssessment, '/formativeAssessments')
 api.add_resource(Test, '/tests')

@@ -1,9 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<script>
+	function navigateRegister() {
+		window.location.href = Flask.url_for('register');
+	}
+</script>
+<div class="grid-container container-with-top-pad">
+	<div class="grid-body-item contents column quiz-body">
+		<br>
+		<div class="title">Login</div>
+		<br>
+		<div class="row">
+			<button class="quiz-btn" onclick="navigateRegister()">Register</button>
+		</div>
+	</div>
+</div>
+{% endblock %}
