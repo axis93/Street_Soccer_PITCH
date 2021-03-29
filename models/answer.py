@@ -20,15 +20,19 @@ class AnswerModel(database.Model):
         self.path_to_attachment = path_to_attachment
         self.is_selected = is_selected
     
-    def json(self):
-        return {
+    def json(self, getCorrect=False):
+        answerJson = {
             'answer_id': self.answer_id,
             'quiz_id': self.quiz_id,
             'body': self.body,
-            'is_correct': self.is_correct,
             'path_to_attachment': self.path_to_attachment,
             'is_selected': self.is_selected,
         }
+
+        if getCorrect:
+            answerJson['is_correct'] = self.is_correct
+        
+        return answerJson
 
     def save_to_database(self):
         database.session.add(self)
