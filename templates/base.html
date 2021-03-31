@@ -40,9 +40,12 @@
             </a>
 
             <ul id="nav-bar" class="navigation">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('filesystem') }}">Materials</a></li>
                 <li><a href="{{ url_for('testmenu') }}">Assignments</a></li>
-                <li><a href="null.html">Forum</a></li>
-                <li><a href="null.html">My Account</a></li>
+                <li><a href="{{ url_for('forum') }}">Forum</a></li>
+                <li><a href="{{ url_for('myaccount') }}">My Account</a></li>
             </ul>
 
             <!-- Hamburger button -->
@@ -75,9 +78,12 @@
             </svg>
 
             <ul id="nav-menu-options" class="navigation">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('filesystem') }}">Materials</a></li>
                 <li><a href="{{ url_for('testmenu') }}">Assignments</a></li>
-                <li><a href="null.html">Forum</a></li>
-                <li><a href="null.html">My Account</a></li>
+                <li><a href="{{ url_for('forum') }}">Forum</a></li>
+                <li><a href="{{ url_for('myaccount') }}">My Account</a></li>
             </ul>
         </div>
 
