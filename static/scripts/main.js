@@ -476,12 +476,23 @@ requestHandlers = {
             document.getElementById('fa-result').innerHTML = 'Waiting for feedback...';
         }
 
-        //TODO -> disable the button after the deadline
-        if(data.answer != '') {
+        //get today's date to compare it to the deadline
+        var today = new Date();
+        var split_deadline = data.deadline.split('/');
+        var month = split_deadline[1].length == 1 ? '0' + String(split_deadline[1]) : split_deadline[1];
+        var day = split_deadline[0].length == 1 ? '0' + String(split_deadline[0]) : split_deadline[0];
+        var converted_deadline = String(split_deadline[2] + '-' + month + '-' + day);
+        var deadline_date = new Date(converted_deadline);
+
+        //after the deadline disable the buttons to submit new files
+        if(deadline_date.getTime() < today.getTime()) {
             document.getElementById('fa-choose-btn').setAttribute('disabled', true);
             document.getElementById('fa-choose-btn').style = 'color: var(--light); background-color: var(--less-dark);';
             document.getElementById('fa-submit-btn').setAttribute('disabled', true);
             document.getElementById('fa-submit-btn').style = 'background-color: var(--less-dark)'
+        }
+
+        if(data.answer != '') {
             document.getElementById('fa-result').style = '';
         }
 
