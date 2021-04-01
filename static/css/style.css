@@ -794,6 +794,7 @@ body {
     font-weight: bold;
     color: var(--darkest);
     background-color: var(--light);
+    cursor: pointer;
 }
 
 .fa-comment-section {
@@ -810,9 +811,17 @@ body {
     font-size: 16px;
 }
 
+.fa-instructions {
+    max-width: 80vw;
+}
+
+.fa-result {
+    font-size: 24px;
+}
+
 .fa-submit-field {
-    width: 90%;
-    flex-flow: row;
+    width: 80vw;
+    flex-flow: row wrap;
     align-items: flex-start;
     justify-content: flex-start;
     display: flex;
