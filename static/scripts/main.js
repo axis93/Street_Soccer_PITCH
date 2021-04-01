@@ -879,9 +879,7 @@ functions = {
         window.location.href = Flask.url_for('testmenu');
     },
     submitFa() {
-        console.log("submitFA");
     },
     chooseFaFile() {
-        console.log("choose file");
     }
 }
