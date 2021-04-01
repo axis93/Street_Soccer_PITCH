@@ -413,16 +413,13 @@ requestHandlers = {
 		}
 	},
     displayFA: (data) => {
-        console.log(data);
-
         //reset the form
-        document.getElementById('fa-choose-btn').setAttribute('disabled', false);
+        document.getElementById('fa-choose-btn').removeAttribute('disabled');
         document.getElementById('fa-choose-btn').style = '';
         document.getElementById('fa-result').style = "display: none;";
-        document.getElementById('fa-submit-btn').setAttribute('disabled', false);
+        document.getElementById('fa-submit-btn').removeAttribute('disabled');
         document.getElementById('fa-submit-btn').style = '';
         document.getElementById('fa-comment-section').style = 'display: none;';
-
 
         //display FA info
         document.getElementById('fa-title').innerHTML = data.title;
@@ -880,5 +877,11 @@ functions = {
     },
     goToTestsMenu() {
         window.location.href = Flask.url_for('testmenu');
+    },
+    submitFa() {
+        console.log("submitFA");
+    },
+    chooseFaFile() {
+        console.log("choose file");
     }
 }
