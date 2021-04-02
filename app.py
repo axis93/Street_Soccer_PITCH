@@ -22,9 +22,9 @@ def create_tables():
 	if not os.path.isfile('database.db'):
 		database.create_all()
 
-	# if the data of the first insert (of 'instert_queries' in database.py) doesn't exist in the table yet, the test data hasn't been inserted yet, so insert it
+	# if the data of the first insert (of 'instert_queries' in database.py) doesn't exist in the table, the test data hasn't been inserted yet, so insert it
 	from models.topic import TopicModel
-	if not TopicModel.query.first():
+	if not TopicModel.query.first(): # prevent "UNIQUE constraint violation" of primary keys: this will only work as long as a topic is the first thing being inserted (you could fix this by checking every table is empty, but: a. unless you need something to be inserted before a topic there's no reason to rearrange it, and b. this is just test data so this won't be used in release)
 		for query in insert_queries:
 			database.session.execute(query) 
 		database.session.commit()
