@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_restful import Api
 from flask_jsglue import JSGlue
 from database import database, insert_queries
-from resources.topic import Topic
+from resources.topic import Topic, Topics
 from resources.formativeAssessment import FormativeAssessment
 from resources.test import Test, TestCorrectAnswers
 from resources.quiz import Quiz
@@ -74,6 +74,7 @@ def myaccount():
 	return render_template('my-account.html')
 
 api.add_resource(Topic, '/topics')
+api.add_resource(Topics, '/topics/all')
 api.add_resource(FormativeAssessment, '/formativeAssessments')
 api.add_resource(Test, '/tests')
 api.add_resource(TestCorrectAnswers, '/tests/correctAnswers')

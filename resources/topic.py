@@ -5,9 +5,9 @@ class Topic(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         'topic_id',
-        type=int
-        # required=True,
-        # help='An error occurred - \'topic_id\' was empty'
+        type=int,
+        required=True,
+        help='An error occurred - \'topic_id\' was empty'
     )
     parser.add_argument('is_unlocked', type=bool)
     parser.add_argument('name', type=str)
@@ -17,16 +17,13 @@ class Topic(Resource):
         request_data = Topic.parser.parse_args()
 
         try:
-            if request_data['topic_id']:
-                topic = TopicModel.find_by_id(request_data['topic_id'])
-                if topic:
-                    return topic.json()
-                else:
-                    return {'message': 'Topic with the ID {} not found'.format(request_data['topic_id'])}, 404
-            else:
-                return {'topics': [t.json() for t in TopicModel.get_all()]}
+            topic = TopicModel.find_by_id(request_data['topic_id'])
         except:
             return {'message': 'An error occurred while reading the topic ID from the database'}, 500
+
+        if topic:
+            return topic.json()
+        return {'message': 'Topic with the ID {} not found'.format(request_data['topic_id'])}, 404
 
     def put(self):
         request_data = Topic.parser.parse_args()
@@ -74,3 +71,10 @@ class Topic(Resource):
             return {'message': 'Topic with ID {} deleted.'.format(request_data['topic_id'])}
         except:
             return {'message': 'An error occurred while reading the topic ID from the database'}, 500
+
+class Topics(Resource):
+    def get(self):
+        try:
+            return {'topics': [t.json() for t in TopicModel.get_all()]}
+        except:
+            return {'message': 'An error occurred while reading all of the topics from the database'}, 500
