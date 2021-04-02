@@ -411,7 +411,103 @@ requestHandlers = {
 		if (data.time_limit!=null) {
 			document.getElementById('test-results-timelimit-left').innerHTML = 'You had ' + data.time_limit + 'mins left';
 		}
-	}
+	},
+    displayFA: (data) => {
+        //reset the form
+        document.getElementById('fa-choose-btn').removeAttribute('disabled');
+        document.getElementById('fa-choose-btn').style = '';
+        document.getElementById('fa-result').style = "display: none;";
+        document.getElementById('fa-submit-btn').removeAttribute('disabled');
+        document.getElementById('fa-submit-btn').style = '';
+        document.getElementById('fa-comment-section').style = 'display: none;';
+
+        //display FA info
+        document.getElementById('fa-title').innerHTML = data.title;
+        document.getElementById('fa-instructions').innerHTML = data.instructions;
+        document.getElementById('fa-credits').innerHTML = String('Credits: ' + data.gained_credit + '/' + data.max_credit);
+        document.getElementById('fa-deadline').innerHTML = String('Deadline: ' + data.deadline);
+        
+        //display vid or image
+        var attachment = document.getElementById('fa-img');
+        var visualName; // the placeholder for the split name of the attachment - to know if it's a vid or img
+
+        //if there is a attachment and if it's a video assign attachment to it
+        if (data.path_to_attachment != null) {
+            visualName = data.path_to_attachment.split('//');
+            attachment = visualName[0] == 'https:' ? document.getElementById('fa-vid') : attachment;
+        }
+        
+        if(data.path_to_attachment != null) {
+            if(visualName[0] == 'https:') {
+                // assign the vid element
+                attachment.src = data.path_to_attachment;
+                attachment.parentElement.style.display = "block";
+                attachment.style = "";
+                // reset the img element
+                document.getElementById('fa-img').style.display = "none";
+                document.getElementById('fa-img').src = "";
+            }
+            else {
+                // assign the img element
+                attachment.src = Flask.url_for('static', {'filename': `images/fa/${data.path_to_attachment}`});
+                attachment.parentElement.style.display = "block";
+                attachment.style = "";
+                // reset the vid element
+                document.getElementById('fa-vid').style.display = "none";
+                document.getElementById('fa-vid').src = "";
+            }
+        }
+        else if(attachment != null) {
+            //clean all elements
+            document.getElementById('fa-vid').src = "";
+            document.getElementById('fa-vid').style.display = "none";
+            document.getElementById('fa-img').src = ""; //delete the image if it is not needed
+            document.getElementById('fa-img').style.display = "none";
+            document.getElementById('fa-img').parentElement.style.display = "none"; //also, hide it's container so it's not occupying space on the page
+        }
+
+        document.getElementById('fa-answer').innerHTML = data.answer;
+
+        //if the document is submitted and not marked yet
+        if (data.answer != '' && !data.is_marked) {
+            document.getElementById('fa-result').innerHTML = 'Waiting for feedback...';
+        }
+
+        //get today's date to compare it to the deadline
+        var today = new Date();
+        var split_deadline = data.deadline.split('/');
+        var month = split_deadline[1].length == 1 ? '0' + String(split_deadline[1]) : split_deadline[1];
+        var day = split_deadline[0].length == 1 ? '0' + String(split_deadline[0]) : split_deadline[0];
+        var converted_deadline = String(split_deadline[2] + '-' + month + '-' + day);
+        var deadline_date = new Date(converted_deadline);
+
+        //after the deadline disable the buttons to submit new files
+        if(deadline_date.getTime() < today.getTime()) {
+            document.getElementById('fa-choose-btn').setAttribute('disabled', true);
+            document.getElementById('fa-choose-btn').style = 'color: var(--light); background-color: var(--less-dark);';
+            document.getElementById('fa-submit-btn').setAttribute('disabled', true);
+            document.getElementById('fa-submit-btn').style = 'background-color: var(--less-dark)'
+        }
+
+        if(data.answer != '') {
+            document.getElementById('fa-result').style = '';
+        }
+
+        //if it's marked
+        if (data.is_marked) {
+            document.getElementById('fa-comment').innerHTML = data.reviewer_comment;
+            document.getElementById('fa-comment-section').style = '';
+
+            if (data.gained_credit >= data.pass_credit) {
+                document.getElementById('fa-result').style = 'color: var(--correctGreen)';
+                document.getElementById('fa-result').innerHTML = 'Passed';
+            }
+            else {
+                document.getElementById('fa-result').style = 'color: var(--wrongRed)';
+                document.getElementById('fa-result').innerHTML = 'Failed';
+            }
+        }
+    }
 }
 
 quiz = {
@@ -781,5 +877,9 @@ functions = {
     },
     goToTestsMenu() {
         window.location.href = Flask.url_for('testmenu');
+    },
+    submitFa() {
+    },
+    chooseFaFile() {
     }
 }

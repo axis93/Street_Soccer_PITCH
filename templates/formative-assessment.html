@@ -1,4 +1,42 @@
 {% extends "base.html" %}
 {% block title %}FormativeAssessment{% endblock %}
 {% block content %}
+<script>
+    request.ajax({endpoint: 'formativeAssessments', data: {fa_id: storageUtils.getSessionValue(storageUtils.faID)}, handler: requestHandlers.displayFA});
+</script>
+<div class="grid-container container-with-top-pad">
+    <div class="grid-body-item contents column quiz-body">
+        <br>
+        <div id="fa-title" class="title"></div>
+        <div id="fa-result" class="title fa-result" style="display: none;">Passed</div>
+        <br>
+        <div class="column feedback-answers">
+            <div id="fa-credits" class="row"></div>
+            <div id="fa-deadline" class="row"></div>
+        </div>
+        <p id="fa-instructions" class="fa-instructions"></p>
+        <div class="row quiz-content-row">
+            <div class="column quiz-attachment" style="display: none;">
+                <img id="fa-img" src="" style="display: none;"/>
+                <iframe id="fa-vid" class="quiz-vid" style="display: none;" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        <div class="fa-submit-field feedback-answers">
+            <button id="fa-choose-btn" onclick="functions.chooseFaFile()" class="fa-btn">Choose File</button>
+            <div id="fa-answer" class="fa-file"></div>
+        </div>
+        <br>
+        <div id="fa-comment-section" class="fa-comment-section" style="display: none">
+            <div class="row" style="font-size: 25px;">Comment:</div>
+            <p id="fa-comment" class="quiz-text"></p>
+        </div>
+        <br id="fa-comment-section">
+        <div class="row">
+            <button id="fa-submit-btn" onclick="functions.submitFa()" class="quiz-btn">Submit</button>
+        </div>
+        <br>
+    </div>
+</div>
 {% endblock %}
