@@ -97,16 +97,24 @@ class Test(Resource):
 
     def delete(self):
         request_data = TestModel.parser.parse_args()
-        test = TestModel.find_by_id(request_data['test_id'])
 
-        if test:
-            test.delete_from_database()
+        try:
+            test = TestModel.find_by_id(request_data['test_id'])
 
-        return {'message': 'Test with ID {} deleted.'.format(request_data['test_id'])}, 200
+            if test:
+                test.delete_from_database()
+
+            return {'message': 'Test with ID {} deleted.'.format(request_data['test_id'])}
+        except:
+            return {'message': 'An error occurred while reading the test ID from the database'}, 500
 
 class TestCorrectAnswers(Resource):
     def get(self):
         request_data = Test.parser.parse_args()
-        test = TestModel.find_by_id(request_data['test_id'])
 
-        return {'correctAnswers': test.get_correct_answers()}
+        try:
+            test = TestModel.find_by_id(request_data['test_id'])
+
+            return {'correctAnswers': test.get_correct_answers()}
+        except:
+            return {'message': 'An error occurred while reading the test ID from the database'}, 500

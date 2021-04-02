@@ -32,7 +32,7 @@ class Answer(Resource):
 
         try:
             answer = AnswerModel.find_by_id(request_data['answer_id'])
-            
+
             if not answer:
                 answer = AnswerModel(
                     request_data['answer_id'],
@@ -72,11 +72,15 @@ class Answer(Resource):
 
     def delete(self):
         request_data = Answer.parser.parse_args()
-        answer = AnswerModel.find_by_id(request_data['answer_id'])
 
-        if answer:
-            answer.delete_from_database()
+        try:
+            answer = AnswerModel.find_by_id(request_data['answer_id'])
 
-        return {'message': 'Answer with ID {} deleted.'.format(request_data['answer_id'])}, 200
+            if answer:
+                answer.delete_from_database()
+
+            return {'message': 'Answer with ID {} deleted.'.format(request_data['answer_id'])}
+        except:
+            return {'message': 'An error occurred while reading the answer ID from the database'}, 500
 
 

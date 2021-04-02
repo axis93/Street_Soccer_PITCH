@@ -64,9 +64,13 @@ class Topic(Resource):
     
     def delete(self):
         request_data = TopicModel.parser.parse_args()
-        quiz = TopicModel.find_by_id(request_data['topic_id'])
 
-        if quiz:
-            quiz.delete_from_database()
+        try:
+            quiz = TopicModel.find_by_id(request_data['topic_id'])
 
-        return {'message': 'Topic with ID {} deleted.'.format(request_data['topic_id'])}, 200
+            if quiz:
+                quiz.delete_from_database()
+
+            return {'message': 'Topic with ID {} deleted.'.format(request_data['topic_id'])}
+        except:
+            return {'message': 'An error occurred while reading the topic ID from the database'}, 500

@@ -36,7 +36,7 @@ class Quiz(Resource):
 
         try:
             quiz = QuizModel.find_by_id(request_data['quiz_id'])
-            
+
             if not quiz:
                 quiz = QuizModel(
                     request_data['quiz_id'],
@@ -91,9 +91,13 @@ class Quiz(Resource):
     
     def delete(self):
         request_data = QuizModel.parser.parse_args()
-        quiz = QuizModel.find_by_id(request_data['quiz_id'])
 
-        if quiz:
-            quiz.delete_from_database()
+        try:
+            quiz = QuizModel.find_by_id(request_data['quiz_id'])
 
-        return {'message': 'Quiz with ID {} deleted.'.format(request_data['quiz_id'])}, 200
+            if quiz:
+                quiz.delete_from_database()
+
+            return {'message': 'Quiz with ID {} deleted.'.format(request_data['quiz_id'])}
+        except:
+            return {'message': 'An error occurred while reading the quiz ID from the database'}, 500

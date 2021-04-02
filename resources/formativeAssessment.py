@@ -111,9 +111,13 @@ class FormativeAssessment(Resource):
 
     def delete(self):
         request_data = FormativeAssessment.parser.parse_args()
-        formativeAssessment = FormativeAssessmentModel.find_by_id(request_data['fa_id'])
 
-        if formativeAssessment:
-            formativeAssessment.delete_from_database()
+        try:
+            formativeAssessment = FormativeAssessmentModel.find_by_id(request_data['fa_id'])
 
-        return {'message': 'Formative assessment with ID {} deleted.'.format(request_data['fa_id'])}, 200
+            if formativeAssessment:
+                formativeAssessment.delete_from_database()
+
+            return {'message': 'Formative assessment with ID {} deleted.'.format(request_data['fa_id'])}
+        except:
+            return {'message': 'An error occurred while reading the formative assessment ID from the database'}, 500
