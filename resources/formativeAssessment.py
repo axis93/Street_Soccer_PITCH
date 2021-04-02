@@ -41,7 +41,22 @@ class FormativeAssessment(Resource):
 
         try:
             if not formativeAssessment:
-                formativeAssessment = FormativeAssessmentModel(**request_data)
+                formativeAssessment = FormativeAssessmentModel(
+                    request_data['fa_id'],
+                    request_data['topic_id'],
+                    request_data['is_unlocked'],
+                    request_data['max_credit'],
+                    request_data['order_num'],
+                    request_data['gained_credit'],
+                    request_data['answer'],
+                    request_data['pass_credit'],
+                    request_data['instructions'],
+                    request_data['title'],
+                    request_data['path_to_attachment'],
+                    request_data['deadline'],
+                    request_data['reviewer_comment'],
+                    request_data['is_marked']
+                )
             else: # if 'formativeAssessment' is defined, this means there's an existing record under this ID, so update it with the values we have
                 if request_data['fa_id'] != None:
                     formativeAssessment.fa_id = request_data['fa_id']

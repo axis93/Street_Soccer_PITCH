@@ -34,7 +34,12 @@ class Topic(Resource):
 
         try:
             if not topic:
-                topic = Topic(**request_data)
+                topic = Topic(
+                    request_data['topic_id'],
+                    request_data['is_unlocked'],
+                    request_data['name'],
+                    request_data['needed_credit']
+                )
             else: # if 'topic' is defined, this means there's an existing record under this ID, so update it with the values we have
                 if request_data['topic_id'] != None:
                     topic.topic_id = request_data['topic_id']

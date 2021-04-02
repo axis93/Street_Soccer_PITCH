@@ -37,7 +37,18 @@ class Quiz(Resource):
 
         try:
             if not quiz:
-                quiz = QuizModel(**request_data)
+                quiz = QuizModel(
+                    request_data['quiz_id'],
+                    request_data['test_id'],
+                    request_data['order_num'],
+                    request_data['credit_value'],
+                    request_data['gained_credit'],
+                    request_data['quiz_type'],
+                    request_data['text_body'],
+                    request_data['path_to_attachment'],
+                    request_data['title'],
+                    request_data['instructions']
+                )
             else: # if 'quiz' is defined, this means there's an existing record under this ID, so update it with the values we have
                 if request_data['quiz_id'] != None:
                     quiz.quiz_id = request_data['quiz_id']

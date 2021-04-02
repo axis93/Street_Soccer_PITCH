@@ -33,7 +33,14 @@ class Answer(Resource):
 
         try:
             if not answer:
-                answer = AnswerModel(**request_data)
+                answer = AnswerModel(
+                    request_data['answer_id'],
+                    request_data['quiz_id'],
+                    request_data['body'],
+                    request_data['is_correct'],
+                    request_data['path_to_attachment'],
+                    request_data['is_selected']
+                )
             else: # if 'answer' is defined, this means there's an existing record under this ID, so update it with the values we have
                 
                 if request_data['answer_id'] != None:
