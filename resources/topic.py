@@ -63,10 +63,10 @@ class Topic(Resource):
         request_data = TopicModel.parser.parse_args()
 
         try:
-            quiz = TopicModel.find_by_id(request_data['topic_id'])
+            topic = TopicModel.find_by_id(request_data['topic_id'])
 
-            if quiz:
-                quiz.delete_from_database()
+            if topic:
+                topic.delete_from_database()
 
             return {'message': 'Topic with ID {} deleted.'.format(request_data['topic_id'])}
         except:
