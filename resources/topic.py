@@ -34,7 +34,7 @@ class Topic(Resource):
 
         try:
             if not topic:
-                topic = Topic(
+                topic = TopicModel(
                     request_data['topic_id'],
                     request_data['is_unlocked'],
                     request_data['name'],
