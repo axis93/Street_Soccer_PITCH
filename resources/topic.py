@@ -30,9 +30,10 @@ class Topic(Resource):
 
     def put(self):
         request_data = Topic.parser.parse_args()
-        topic = TopicModel.find_by_id(request_data['topic_id'])
 
         try:
+            topic = TopicModel.find_by_id(request_data['topic_id'])
+
             if not topic:
                 topic = TopicModel(
                     request_data['topic_id'],

@@ -33,9 +33,10 @@ class Quiz(Resource):
     
     def put(self):
         request_data = Quiz.parser.parse_args()
-        quiz = QuizModel.find_by_id(request_data['quiz_id'])
 
         try:
+            quiz = QuizModel.find_by_id(request_data['quiz_id'])
+            
             if not quiz:
                 quiz = QuizModel(
                     request_data['quiz_id'],

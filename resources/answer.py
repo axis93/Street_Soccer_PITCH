@@ -29,9 +29,10 @@ class Answer(Resource):
 
     def put(self):
         request_data = Answer.parser.parse_args()
-        answer = AnswerModel.find_by_id(request_data['answer_id'])
 
         try:
+            answer = AnswerModel.find_by_id(request_data['answer_id'])
+            
             if not answer:
                 answer = AnswerModel(
                     request_data['answer_id'],

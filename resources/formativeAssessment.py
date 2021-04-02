@@ -37,9 +37,10 @@ class FormativeAssessment(Resource):
 
     def put(self):
         request_data = FormativeAssessment.parser.parse_args()
-        formativeAssessment = FormativeAssessmentModel.find_by_id(request_data['fa_id'])
 
         try:
+            formativeAssessment = FormativeAssessmentModel.find_by_id(request_data['fa_id'])
+
             if not formativeAssessment:
                 formativeAssessment = FormativeAssessmentModel(
                     request_data['fa_id'],

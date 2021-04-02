@@ -35,9 +35,10 @@ class Test(Resource):
     
     def put(self):
         request_data = Test.parser.parse_args()
-        test = TestModel.find_by_id(request_data['test_id'])
         
         try:
+            test = TestModel.find_by_id(request_data['test_id'])
+
             if not test:
                 test = TestModel(
                     request_data['test_id'],
