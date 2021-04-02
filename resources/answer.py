@@ -29,11 +29,19 @@ class Answer(Resource):
 
     def put(self):
         request_data = Answer.parser.parse_args()
-        answer = AnswerModel.find_by_id(request_data['answer_id'])
 
         try:
+            answer = AnswerModel.find_by_id(request_data['answer_id'])
+
             if not answer:
-                answer = AnswerModel(**request_data)
+                answer = AnswerModel(
+                    request_data['answer_id'],
+                    request_data['quiz_id'],
+                    request_data['body'],
+                    request_data['is_correct'],
+                    request_data['path_to_attachment'],
+                    request_data['is_selected']
+                )
             else: # if 'answer' is defined, this means there's an existing record under this ID, so update it with the values we have
                 
                 if request_data['answer_id'] != None:
@@ -64,11 +72,15 @@ class Answer(Resource):
 
     def delete(self):
         request_data = Answer.parser.parse_args()
-        answer = AnswerModel.find_by_id(request_data['answer_id'])
 
-        if answer:
-            answer.delete_from_database()
+        try:
+            answer = AnswerModel.find_by_id(request_data['answer_id'])
 
-        return {'message': 'Answer with ID {} deleted.'.format(request_data['answer_id'])}, 200
+            if answer:
+                answer.delete_from_database()
+
+            return {'message': 'Answer with ID {} deleted.'.format(request_data['answer_id'])}
+        except:
+            return {'message': 'An error occurred while reading the answer ID from the database'}, 500
 
 

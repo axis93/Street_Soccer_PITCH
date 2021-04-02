@@ -2,12 +2,12 @@ from flask import Flask, render_template
 from flask_restful import Api
 from flask_jsglue import JSGlue
 from database import database, insert_queries
-from resources.topic import Topic
+from resources.topic import Topic, Topics
 from resources.formativeAssessment import FormativeAssessment
 from resources.test import Test, TestCorrectAnswers
 from resources.quiz import Quiz
 from resources.answer import Answer
-import sys
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -18,10 +18,13 @@ database.init_app(app)
 
 @app.before_first_request
 def create_tables():
-	if '--create' in sys.argv or '-c' in sys.argv:
+	# if the database file already exists, don't recreate it
+	if not os.path.isfile('database.db'):
 		database.create_all()
 
-	if '--insert' in sys.argv or '-i' in sys.argv:
+	# if the data of the first insert (of 'instert_queries' in database.py) doesn't exist in the table, the test data hasn't been inserted yet, so insert it
+	from models.topic import TopicModel
+	if not TopicModel.query.first(): # prevent "UNIQUE constraint violation" of primary keys: this will only work as long as a topic is the first thing being inserted (you could fix this by checking every table is empty, but: a. unless you need something to be inserted before a topic there's no reason to rearrange it, and b. this is just test data so this won't be used in release)
 		for query in insert_queries:
 			database.session.execute(query) 
 		database.session.commit()
@@ -71,6 +74,7 @@ def myaccount():
 	return render_template('my-account.html')
 
 api.add_resource(Topic, '/topics')
+api.add_resource(Topics, '/topics/all')
 api.add_resource(FormativeAssessment, '/formativeAssessments')
 api.add_resource(Test, '/tests')
 api.add_resource(TestCorrectAnswers, '/tests/correctAnswers')

@@ -33,11 +33,23 @@ class Quiz(Resource):
     
     def put(self):
         request_data = Quiz.parser.parse_args()
-        quiz = QuizModel.find_by_id(request_data['quiz_id'])
 
         try:
+            quiz = QuizModel.find_by_id(request_data['quiz_id'])
+
             if not quiz:
-                quiz = QuizModel(**request_data)
+                quiz = QuizModel(
+                    request_data['quiz_id'],
+                    request_data['test_id'],
+                    request_data['order_num'],
+                    request_data['credit_value'],
+                    request_data['gained_credit'],
+                    request_data['quiz_type'],
+                    request_data['text_body'],
+                    request_data['path_to_attachment'],
+                    request_data['title'],
+                    request_data['instructions']
+                )
             else: # if 'quiz' is defined, this means there's an existing record under this ID, so update it with the values we have
                 if request_data['quiz_id'] != None:
                     quiz.quiz_id = request_data['quiz_id']
@@ -79,9 +91,13 @@ class Quiz(Resource):
     
     def delete(self):
         request_data = QuizModel.parser.parse_args()
-        quiz = QuizModel.find_by_id(request_data['quiz_id'])
 
-        if quiz:
-            quiz.delete_from_database()
+        try:
+            quiz = QuizModel.find_by_id(request_data['quiz_id'])
 
-        return {'message': 'Quiz with ID {} deleted.'.format(request_data['quiz_id'])}, 200
+            if quiz:
+                quiz.delete_from_database()
+
+            return {'message': 'Quiz with ID {} deleted.'.format(request_data['quiz_id'])}
+        except:
+            return {'message': 'An error occurred while reading the quiz ID from the database'}, 500
