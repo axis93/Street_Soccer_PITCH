@@ -29,7 +29,7 @@ class AnswerModel(database.Model):
             'is_selected': self.is_selected,
         }
 
-        if getCorrectAnswers:
+        if getCorrectAnswers: # the reason 'is_correct' is isolated is because during a test the data is stored in the browser's session storage, so during this time we don't want the correct answers to be visible to the user if they look in their browser's storage
             answerJson['is_correct'] = self.is_correct
         
         return answerJson
