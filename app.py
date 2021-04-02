@@ -7,7 +7,7 @@ from resources.formativeAssessment import FormativeAssessment
 from resources.test import Test, TestCorrectAnswers
 from resources.quiz import Quiz
 from resources.answer import Answer
-import sys
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -18,10 +18,13 @@ database.init_app(app)
 
 @app.before_first_request
 def create_tables():
-	if '--create' in sys.argv or '-c' in sys.argv:
+	# if the database file already exists, don't recreate it
+	if not os.path.isfile('database.db'):
 		database.create_all()
 
-	if '--insert' in sys.argv or '-i' in sys.argv:
+	# if the data of the first insert (of 'instert_queries' in database.py) doesn't exist in the table yet, the test data hasn't been inserted yet, so insert it
+	from models.topic import TopicModel
+	if not TopicModel.query.first():
 		for query in insert_queries:
 			database.session.execute(query) 
 		database.session.commit()
