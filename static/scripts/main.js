@@ -212,7 +212,7 @@ requestHandlers = {
                             lockIcon.setAttribute('data-fa_id', topic.formative_assessments[k].fa_id);
                         }
                         //if the fa has an answer show hourglass
-                        else if (topic.formative_assessments[k].answer != '') {
+                        else if (topic.formative_assessments[k].answer != null && topic.formative_assessments[k].answer != '') {
                             fa_button = elemUtils.createElement({type: 'button', className: "fa-button small-icon-button-padding", parent: topicItemLevels});
                             var lockIcon = elemUtils.createElement({type: 'span', className: "material-icons success-fa-icon small-icon-button", innerHTML: 'hourglass_full', parent: fa_button});
                             lockIcon.setAttribute('data-fa_id', topic.formative_assessments[k].fa_id);
