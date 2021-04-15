@@ -256,12 +256,6 @@ body {
     #nav-menu-options {
         max-width: 33vw;
     }
-
-    .header-svg {
-        height: 2.4rem;
-        width: 2.4rem;
-        padding: 7px;
-    }
 }
 
 @media screen and (max-width: 570px) {
@@ -271,12 +265,6 @@ body {
 
     #nav-menu-options {
         max-width: 50vw;
-    }
-
-    .header-svg {
-        width: 2em;
-        height: 2em;
-        padding: 5px;
     }
 }
 
