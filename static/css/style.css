@@ -169,12 +169,18 @@ body {
 }
 
 #nav-bar {
-    flex-flow: row wrap;
+    flex-flow: row;
 	justify-content: flex-start;
 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#nav-bar li {
+    display: block;
+    text-align: center;
+    width: max-content;
 }
 
 #nav-bar a {
