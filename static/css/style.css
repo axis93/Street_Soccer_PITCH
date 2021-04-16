@@ -690,6 +690,7 @@ body {
     font-style: italic;
     font-weight: bold;
     font-size: 16px;
+    width: 80vw;
 }
 
 .quiz-radio-btn {
@@ -708,6 +709,10 @@ body {
 .quiz-radio-section {
     margin: auto;
     width: 100%;
+}
+
+.quiz-text {
+    width: 80vw;
 }
 
 .quiz-vid {
