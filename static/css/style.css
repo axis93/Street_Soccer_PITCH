@@ -70,9 +70,6 @@ body {
     .side-panel {
         width: 100vw;
     }
-    .side-panel-header-spacing {
-        padding-top: 42px;
-    }
     .title-bar {
         width: min-content;
         flex-flow: column wrap;
@@ -99,9 +96,6 @@ body {
 @media screen and (min-width: 450px) {
     .side-panel {
         width: 300px;
-    }
-    .side-panel-header-spacing {
-        padding-top: 68px;
     }
 }
 
@@ -631,6 +625,10 @@ body {
 .side-panel-description {
     overflow-y: auto;
     min-height: 40vh;
+}
+
+.side-panel-header-spacing {
+    padding-top: 68px;
 }
 
 .close-side-panel-button {
